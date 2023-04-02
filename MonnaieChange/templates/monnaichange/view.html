@@ -1,0 +1,40 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<table class="table table-striped table-borbred table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th>Date</th>
+        <th>Dollar des U-E</th>
+        <th>Euro</th>
+        <th>Sterling</th>
+        <th>Yen</th>
+        <th>Dirham Marocain</th>
+        <th>Dinar Tunisien</th>
+        <th>Dinar Algerien</th>
+        <th>Franc CFA</th>
+        <th>DTS</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for mc in mcs %}
+       <tr>
+        <td>{{mc.date}}</td>
+        <td>{{mc.dollar_des_u_e}}</td>
+        <td>{{mc.euro}}</td>
+        <td>{{mc.sterling}}</td>
+        <td>{{mc.yen}}</td>
+        <td>{{mc.dirham_marocain}}</td>
+        <td>{{mc.dinar_tunisien}}</td>
+        <td>{{mc.dinar_algerien}}</td>
+        <td>{{mc.franc_cfa}}</td>
+        <td>{{mc.dts}}</td>
+        <td>
+          <a href="{% url 'monnaiechange-delete' id=mc.id %}" ><span class="btn btn-danger">Supprimer</span></a>
+          <a href="{% url 'monnaiechange-update' id=mc.id%}" ><span class="btn btn-success">Modifier</span></a>   
+        </td>
+       </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+{% endblock content %}

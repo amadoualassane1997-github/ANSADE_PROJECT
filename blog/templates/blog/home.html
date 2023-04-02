@@ -1,0 +1,40 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<table class="table table-striped table-borbred table-sm">
+  <thead class="thead-dark">
+    <tr>
+      <th>Direction</th>
+      <th class="text-center">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Monnaie Change</th>
+      <td class="text-center">
+        <a href="{% url 'monnaiechange-import' %}"><span class="btn btn-success">Importer</span></a>
+        <a href="{% url 'monnaiechange-export' %}"><span class="btn btn-warning">Exporter</span></a>
+        <a href="{% url 'monnaiechange-save' %}"><span class="btn btn-info">Saisir</span></a>
+        <a href="{% url 'monnaiechange-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+      </td>
+    </tr>
+    <tr>
+      <th>Cours Matiére Prémiere</th>
+      <td class="text-center">
+        <a href="{% url 'coursmatprem-import' %}"><span class="btn btn-success">Importer</span></a>
+        <a href="{% url 'coursmatprem-export' %}"><span class="btn btn-warning">Exporter</span></a>
+        <a href="{% url 'coursmatprem-save' %}"><span class="btn btn-info">Saisir</span></a>
+        <a href="{% url 'coursmatprem-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+      </td>
+    </tr>
+    <tr>
+      <th>Cours Produit Alimentaire</th>
+      <td class="text-center">
+        <a href="{% url 'coursprodaliment-import' %}"><span class="btn btn-success">Importer</span></a>
+        <a href="{% url 'coursprodaliment-export' %}"><span class="btn btn-warning">Exporter</span></a>
+        <a href="{% url 'coursprodaliment-save' %}"><span class="btn btn-info">Saisir</span></a>
+        <a href="{% url 'coursprodaliment-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+{% endblock content %}

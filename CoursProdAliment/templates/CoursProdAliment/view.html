@@ -1,0 +1,38 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<table class="table table-striped table-borbred table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th>Date</th>
+        <th>Blé($ EU/tonne)</th>
+        <th>Riz($ EU/tonne)</th>
+        <th>Sucre($ EU/tonne)</th>
+        <th>Thé($ EU/tonne)</th>
+        <th>Blé(MU/tonne)</th>
+        <th>Riz(MU/tonne)</th>
+        <th>Sucre(MU/tonne)</th>
+        <th>Thé(MU/tonne)</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for cpa in cpas %}
+       <tr>
+        <td>{{cpa.date}}</td>
+        <td>{{cpa.ble_eu_par_tonne}}</td>
+        <td>{{cpa.riz_eu_par_tonne}}</td>
+        <td>{{cpa.sucre_eu_par_tonne}}</td>
+        <td>{{cpa.the_eu_par_tonne}}</td>
+        <td>{{cpa.ble_mu_par_tonne}}</td>
+        <td>{{cpa.riz_mu_par_tonne}}</td>
+        <td>{{cpa.sucre_mu_par_tonne}}</td>
+        <td>{{cpa.the_mu_par_tonne}}</td>
+        <td>
+          <a href="{% url 'coursprodaliment-delete' id=cpa.id %}" ><span class="btn btn-danger">Supprimer</span></a>
+          <a href="{% url 'coursprodaliment-update' id=cpa.id%}" ><span class="btn btn-success">Modifier</span></a>   
+        </td>
+       </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+{% endblock content %}
