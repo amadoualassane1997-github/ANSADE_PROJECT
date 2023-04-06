@@ -4,16 +4,16 @@
     <thead class="thead-dark">
       <tr>
         <th>Date</th>
-        <th>Cours mondial du pétrole</th>
-        <th>Prix du pétrole mauritanien</th>
-        <th>Cours mondial du minerai de fer  1ère série</th>
-        <th>Prix du minerai mauritanien</th>
-        <th>Cours mondial du cuivre</th>
-        <th>Prix du cuivre mauritanien</th>
-        <th>Cours mondial de l'or</th>
-        <th>Prix de l'or mauritanien</th>
-        <th>Cours modial du poisson</th>
-        <th>Prix du poisson mauritanien</th>
+        <th>Cours mondial du pétrole($ E,U/baril)</th>
+        <th>Prix du pétrole mauritanien($ E,U/baril)</th>
+        <th>Cours mondial du minerai de fer 1ère série($ E,U/Tonne)</th>
+        <th>Prix du minerai mauritanien($ E,U/Tonne)</th>
+        <th>Cours mondial du cuivre($ E,U/Tonne)</th>
+        <th>Prix du cuivre mauritanien($ E,U/Tonne)</th>
+        <th>Cours mondial de l'or($ E,U/gramme)</th>
+        <th>Prix de l'or mauritanien ($ E,U/gramme)</th>
+        <th>Cours modial du poisson(en $ E,U /KG)</th>
+        <th>Prix du poisson mauritanien($/KG)</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -23,7 +23,7 @@
         <td>{{cmp.date}}</td>
         <td>{{cmp.cours_mon_pet}}</td>
         <td>{{cmp.prix_pet_mr}}</td>
-        <td>{{cmp.cours_mon_min_fer_prem_seristerling}}</td>
+        <td>{{cmp.cours_mon_min_fer_prem_seri}}</td>
         <td>{{cmp.prix_min_mr}}</td>
         <td>{{cmp.cours_mon_cuivre}}</td>
         <td>{{cmp.prix_cuivre_mr}}</td>
@@ -31,9 +31,10 @@
         <td>{{cmp.prix_or_mr}}</td>
         <td>{{cmp.cours_mon_poisson}}</td>
         <td>{{cmp.prix_poisson_mr}}</td>
+        
         <td>
-          <a href="{% url 'coursmatprem-delete' id=cmp.id %}" ><span class="btn btn-danger">Supprimer</span></a>
-          <a href="{% url 'coursmatprem-update' id=cmp.id%}" ><span class="btn btn-success">Modifier</span></a>   
+          <a href="{% url 'coursmatprem-delete' date=cmp.date %}" ><span class="btn btn-danger">Supprimer</span></a>
+          <a href="{% url 'coursmatprem-update' date=cmp.date %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
        </tr>
       {%endfor%}

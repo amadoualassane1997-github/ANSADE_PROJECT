@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     "blog.apps.BlogConfig",
     "CoursMatPrem.apps.CoursmatpremConfig",
     "CoursProdAliment.apps.CoursprodalimentConfig",
+    "Budget.apps.BudgetConfig",
+    "authentification.apps.AuthentificationConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

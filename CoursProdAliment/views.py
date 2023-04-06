@@ -6,9 +6,13 @@ from django.http import HttpResponse
 import xlwt
 import pandas as pd
 import datetime
+from django import forms
+from django.contrib.auth.decorators import login_required
+from authentification.decorators import allowed_users
 
 # Create your views here.
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def save(request):
     if request.method=='POST':
         form=CoursProdAlimentForm(request.POST)
@@ -22,19 +26,21 @@ def save(request):
     else:
         form=CoursProdAlimentForm()
     return render(request,'CoursProdAliment/form.html',{'form':form})
-
+@login_required(login_url='login')
 def view(request):
     cpas=CoursProdAliment.objects.all()
     return render(request,'CoursProdAliment/view.html',{'cpas':cpas})
-
-def delete(request,id):
-    cpa=CoursProdAliment.objects.get(id=id)
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def delete(request,date):
+    cpa=CoursProdAliment.objects.get(date=date)
     cpa.delete()
     return redirect('coursprodaliment-view')
-
-def update(request,id):
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def update(request,date):
     if request.method=='POST':
-        form=CoursProdAlimentForm(request.POST,instance=CoursProdAliment.objects.get(id=id))
+        form=CoursProdAlimentForm(request.POST,instance=CoursProdAliment.objects.get(date=date))
         if form.is_valid():
             try:
                 form.save()
@@ -43,14 +49,16 @@ def update(request,id):
                 pass
    
     else:
-        form=CoursProdAlimentForm(instance=CoursProdAliment.objects.get(id=id))
+        form=CoursProdAlimentForm(instance=CoursProdAliment.objects.get(date=date))
+        form.fields['date'].widget=forms.HiddenInput()
     context={
         'form':form,
-        'id':id
+        'date':date
     }
     return render(request,'CoursProdAliment/update.html',{'context':context})
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -72,7 +80,7 @@ def import_excel(request):
         return redirect('coursprodaliment-view')   
     return render(request,'CoursProdAliment/import.html')
 
-
+@login_required(login_url='login')
 def export_excel(request):
     if request.method == 'POST':
         d1=request.POST.get('date1')

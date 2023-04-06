@@ -6,7 +6,7 @@ from bootstrap_datepicker_plus.widgets import DatePickerInput
 
 
 class MonnaieChange(models.Model):
-    date=models.DateField()
+    date=models.DateField(primary_key=True)
     dollar_des_u_e=models.FloatField()
     euro=models.FloatField()
     sterling=models.FloatField()

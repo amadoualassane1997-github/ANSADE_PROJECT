@@ -7,8 +7,13 @@ from django.core.files.storage import FileSystemStorage
 import pandas as pd
 import xlwt
 import datetime
+from django import forms
+from django.contrib.auth.decorators import login_required
+from authentification.decorators import allowed_users
 # Create your views here.
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def save(request):
     if request.method=='POST':
         form=CoursMatPremForm(request.POST)
@@ -23,19 +28,21 @@ def save(request):
         form=CoursMatPremForm()
     return render(request,'CoursMatPrem/form.html',{'form':form})
 
-
+@login_required(login_url='login')
 def view(request):
     cmps=CoursMatPrem.objects.all()
     return render(request,'CoursMatPrem/view.html',{'cmps':cmps})
-
-def delete(request,id):
-    cmp=CoursMatPrem.objects.get(id=id)
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def delete(request,date):
+    cmp=CoursMatPrem.objects.get(date=date)
     cmp.delete()
     return redirect('coursmatprem-view')
-
-def update(request,id):
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def update(request,date):
     if request.method=='POST':
-        form=CoursMatPremForm(request.POST,instance=CoursMatPrem.objects.get(id=id))
+        form=CoursMatPremForm(request.POST,instance=CoursMatPrem.objects.get(date=date))
         if form.is_valid():
             try:
                 form.save()
@@ -44,14 +51,16 @@ def update(request,id):
                 pass
    
     else:
-        form=CoursMatPremForm(instance=CoursMatPrem.objects.get(id=id))
+        form=CoursMatPremForm(instance=CoursMatPrem.objects.get(date=date))
+        form.fields['date'].widget=forms.HiddenInput()
     context={
         'form':form,
-        'id':id
+        'date':date
     }
     return render(request,'CoursMatPrem/update.html',{'context':context})
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -73,7 +82,7 @@ def import_excel(request):
         return redirect('coursmatprem-view')   
     return render(request,'CoursMatPrem/import.html')
 
-
+@login_required(login_url='login')
 def export_excel(request):
     if request.method == 'POST':
         d1=request.POST.get('date1')

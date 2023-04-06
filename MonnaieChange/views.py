@@ -1,4 +1,5 @@
 import csv
+from django.forms import HiddenInput
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from MonnaieChange.forms import MonnaieChangeForm
@@ -7,10 +8,14 @@ from django.core.files.storage import FileSystemStorage
 import pandas as pd
 from .models import *
 import xlwt
-import datetime
+from django import forms
+from datetime import datetime
+from django.contrib.auth.decorators import login_required
+from authentification.decorators import allowed_users
 
 # Create your views here.
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def save(request):
     if request.method=='POST':
         form=MonnaieChangeForm(request.POST)
@@ -24,36 +29,41 @@ def save(request):
     else:
         form=MonnaieChangeForm()
     return render(request,'monnaichange/form.html',{'form':form})
-
+@login_required(login_url='login')
 def view(request):
     mcs=MonnaieChange.objects.all()
     return render(request,'monnaichange/view.html',{'mcs':mcs})
-
-def delete(request,id):
-    mc=MonnaieChange.objects.get(id=id)
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def delete(request,date):
+    mc=MonnaieChange.objects.get(date=date)
     mc.delete()
     return redirect('monnaiechange-view')
 
-
-def update(request,id):
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def update(request,date):
     if request.method=='POST':
-        form=MonnaieChangeForm(request.POST,instance=MonnaieChange.objects.get(id=id))
+        form=MonnaieChangeForm(request.POST,instance=MonnaieChange.objects.get(date=date))
         if form.is_valid():
             try:
                 form.save()
                 return redirect('monnaiechange-view')
             except:
                 pass
-   
     else:
-        form=MonnaieChangeForm(instance=MonnaieChange.objects.get(id=id))
-    context={
+        form=MonnaieChangeForm(instance=MonnaieChange.objects.get(date=date))
+        form.fields['date'].widget=forms.HiddenInput()
+        context={
         'form':form,
-        'id':id
-    }
+        'date':date
+       }
+        
+    
     return render(request,'monnaichange/update.html',{'context':context})
 
-    
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])    
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -74,7 +84,7 @@ def import_excel(request):
                 obj.save()
         return redirect('monnaiechange-view')   
     return render(request,'monnaichange/import.html')
-
+@login_required(login_url='login')
 def export_excel(request):
     if request.method == 'POST':
         d1=request.POST.get('date1')

@@ -30,8 +30,8 @@
         <td>{{mc.franc_cfa}}</td>
         <td>{{mc.dts}}</td>
         <td>
-          <a href="{% url 'monnaiechange-delete' id=mc.id %}" ><span class="btn btn-danger">Supprimer</span></a>
-          <a href="{% url 'monnaiechange-update' id=mc.id%}" ><span class="btn btn-success">Modifier</span></a>   
+          <a href="{% url 'monnaiechange-delete' date=mc.date %}" ><span class="btn btn-danger">Supprimer</span></a>
+          <a href="{% url 'monnaiechange-update' date=mc.date%}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
        </tr>
       {%endfor%}

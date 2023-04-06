@@ -15,16 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, re_path,path
-from blog import views
+from authentification import views
 
 
 
 urlpatterns = [
     re_path(r'^admin/', admin.site.urls),
-    path('',views.home,name='blog-home'),
+    path('',views.loginPage,name='login'),
     re_path(r'^blog/', include('blog.urls')),
     re_path(r'^monnaiechange/', include('MonnaieChange.urls')),
     re_path(r'^CoursMatPrem/', include('CoursMatPrem.urls')),
     re_path(r'^CoursProdAliment/', include('CoursProdAliment.urls')),
+    re_path(r'^Budget/', include('Budget.urls')),
+    re_path(r'^authentification/', include('authentification.urls')),
 
 ]

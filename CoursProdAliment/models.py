@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class CoursProdAliment(models.Model):
-    date=models.DateField()
+    date=models.DateField(primary_key=True)
     ble_eu_par_tonne=models.FloatField()
     riz_eu_par_tonne=models.FloatField()
     sucre_eu_par_tonne=models.FloatField()

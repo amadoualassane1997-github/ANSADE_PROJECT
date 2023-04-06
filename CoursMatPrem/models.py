@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class CoursMatPrem(models.Model):
-    date=models.DateField()
+    date=models.DateField(primary_key=True)
     cours_mon_pet=models.FloatField()
     prix_pet_mr=models.FloatField()
     cours_mon_min_fer_prem_seri=models.FloatField()

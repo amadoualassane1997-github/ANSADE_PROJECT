@@ -35,6 +35,15 @@
         <a href="{% url 'coursprodaliment-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
       </td>
     </tr>
+    <tr>
+      <th>Budget</th>
+      <td class="text-center">
+        <a href="{% url 'budget-import' %}"><span class="btn btn-success">Importer</span></a>
+        <a href="{% url 'budget-export' %}"><span class="btn btn-warning">Exporter</span></a>
+        <a href="{% url 'budget-save' %}"><span class="btn btn-info">Saisir</span></a>
+        <a href="{% url 'budget-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+      </td>
+    </tr>
   </tbody>
 </table>
 {% endblock content %}

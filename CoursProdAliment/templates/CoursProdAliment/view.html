@@ -28,8 +28,8 @@
         <td>{{cpa.sucre_mu_par_tonne}}</td>
         <td>{{cpa.the_mu_par_tonne}}</td>
         <td>
-          <a href="{% url 'coursprodaliment-delete' id=cpa.id %}" ><span class="btn btn-danger">Supprimer</span></a>
-          <a href="{% url 'coursprodaliment-update' id=cpa.id%}" ><span class="btn btn-success">Modifier</span></a>   
+          <a href="{% url 'coursprodaliment-delete' date=cpa.date %}" ><span class="btn btn-danger">Supprimer</span></a>
+          <a href="{% url 'coursprodaliment-update' date=cpa.date %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
        </tr>
       {%endfor%}
