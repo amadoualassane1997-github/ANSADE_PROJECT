@@ -13,7 +13,8 @@
         <th>Dinar Algerien</th>
         <th>Franc CFA</th>
         <th>DTS</th>
-        <th>Action</th>
+        <th>Supprimer</th>
+        <th>Modifier</th>
       </tr>
     </thead>
     <tbody>
@@ -31,6 +32,8 @@
         <td>{{mc.dts}}</td>
         <td>
           <a href="{% url 'monnaiechange-delete' date=mc.date %}" ><span class="btn btn-danger">Supprimer</span></a>
+        </td>
+        <td>
           <a href="{% url 'monnaiechange-update' date=mc.date%}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
        </tr>

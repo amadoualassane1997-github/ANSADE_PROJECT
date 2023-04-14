@@ -28,5 +28,20 @@ urlpatterns = [
     re_path(r'^CoursProdAliment/', include('CoursProdAliment.urls')),
     re_path(r'^Budget/', include('Budget.urls')),
     re_path(r'^authentification/', include('authentification.urls')),
+    re_path(r'^InflationMondiale/', include('InflationMondiale.urls')),
+    re_path(r'^INPC/', include('INPC.urls')),
+    re_path(r'^TraficTotalMaritime/', include('TraficTotalMaritime.urls')),
+    re_path(r'^SaisieElectricite/', include('SaisieElectricite.urls')),
+    re_path(r'^TransportAerien/', include('TransportAerien.urls')),
+    re_path(r'^ConsomationCarbone/', include('ConsomationCarbone.urls')),
+    re_path(r'^CapturePoisson/', include('CapturePoisson.urls')),
+    re_path(r'^EauElectricite/', include('EauElectricite.urls')),
+    re_path(r'ICC/', include('ICC.urls')),
+    re_path(r'CroissanceMondiale/', include('CroissanceMondiale.urls')),
+    re_path(r'ProductionCuivreOr/', include('ProductionCuivreOr.urls')),
+    re_path(r'Importation/', include('Importation.urls')),
+    re_path(r'Exportation/', include('Exportation.urls')),
+    re_path(r'CommerceExterieur/', include('CommerceExterieur.urls')),
+    
 
 ]

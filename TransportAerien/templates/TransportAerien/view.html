@@ -1,0 +1,33 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<table class="table table-striped table-borbred table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th>Date</th>
+        <th>Passagers Arrivés</th>
+        <th>Passagers Depart</th>
+        <th>Total Passagers</th>
+        <th>Mouvement Avion Arrivés</th>
+        <th>Supprimer</th>
+        <th>Modifier</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ta in tas %}
+       <tr>
+        <td>{{ta.date}}</td>
+        <td>{{ta.passagers_arriv}}</td>
+        <td>{{ta.passagers_depart}}</td>
+        <td>{{ta.total_passagers}}</td>
+        <td>{{ta.mvmt_avion_arriv}}</td>
+        <td>
+          <a href="{% url 'transaerien-delete' date=ta.date %}" ><span class="btn btn-danger">Supprimer</span></a>
+        </td>
+        <td>
+          <a href="{% url 'transaerien-update' date=ta.date %}" ><span class="btn btn-success">Modifier</span></a>   
+        </td>
+       </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+{% endblock content %}

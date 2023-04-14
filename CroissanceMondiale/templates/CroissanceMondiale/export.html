@@ -1,0 +1,29 @@
+
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section" >
+        <form method="POST" action="{% url 'croismdle-export' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="exampleInputEmail1">Entrer le trimestre initial</label>
+                <select class="form-control" name="trimestre1" data-provide="datepicker">
+                    {%for col in icc_col%}
+                    <option>{{col.trimestre}}</option>
+                    {%endfor%}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Entrer le trimestre final</label>
+                <select class="form-control" name="trimestre2" data-provide="datepicker">
+                    {%for col in icc_col%}
+                    <option>{{col.trimestre}}</option>
+                    {%endfor%}
+                </select>
+              </div>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Exporter</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

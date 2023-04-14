@@ -1,0 +1,33 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<table class="table table-striped table-borbred table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th>Date</th>
+        <th>Essence</th>
+        <th>Kérosene</th>
+        <th>GasOil</th>
+        <th>FuelOil</th>
+        <th>Supprimer</th>
+        <th>Modifier</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for cc in ccs %}
+       <tr>
+        <td>{{cc.date}}</td>
+        <td>{{cc.essence}}</td>
+        <td>{{cc.kerosene}}</td>
+        <td>{{cc.gas_oil}}</td>
+        <td>{{cc.fuel_oil}}</td>
+        <td>
+          <a href="{% url 'consco2-delete' date=cc.date %}" ><span class="btn btn-danger">Supprimer</span></a>
+        </td>
+        <td>
+          <a href="{% url 'consco2-update' date=cc.date %}" ><span class="btn btn-success">Modifier</span></a>   
+        </td>
+       </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+{% endblock content %}

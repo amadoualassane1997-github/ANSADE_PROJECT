@@ -1,0 +1,31 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<table class="table table-striped table-borbred table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th>Date</th>
+        <th>Millions de KW-H</th>
+        <th>MM(BT)</th>
+        <th>MM(BT)</th>
+        <th>Supprimer</th>
+        <th>Modifier</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for se in ses %}
+       <tr>
+        <td>{{se.date}}</td>
+        <td>{{se.millions_de_kw_h}}</td>
+        <td>{{se.mm_bt}}</td>
+        <td>{{se.mm_mt}}</td>
+        <td>
+          <a href="{% url 'saisieelec-delete' date=se.date %}" ><span class="btn btn-danger">Supprimer</span></a>
+        </td>
+        <td>
+          <a href="{% url 'saisieelec-update' date=se.date %}" ><span class="btn btn-success">Modifier</span></a>   
+        </td>
+       </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+{% endblock content %}

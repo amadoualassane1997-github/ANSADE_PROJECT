@@ -14,7 +14,8 @@
         <th>Prix de l'or mauritanien ($ E,U/gramme)</th>
         <th>Cours modial du poisson(en $ E,U /KG)</th>
         <th>Prix du poisson mauritanien($/KG)</th>
-        <th>Action</th>
+        <th>Supprimer</th>
+        <th>Modifier</th>
       </tr>
     </thead>
     <tbody>
@@ -34,6 +35,8 @@
         
         <td>
           <a href="{% url 'coursmatprem-delete' date=cmp.date %}" ><span class="btn btn-danger">Supprimer</span></a>
+        </td>
+        <td>
           <a href="{% url 'coursmatprem-update' date=cmp.date %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
        </tr>

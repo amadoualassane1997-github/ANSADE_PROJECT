@@ -1,0 +1,39 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<table class="table table-striped table-borbred table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th>Date</th>
+        <th>USA</th>
+        <th>France</th>
+        <th>Allemagne</th>
+        <th>Japon</th>
+        <th>Royaume-Uni</th>
+        <th>Italie</th>
+        <th>Canada</th>
+        <th>Supprimer</th>
+        <th>Modifier</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for inf in infs %}
+       <tr>
+        <td>{{inf.date}}</td>
+        <td>{{inf.usa}}</td>
+        <td>{{inf.france}}</td>
+        <td>{{inf.allemagne}}</td>
+        <td>{{inf.japon}}</td>
+        <td>{{inf.royaume_uni}}</td>
+        <td>{{inf.italie}}</td>
+        <td>{{inf.canada}}</td>
+        <td>
+          <a href="{% url 'inflamdle-delete' date=inf.date %}" ><span class="btn btn-danger">Supprimer</span></a>
+        </td>
+        <td>
+          <a href="{% url 'inflamdle-update' date=inf.date %}" ><span class="btn btn-success">Modifier</span></a>   
+        </td>
+       </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+{% endblock content %}

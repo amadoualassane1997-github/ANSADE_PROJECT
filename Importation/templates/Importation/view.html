@@ -1,0 +1,43 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<table class="table table-striped table-borbred table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th>Trimestre</th>
+        <th>Total</th>
+        <th>Produits alimentaires</th>
+        <th>Cosmétiques chimiques</th>
+        <th>Produits pétroliers</th>
+        <th>Matériaux de construction</th>
+        <th>Voitures et pièces détachées</th>
+        <th>Equipements</th>
+        <th>Autres biens de consommation</th>
+        <th>Autres</th>
+        <th>Supprimer</th>
+        <th>Modifier</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for imp in imps %}
+       <tr>
+        <td>{{imp.trimestre}}</td>
+        <td>{{imp.total}}</td>
+        <td>{{imp.produits_alimentaires}}</td>
+        <td>{{imp.cosmetiques_chimiques}}</td>
+        <td>{{imp.produits_petroliers}}</td>
+        <td>{{imp.materiaux_de_construction}}</td>
+        <td>{{imp.voitures_et_pieces_detachees}}</td>
+        <td>{{imp.equipements}}</td>
+        <td>{{imp.autres_biens_de_consommation}}</td>
+        <td>{{imp.autres}}</td>
+        <td>
+          <a href="{% url 'imp-delete' trimestre=imp.trimestre %}" ><span class="btn btn-danger">Supprimer</span></a>
+        </td>
+        <td>
+          <a href="{% url 'imp-update' trimestre=imp.trimestre %}" ><span class="btn btn-success">Modifier</span></a>   
+        </td>
+       </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+{% endblock content %}

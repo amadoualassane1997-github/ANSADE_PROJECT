@@ -26,16 +26,22 @@ def save(request):
     else:
         form=CoursProdAlimentForm()
     return render(request,'CoursProdAliment/form.html',{'form':form})
+
+
 @login_required(login_url='login')
 def view(request):
     cpas=CoursProdAliment.objects.all()
     return render(request,'CoursProdAliment/view.html',{'cpas':cpas})
+
+
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def delete(request,date):
     cpa=CoursProdAliment.objects.get(date=date)
     cpa.delete()
     return redirect('coursprodaliment-view')
+
+
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def update(request,date):
@@ -91,9 +97,6 @@ def export_excel(request):
         ws = wb.add_sheet('CoursProdAliment')
 
         row_num = 0
-        
-        
-
         font_style = xlwt.XFStyle()
         font_style.font.bold = True
         style=xlwt.XFStyle()

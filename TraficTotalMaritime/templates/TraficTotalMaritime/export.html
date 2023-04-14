@@ -1,0 +1,21 @@
+
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section" >
+        <form method="POST" action="{% url 'trafictotalmaritime-export' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="exampleInputEmail1">Entrer la date du debut</label>
+                <input type="date" class="form-control" name="date1" data-provide="datepicker">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Entrer la date du fin</label>
+                <input type="date" class="form-control" name="date2" data-provide="datepicker">
+              </div>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Exporter</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

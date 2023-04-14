@@ -26,6 +26,8 @@ def save(request):
     else:
         form=BudgetForm()
     return render(request,'Budget/form.html',{'form':form})
+
+
 @login_required(login_url='login')
 def view(request):
     bgs=Budget.objects.all()
@@ -37,6 +39,8 @@ def delete(request,date):
     bg=Budget.objects.get(date=date)
     bg.delete()
     return redirect('budget-view')
+
+
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def update(request,date):
@@ -80,6 +84,8 @@ def import_excel(request):
                 obj.save()
         return redirect('budget-view')   
     return render(request,'Budget/import.html')
+
+
 @login_required(login_url='login')
 def export_excel(request):
     if request.method == 'POST':

@@ -1,0 +1,51 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<table class="table table-striped table-borbred table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th>Trimestre</th>
+        <th>ICC global</th>
+        <th>Matériaux de construction</th>
+        <th> Biens et service de gestion du chantier</th>
+        <th>Location de matériels</th>
+        <th>Main d'œuvre</th>
+        <th>Matériaux de base</th>
+        <th>Matériaux pour couverture</th>
+        <th>Matériaux de menuiserie</th>
+        <th>Matériaux de plomberie et sanitaire</th>
+        <th>Matériaux pour travaux d'électricité</th>
+        <th>Revetement des murs et sols</th>
+        <th>Peinture, vernis, chaux</th>
+        <th>Matériaux pour étanchèite</th>
+        <th>Supprimer</th>
+        <th>Modifier</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for icc in iccs %}
+       <tr>
+        <td>{{icc.trimestre}}</td>
+        <td>{{icc.icc_global}}</td>
+        <td>{{icc.materiaux_de_construction}}</td>
+        <td>{{icc.biens_et_service_de_gestion_du_chantier}}</td>
+        <td>{{icc.location_de_materiels}}</td>
+        <td>{{icc.main_oeuvre}}</td>
+        <td>{{icc.materiaux_de_base}}</td>
+        <td>{{icc.materiaux_pour_couverture}}</td>
+        <td>{{icc.materiaux_de_menuiserie}}</td>
+        <td>{{icc.materiaux_de_plomberie_et_sanitaire}}</td>
+        <td>{{icc.materiaux_pour_travaux_electricite}}</td>
+        <td>{{icc.revetement_des_murs_et_sols}}</td>
+        <td>{{icc.peinture_vernis_chaux}}</td>
+        <td>{{icc.materiaux_pour_etancheite}}</td>
+        <td>
+          <a href="{% url 'icc-delete' trimestre=icc.trimestre %}" ><span class="btn btn-danger">Supprimer</span></a>
+        </td>
+        <td>
+          <a href="{% url 'icc-update' trimestre=icc.trimestre %}" ><span class="btn btn-success">Modifier</span></a>   
+        </td>
+       </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+{% endblock content %}

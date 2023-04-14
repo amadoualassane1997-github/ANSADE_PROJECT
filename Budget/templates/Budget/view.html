@@ -14,7 +14,8 @@
         <th>Dépenses Equip Et Pret Net</th>
         <th>Restructuration Et Prets Nets</th>
         <th>Solde Global dons Compris</th>
-        <th>Action</th>
+        <th>Supprimer</th>
+        <th>Modifier</th>
       </tr>
     </thead>
     <tbody>
@@ -33,6 +34,8 @@
         <td>{{bg.solde_globale_dons_compris}}</td>
         <td>
           <a href="{% url 'budget-delete' date=bg.date %}" ><span class="btn btn-danger">Supprimer</span></a>
+        </td>
+        <td>
           <a href="{% url 'budget-update' date=bg.date %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
        </tr>

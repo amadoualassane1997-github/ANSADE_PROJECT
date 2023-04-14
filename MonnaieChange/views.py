@@ -1,15 +1,13 @@
-import csv
-from django.forms import HiddenInput
+
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from MonnaieChange.forms import MonnaieChangeForm
 from MonnaieChange.models import MonnaieChange
 from django.core.files.storage import FileSystemStorage
 import pandas as pd
-from .models import *
 import xlwt
 from django import forms
-from datetime import datetime
+import datetime
 from django.contrib.auth.decorators import login_required
 from authentification.decorators import allowed_users
 
@@ -29,10 +27,14 @@ def save(request):
     else:
         form=MonnaieChangeForm()
     return render(request,'monnaichange/form.html',{'form':form})
+
+
 @login_required(login_url='login')
 def view(request):
     mcs=MonnaieChange.objects.all()
     return render(request,'monnaichange/view.html',{'mcs':mcs})
+
+
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def delete(request,date):
@@ -84,6 +86,8 @@ def import_excel(request):
                 obj.save()
         return redirect('monnaiechange-view')   
     return render(request,'monnaichange/import.html')
+
+
 @login_required(login_url='login')
 def export_excel(request):
     if request.method == 'POST':

@@ -1,0 +1,33 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<table class="table table-striped table-borbred table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th>Date</th>
+        <th>Eau Brute</th>
+        <th>Eau Nette</th>
+        <th>Elect Brute</th>
+        <th>Elect Nette</th>
+        <th>Supprimer</th>
+        <th>Modifier</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ee in ees %}
+       <tr>
+        <td>{{ee.date}}</td>
+        <td>{{ee.eau_brute}}</td>
+        <td>{{ee.eau_nette}}</td>
+        <td>{{ee.elect_brute}}</td>
+        <td>{{ee.elect_nette}}</td>
+        <td>
+          <a href="{% url 'eelec-delete' date=ee.date %}" ><span class="btn btn-danger">Supprimer</span></a>
+        </td>
+        <td>
+          <a href="{% url 'eelec-update' date=ee.date %}" ><span class="btn btn-success">Modifier</span></a>   
+        </td>
+       </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+{% endblock content %}

@@ -1,0 +1,51 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<table class="table table-striped table-borbred table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th>Date</th>
+        <th>INPC Global</th>
+        <th>Produits Alimentaires et Boissons non Alcoolisées</th>
+        <th>Tabacs et Stupéfiants</th>
+        <th>Articles d'habillement et Chaussures</th>
+        <th>Logement, Eau, Gaz, Electricité et Autres Combustibles </th>
+        <th>Meubles,Articles de Ménages et entretien courant du foyer</th>
+        <th>Santé</th>
+        <th>Transports</th>
+        <th>Communication</th>
+        <th>Loisirs et Cultures</th>
+        <th>Enseignement</th>
+        <th>Restaurants et Hôtels</th>
+        <th>Biens et services divers</th>
+        <th>Supprimer</th>
+        <th>Modifier</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for inpc in inpcs %}
+       <tr>
+        <td>{{inpc.date}}</td>
+        <td>{{inpc.inpc_global}}</td>
+        <td>{{inpc.prod_alim_et_boiss_non_alcool_fr}}</td>
+        <td>{{inpc.tabac_et_stupefiant}}</td>
+        <td>{{inpc.art_habmnt_et_chauss}}</td>
+        <td>{{inpc.log_eau_gaz_elec_et_autre_combtible}}</td>
+        <td>{{inpc.meub_art_menage_et_entre_courant_du_foyer}}</td>
+        <td>{{inpc.sante}}</td>
+        <td>{{inpc.transport}}</td>
+        <td>{{inpc.communication}}</td>
+        <td>{{inpc.loisir_et_culture}}</td>
+        <td>{{inpc.enseignement}}</td>
+        <td>{{inpc.restaurant_et_hotel}}</td>
+        <td>{{inpc.bien_et_service_diver}}</td>
+        <td>
+          <a href="{% url 'inpc-delete' date=inpc.date %}" ><span class="btn btn-danger">Supprimer</span></a>
+        </td>
+        <td>
+          <a href="{% url 'inpc-update' date=inpc.date %}" ><span class="btn btn-success">Modifier</span></a>   
+        </td>
+       </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+{% endblock content %}

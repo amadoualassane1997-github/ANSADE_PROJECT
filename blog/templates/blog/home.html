@@ -1,49 +1,291 @@
 {% extends "blog/base.html" %}
 {% block content %}
+<div style="overflow-y:auto;">
 <table class="table table-striped table-borbred table-sm">
   <thead class="thead-dark">
     <tr>
-      <th>Direction</th>
-      <th class="text-center">Action</th>
+      <th>Conjonctures</th>
+      <th>Importer</th>
+      <th>Exporter</th>
+      <th>Saisir</th>
+      <th>Vusialiser</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>Monnaie Change</th>
-      <td class="text-center">
+      <td>
         <a href="{% url 'monnaiechange-import' %}"><span class="btn btn-success">Importer</span></a>
+      </td>
+      <td>
         <a href="{% url 'monnaiechange-export' %}"><span class="btn btn-warning">Exporter</span></a>
+      </td>
+      <td>
         <a href="{% url 'monnaiechange-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      <td>
         <a href="{% url 'monnaiechange-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
       </td>
     </tr>
     <tr>
       <th>Cours Matiére Prémiere</th>
-      <td class="text-center">
+      <td>
         <a href="{% url 'coursmatprem-import' %}"><span class="btn btn-success">Importer</span></a>
+      </td>
+      <td>
         <a href="{% url 'coursmatprem-export' %}"><span class="btn btn-warning">Exporter</span></a>
+      </td>
+      <td>
         <a href="{% url 'coursmatprem-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      <td>
         <a href="{% url 'coursmatprem-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
       </td>
     </tr>
     <tr>
       <th>Cours Produit Alimentaire</th>
-      <td class="text-center">
+      <td>
         <a href="{% url 'coursprodaliment-import' %}"><span class="btn btn-success">Importer</span></a>
+      </td>
+      <td>
         <a href="{% url 'coursprodaliment-export' %}"><span class="btn btn-warning">Exporter</span></a>
+      </td>
+      <td>
         <a href="{% url 'coursprodaliment-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      <td>
         <a href="{% url 'coursprodaliment-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
       </td>
     </tr>
     <tr>
       <th>Budget</th>
-      <td class="text-center">
+      <td>
         <a href="{% url 'budget-import' %}"><span class="btn btn-success">Importer</span></a>
+      </td>
+      <td>
         <a href="{% url 'budget-export' %}"><span class="btn btn-warning">Exporter</span></a>
+      </td>
+      <td>
         <a href="{% url 'budget-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      <td>
         <a href="{% url 'budget-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
       </td>
     </tr>
+    <tr>
+      <th>Inflation Mondiale</th>
+      <td>
+        <a href="{% url 'inflamdle-import' %}"><span class="btn btn-success">Importer</span></a>
+      </td>
+      <td>
+        <a href="{% url 'inflamdle-export' %}"><span class="btn btn-warning">Exporter</span></a>
+      </td>
+      <td>
+        <a href="{% url 'inflamdle-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      <td>
+        <a href="{% url 'inflamdle-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+      </td>
+    </tr>
+    <tr>
+      <th>INPC</th>
+      <td>
+        <a href="{% url 'inpc-import' %}"><span class="btn btn-success">Importer</span></a>
+      </td>
+      <td>
+        <a href="{% url 'inpc-export' %}"><span class="btn btn-warning">Exporter</span></a>
+      </td>
+      <td>
+        <a href="{% url 'inpc-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      <td>
+        <a href="{% url 'inpc-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+      </td>
+    </tr>
+    <tr>
+      <th>Trafic Total Maritime</th>
+      <td>
+        <a href="{% url 'trafictotalmaritime-import' %}"><span class="btn btn-success">Importer</span></a>
+      </td>
+      <td>
+        <a href="{% url 'trafictotalmaritime-export' %}"><span class="btn btn-warning">Exporter</span></a>
+      </td>
+      <td>
+        <a href="{% url 'trafictotalmaritime-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      <td>
+        <a href="{% url 'trafictotalmaritime-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+      </td>
+    </tr>
+    <tr>
+      <th>Saisie Electricité</th>
+      <td>
+        <a href="{% url 'saisieelec-import' %}"><span class="btn btn-success">Importer</span></a>
+      </td>
+      <td>
+        <a href="{% url 'saisieelec-export' %}"><span class="btn btn-warning">Exporter</span></a>
+      </td>
+      <td>
+        <a href="{% url 'saisieelec-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      <td>
+        <a href="{% url 'saisieelec-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+      </td>
+    </tr>
+    <tr>
+      <th>Transport Aerien</th>
+      <td>
+        <a href="{% url 'transaerien-import' %}"><span class="btn btn-success">Importer</span></a>
+      </td>
+      <td>
+        <a href="{% url 'transaerien-export' %}"><span class="btn btn-warning">Exporter</span></a>
+      </td>
+      <td>
+        <a href="{% url 'transaerien-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      <td>
+        <a href="{% url 'transaerien-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+      </td>
+    </tr>
+    <tr>
+      <th>Consommation Carbone</th>
+      <td>
+        <a href="{% url 'consco2-import' %}"><span class="btn btn-success">Importer</span></a>
+      </td>
+      <td>
+        <a href="{% url 'consco2-export' %}"><span class="btn btn-warning">Exporter</span></a>
+      </td>
+      <td>
+        <a href="{% url 'consco2-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      <td>
+        <a href="{% url 'consco2-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+      </td>
+    </tr>
+    <tr>
+    <th>Capture Poissons</th>
+      <td>
+        <a href="{% url 'capp-import' %}"><span class="btn btn-success">Importer</span></a>
+      </td>
+      <td>
+        <a href="{% url 'capp-export' %}"><span class="btn btn-warning">Exporter</span></a>
+      </td>
+      <td>
+        <a href="{% url 'capp-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      <td>
+        <a href="{% url 'capp-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+      </td>
+    </tr>
+  </tr>
+  <tr>
+    <th>Eau & Electricité</th>
+      <td>
+        <a href="{% url 'eelec-import' %}"><span class="btn btn-success">Importer</span></a>
+      </td>
+      <td>
+        <a href="{% url 'eelec-export' %}"><span class="btn btn-warning">Exporter</span></a>
+      </td>
+      <td>
+        <a href="{% url 'eelec-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      <td>
+        <a href="{% url 'eelec-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+      </td>
+    </tr>
+  </tr>
+  <tr>
+    <th>ICC</th>
+      <td>
+        <a href="{% url 'icc-import' %}"><span class="btn btn-success">Importer</span></a>
+      </td>
+      <td>
+        <a href="{% url 'icc-export' %}"><span class="btn btn-warning">Exporter</span></a>
+      </td>
+      <td>
+        <a href="{% url 'icc-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      <td>
+        <a href="{% url 'icc-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+      </td>
+    </tr>
+  </tr>
+  <tr>
+    <th>Croissance Mondiale</th>
+      <td>
+        <a href="{% url 'croismdle-import' %}"><span class="btn btn-success">Importer</span></a>
+      </td>
+      <td>
+        <a href="{% url 'croismdle-export' %}"><span class="btn btn-warning">Exporter</span></a>
+      </td>
+      <td>
+        <a href="{% url 'croismdle-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      <td>
+        <a href="{% url 'croismdle-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+      </td>
+    </tr>
+    <tr>
+      <th>Production Cuivre & Or</th>
+        <td>
+          <a href="{% url 'prodcror-import' %}"><span class="btn btn-success">Importer</span></a>
+        </td>
+        <td>
+          <a href="{% url 'prodcror-export' %}"><span class="btn btn-warning">Exporter</span></a>
+        </td>
+        <td>
+          <a href="{% url 'prodcror-save' %}"><span class="btn btn-info">Saisir</span></a>
+        </td>
+        <td>
+          <a href="{% url 'prodcror-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+       </td>
+    </tr>
+    <tr>
+      <th>Importation</th>
+        <td>
+          <a href="{% url 'imp-import' %}"><span class="btn btn-success">Importer</span></a>
+        </td>
+        <td>
+          <a href="{% url 'imp-export' %}"><span class="btn btn-warning">Exporter</span></a>
+        </td>
+        <td>
+          <a href="{% url 'imp-save' %}"><span class="btn btn-info">Saisir</span></a>
+        </td>
+        <td>
+          <a href="{% url 'imp-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+       </td>
+    </tr>
+    <tr>
+      <th>Exportation</th>
+        <td>
+          <a href="{% url 'exp-import' %}"><span class="btn btn-success">Importer</span></a>
+        </td>
+        <td>
+          <a href="{% url 'exp-export' %}"><span class="btn btn-warning">Exporter</span></a>
+        </td>
+        <td>
+          <a href="{% url 'exp-save' %}"><span class="btn btn-info">Saisir</span></a>
+        </td>
+        <td>
+          <a href="{% url 'exp-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+       </td>
+    </tr>
+    <tr>
+      <th>Commerce Extérieur</th>
+        <td>
+          <a href="{% url 'comext-import' %}"><span class="btn btn-success">Importer</span></a>
+        </td>
+        <td>
+          <a href="{% url 'comext-export' %}"><span class="btn btn-warning">Exporter</span></a>
+        </td>
+        <td>
+          <a href="{% url 'comext-save' %}"><span class="btn btn-info">Saisir</span></a>
+        </td>
+        <td>
+          <a href="{% url 'comext-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+       </td>
+    </tr>
+  </div>
   </tbody>
 </table>
 {% endblock content %}

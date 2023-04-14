@@ -1,0 +1,37 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<table class="table table-striped table-borbred table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th>Date</th>
+        <th>Trafic total(Milliers tonnes)</th>
+        <th>Total(nombre)</th>
+        <th>Port NDB Trafic total(1000tonnes)</th>
+        <th>Port NDB Arrivée navires(nombre)</th>
+        <th>Trafic Total</th>
+        <th>Nombre Total de Navires</th>
+        <th>Supprimer</th>
+        <th>Modifier</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ttm in ttms %}
+       <tr>
+        <td>{{ttm.date}}</td>
+        <td>{{ttm.trafic_total_tonnes}}</td>
+        <td>{{ttm.total_nombre}}</td>
+        <td>{{ttm.port_ndb_trafic_total}}</td>
+        <td>{{ttm.port_ndb_arrive_navires_nombre}}</td>
+        <td>{{ttm.trafic_total}}</td>
+        <td>{{ttm.nombre_total_navires}}</td>
+        <td>
+          <a href="{% url 'trafictotalmaritime-delete' date=ttm.date %}" ><span class="btn btn-danger">Supprimer</span></a>
+        </td>
+        <td>
+          <a href="{% url 'trafictotalmaritime-update' date=ttm.date %}" ><span class="btn btn-success">Modifier</span></a>   
+        </td>
+       </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+{% endblock content %}

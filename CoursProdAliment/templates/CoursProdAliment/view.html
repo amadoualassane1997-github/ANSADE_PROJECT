@@ -12,7 +12,8 @@
         <th>Riz(MU/tonne)</th>
         <th>Sucre(MU/tonne)</th>
         <th>Thé(MU/tonne)</th>
-        <th>Action</th>
+        <th>Supprimer</th>
+        <th>Modifier</th>
       </tr>
     </thead>
     <tbody>
@@ -29,6 +30,8 @@
         <td>{{cpa.the_mu_par_tonne}}</td>
         <td>
           <a href="{% url 'coursprodaliment-delete' date=cpa.date %}" ><span class="btn btn-danger">Supprimer</span></a>
+        </td>
+        <td>
           <a href="{% url 'coursprodaliment-update' date=cpa.date %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
        </tr>
