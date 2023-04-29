@@ -13,13 +13,16 @@ from CommerceExterieur.models import CommerceExterieur
 # Create your views here.
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def save(request):
     if request.method=='POST':
-        form=CommerceExterieurForm(request.POST)
+        trimestre=request.POST['trimestre']
+        if CommerceExterieur.objects.filter(trimestre=trimestre).exists():
+            form=CommerceExterieurForm(request.POST,instance=CommerceExterieur.objects.get(trimestre=trimestre))
+        else:
+            form=CommerceExterieurForm(request.POST)
         if form.is_valid():
-            try:
-                
+            try:   
                 form.save()
                 return redirect('comext-view')
             except:
@@ -37,14 +40,14 @@ def view(request):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def delete(request,trimestre):
     comext=CommerceExterieur.objects.get(trimestre=trimestre)
     comext.delete()
     return redirect('comext-view')
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def update(request,trimestre):
     if request.method=='POST':
         form=CommerceExterieurForm(request.POST,instance=CommerceExterieur.objects.get(trimestre=trimestre))
@@ -65,7 +68,7 @@ def update(request,trimestre):
     return render(request,'CommerceExterieur/update.html',{'context':context})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -78,10 +81,8 @@ def import_excel(request):
         dbframe.fillna(0,inplace=True)
         list_of_excel=[list(row) for row in dbframe.values]
         for l in list_of_excel:
-            obj = CommerceExterieur.objects.create(trimestre=l[0],exportations=l[1],
+            CommerceExterieur.objects.update_or_create(trimestre=l[0],exportations=l[1],
     importation=l[2],solde_commercial=l[3],tx_couv=l[4])
-            if obj !=None :
-                obj.save()
         return redirect('comext-view')   
     return render(request,'CommerceExterieur/import.html')
 

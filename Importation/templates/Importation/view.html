@@ -13,29 +13,33 @@
         <th>Equipements</th>
         <th>Autres biens de consommation</th>
         <th>Autres</th>
+        {% if user.groups.all.0.name == "modifieur" %}
         <th>Supprimer</th>
         <th>Modifier</th>
+        {%endif%}
       </tr>
     </thead>
     <tbody>
       {% for imp in imps %}
        <tr>
         <td>{{imp.trimestre}}</td>
-        <td>{{imp.total}}</td>
-        <td>{{imp.produits_alimentaires}}</td>
-        <td>{{imp.cosmetiques_chimiques}}</td>
-        <td>{{imp.produits_petroliers}}</td>
-        <td>{{imp.materiaux_de_construction}}</td>
-        <td>{{imp.voitures_et_pieces_detachees}}</td>
-        <td>{{imp.equipements}}</td>
-        <td>{{imp.autres_biens_de_consommation}}</td>
-        <td>{{imp.autres}}</td>
+        <td>{{imp.total|floatformat:2}}</td>
+        <td>{{imp.produits_alimentaires|floatformat:2}}</td>
+        <td>{{imp.cosmetiques_chimiques|floatformat:2}}</td>
+        <td>{{imp.produits_petroliers|floatformat:2}}</td>
+        <td>{{imp.materiaux_de_construction|floatformat:2}}</td>
+        <td>{{imp.voitures_et_pieces_detachees|floatformat:2}}</td>
+        <td>{{imp.equipements|floatformat:2}}</td>
+        <td>{{imp.autres_biens_de_consommation|floatformat:2}}</td>
+        <td>{{imp.autres|floatformat:2}}</td>
+        {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'imp-delete' trimestre=imp.trimestre %}" ><span class="btn btn-danger">Supprimer</span></a>
         </td>
         <td>
           <a href="{% url 'imp-update' trimestre=imp.trimestre %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
+        {%endif%}
        </tr>
       {%endfor%}
     </tbody>

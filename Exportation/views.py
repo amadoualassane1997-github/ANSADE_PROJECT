@@ -9,12 +9,17 @@ from authentification.decorators import allowed_users
 from Exportation.forms import ExportationForm
 from Exportation.models import Exportation
 
+
 # Create your views here.
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def save(request):
     if request.method=='POST':
-        form=ExportationForm(request.POST)
+        trimestre=request.POST['trimestre']
+        if Exportation.objects.filter(trimestre=trimestre).exists():
+            form=ExportationForm(request.POST,instance=Exportation.objects.get(trimestre=trimestre))
+        else:
+            form=ExportationForm(request.POST)
         if form.is_valid():
             try:
                 
@@ -32,14 +37,14 @@ def view(request):
     return render(request,'Exportation/view.html',{'exps':exps})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def delete(request,trimestre):
     exp=Exportation.objects.get(trimestre=trimestre)
     exp.delete()
     return redirect('exp-view')
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def update(request,trimestre):
     if request.method=='POST':
         form=ExportationForm(request.POST,instance=Exportation.objects.get(trimestre=trimestre))
@@ -61,7 +66,7 @@ def update(request,trimestre):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -74,10 +79,8 @@ def import_excel(request):
         dbframe.fillna(0,inplace=True)
         list_of_excel=[list(row) for row in dbframe.values]
         for l in list_of_excel:
-            obj = Exportation.objects.create(trimestre=l[0],total=l[1],
+            Exportation.objects.update_or_create(trimestre=l[0],total=l[1],
     minerai_de_fer=l[2],poisson=l[3],petrole_brut=l[4],Or=l[5],cuivre=l[6],autres=l[7])
-            if obj !=None :
-                obj.save()
         return redirect('exp-view')   
     return render(request,'Exportation/import.html')
 

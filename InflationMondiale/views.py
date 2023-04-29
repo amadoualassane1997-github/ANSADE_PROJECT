@@ -9,13 +9,23 @@ import datetime
 from django import forms
 from django.contrib.auth.decorators import login_required
 from authentification.decorators import allowed_users
+import calendar
 
 # Create your views here.
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def save(request):
     if request.method=='POST':
-        form=InflationMondialeForm(request.POST)
+        request.POST._mutable=True
+        date=request.POST['date']
+        m=list(date.split("-"))
+        n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+        date=datetime.date(int(m[0]),int(m[1]),n)
+        request.POST['date']=date
+        if InflationMondiale.objects.filter(date=date).exists():
+            form=InflationMondialeForm(request.POST,instance=InflationMondiale.objects.get(date=date))
+        else:
+            form=InflationMondialeForm(request.POST)
         if form.is_valid():
             try:
                 
@@ -33,14 +43,14 @@ def view(request):
     return render(request,'InflationMondiale/view.html',{'infs':infs})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def delete(request,date):
     inf=InflationMondiale.objects.get(date=date)
     inf.delete()
     return redirect('inflamdle-view')
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def update(request,date):
     if request.method=='POST':
         form=InflationMondialeForm(request.POST,instance=InflationMondiale.objects.get(date=date))
@@ -61,7 +71,7 @@ def update(request,date):
     return render(request,'InflationMondiale/update.html',{'context':context})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])    
+@allowed_users(allowed_roles=['modifieur'])    
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -74,10 +84,12 @@ def import_excel(request):
         dbframe.fillna(0,inplace=True)
         list_of_excel=[list(row) for row in dbframe.values]
         for l in list_of_excel:
-            obj = InflationMondiale.objects.create(date=l[0],usa=l[1],
+            m=list(str(l[0]).split("-"))
+            n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+            date=datetime.date(int(m[0]),int(m[1]),n)
+            l[0]=date
+            obj = InflationMondiale.objects.update_or_create(date=l[0],usa=l[1],
     france=l[2],allemagne=l[3],japon=l[4],royaume_uni=l[5],italie=l[6],canada=l[7])
-            if obj !=None :
-                obj.save()
         return redirect('inflamdle-view')   
     return render(request,'InflationMondiale/import.html')
 

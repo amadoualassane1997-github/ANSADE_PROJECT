@@ -1,0 +1,153 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+
+ <div>
+    <canvas id="myChart" width="800" height="525"></canvas>
+ </div>
+
+{% endblock content %}
+
+{% block jquery %}
+<script>
+euro_c=[]
+dollar_des_u_e_c=[]
+sterling_c=[]
+yen_c=[]
+dirham_marocain_c=[]
+dinar_tunisien_c=[]
+dinar_algerien_c=[]
+franc_cfa_c=[]
+dts_c=[]
+var date="{{date}}"
+var dollar_des_u_e="{{dollar_des_u_e}}"
+var euro="{{euro}}"
+var sterling="{{sterling}}"
+var yen="{{yen}}"
+var dirham_marocain="{{dirham_marocain}}"
+var dinar_tunisien="{{dinar_tunisien}}"
+var dinar_algerien="{{dinar_algerien}}"
+var franc_cfa="{{franc_cfa}}"
+var dts="{{dts}}"
+var pattern=/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/gi;
+let date_array=date.match(pattern)
+
+let dollar_des_u_e_array=dollar_des_u_e.split(",")
+let euro_array=euro.split(",")
+let sterling_array=sterling.split(",")
+let yen_array=yen.split(",")
+let dirham_marocain_array=dirham_marocain.split(",")
+let dinar_tunisien_array=dinar_tunisien.split(",")
+let dinar_algerien_array=dinar_algerien.split(",")
+let franc_cfa_array=franc_cfa.split(",")
+let dts_array=dts.split(",")
+for(i=1;i<=date_array.length;i++){
+  euro_c.push(parseFloat(euro_array[i]))
+  dollar_des_u_e_c.push(parseFloat(dollar_des_u_e_array[i]))
+  sterling_c.push(parseFloat(sterling_array[i]))
+  yen_c.push(parseFloat(yen_array[i]))
+  dirham_marocain_c.push(parseFloat(dirham_marocain_array[i]))
+  dinar_tunisien_c.push(parseFloat(dinar_tunisien_array[i]))
+  dinar_algerien_c.push(parseFloat(dinar_algerien_array[i]))
+  franc_cfa_c.push(parseFloat(franc_cfa_array[i]))
+  dts_c.push(parseFloat(dts_c[i]))
+}
+
+
+
+var ctx = document.getElementById("myChart").getContext('2d');
+
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: date_array,
+        datasets: [{
+            label: 'Dollar', // Name the series
+            data: dollar_des_u_e_c, // Specify the data values array
+            fill: false,
+            borderColor: '#2196f3', // Add custom color border (Line)
+            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+                  {
+            label: 'Euro', // Name the series
+            data: euro_c, // Specify the data values array
+            fill: false,
+            borderColor: '#4CAF50', // Add custom color border (Line)
+            backgroundColor: '#4CAF50', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'Sterling', // Name the series
+            data: sterling_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF0000', // Add custom color border (Line)
+            backgroundColor: '#FF0000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'Yen', // Name the series
+            data: sterling_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FF00', // Add custom color border (Line)
+            backgroundColor: '#00FF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'Dirham Marocain', // Name the series
+            data: sterling_c, // Specify the data values array
+            fill: false,
+            borderColor: '#800080', // Add custom color border (Line)
+            backgroundColor: '#800080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'Dinar Tunisien', // Name the series
+            data: sterling_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF00FF', // Add custom color border (Line)
+            backgroundColor: '#FF00FF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'Dinar Algerien', // Name the series
+            data: sterling_c, // Specify the data values array
+            fill: false,
+            borderColor: '#000080', // Add custom color border (Line)
+            backgroundColor: '#000080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'Franc CFA', // Name the series
+            data: sterling_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FFFF', // Add custom color border (Line)
+            backgroundColor: '#00FFFF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'DTS', // Name the series
+            data: sterling_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FFFF00', // Add custom color border (Line)
+            backgroundColor: '#FFFF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+    ]
+    },
+    options: {
+      responsive: true, // Instruct chart js to respond nicely.
+      maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
+    }
+});
+</script>
+{% endblock %}
+
+

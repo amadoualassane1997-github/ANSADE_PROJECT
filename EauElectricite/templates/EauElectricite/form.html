@@ -5,7 +5,7 @@
         <form method="POST" action="{% url 'eelec-save' %}">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Eau & Electricite Form</legend>
+                <legend class="border-bottom mb-4">Formulaire Eau & Electricite</legend>
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">

@@ -8,24 +8,28 @@
         <th>Eau Nette</th>
         <th>Elect Brute</th>
         <th>Elect Nette</th>
+        {% if user.groups.all.0.name == "modifieur" %}
         <th>Supprimer</th>
         <th>Modifier</th>
+        {%endif%}
       </tr>
     </thead>
     <tbody>
       {% for ee in ees %}
        <tr>
         <td>{{ee.date}}</td>
-        <td>{{ee.eau_brute}}</td>
-        <td>{{ee.eau_nette}}</td>
-        <td>{{ee.elect_brute}}</td>
-        <td>{{ee.elect_nette}}</td>
+        <td>{{ee.eau_brute|floatformat:2}}</td>
+        <td>{{ee.eau_nette|floatformat:2}}</td>
+        <td>{{ee.elect_brute|floatformat:2}}</td>
+        <td>{{ee.elect_nette|floatformat:2}}</td>
+        {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'eelec-delete' date=ee.date %}" ><span class="btn btn-danger">Supprimer</span></a>
         </td>
         <td>
           <a href="{% url 'eelec-update' date=ee.date %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
+        {%endif%}
        </tr>
       {%endfor%}
     </tbody>

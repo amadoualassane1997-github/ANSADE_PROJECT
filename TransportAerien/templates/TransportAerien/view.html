@@ -8,24 +8,28 @@
         <th>Passagers Depart</th>
         <th>Total Passagers</th>
         <th>Mouvement Avion Arrivés</th>
+        {% if user.groups.all.0.name == "modifieur" %}
         <th>Supprimer</th>
         <th>Modifier</th>
+        {%endif%}
       </tr>
     </thead>
     <tbody>
       {% for ta in tas %}
        <tr>
         <td>{{ta.date}}</td>
-        <td>{{ta.passagers_arriv}}</td>
+        <td>{{ta.passagers_arrives}}</td>
         <td>{{ta.passagers_depart}}</td>
         <td>{{ta.total_passagers}}</td>
         <td>{{ta.mvmt_avion_arriv}}</td>
+        {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'transaerien-delete' date=ta.date %}" ><span class="btn btn-danger">Supprimer</span></a>
         </td>
         <td>
           <a href="{% url 'transaerien-update' date=ta.date %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
+        {%endif%}
        </tr>
       {%endfor%}
     </tbody>

@@ -11,10 +11,14 @@ from ProductionCuivreOr.models import ProductionCuivreOr
 
 # Create your views here.
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def save(request):
     if request.method=='POST':
-        form=ProductionCuivreOrForm(request.POST)
+        trimestre=request.POST['trimestre']
+        if ProductionCuivreOr.objects.filter(trimestre=trimestre).exists():
+            form=ProductionCuivreOrForm(request.POST,instance=ProductionCuivreOr.objects.get(trimestre=trimestre))
+        else:
+            form=ProductionCuivreOrForm(request.POST)
         if form.is_valid():
             try:
                 
@@ -32,7 +36,7 @@ def view(request):
     return render(request,'ProductionCuivreOr/view.html',{'pcos':pcos})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def delete(request,trimestre):
     pco=ProductionCuivreOr.objects.get(trimestre=trimestre)
     pco.delete()
@@ -40,7 +44,7 @@ def delete(request,trimestre):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def update(request,trimestre):
     if request.method=='POST':
         form=ProductionCuivreOrForm(request.POST,instance=ProductionCuivreOr.objects.get(trimestre=trimestre))
@@ -61,7 +65,7 @@ def update(request,trimestre):
     return render(request,'ProductionCuivreOr/update.html',{'context':context})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -74,10 +78,8 @@ def import_excel(request):
         dbframe.fillna(0,inplace=True)
         list_of_excel=[list(row) for row in dbframe.values]
         for l in list_of_excel:
-            obj = ProductionCuivreOr.objects.create(trimestre=l[0],production_cuivre=l[1],
+            ProductionCuivreOr.objects.update_or_create(trimestre=l[0],production_cuivre=l[1],
     or_quantite_en_oz_total=l[2])
-            if obj !=None :
-                obj.save()
         return redirect('prodcror-view')   
     return render(request,'ProductionCuivreOr/import.html')
 

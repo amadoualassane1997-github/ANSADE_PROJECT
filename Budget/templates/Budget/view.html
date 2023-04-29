@@ -14,30 +14,34 @@
         <th>Dépenses Equip Et Pret Net</th>
         <th>Restructuration Et Prets Nets</th>
         <th>Solde Global dons Compris</th>
+        {% if user.groups.all.0.name == "modifieur" %}
         <th>Supprimer</th>
         <th>Modifier</th>
+        {%endif%}
       </tr>
     </thead>
     <tbody>
       {% for bg in bgs %}
        <tr>
         <td>{{bg.date}}</td>
-        <td>{{bg.rectettes_totales}}</td>
-        <td>{{bg.recettes_fiscales}}</td>
-        <td>{{bg.recettes_non_fiscales}}</td>
-        <td>{{bg.recettes_petro_net}}</td>
-        <td>{{bg.dont}}</td>
-        <td>{{bg.depences_et_prets_net}}</td>
-        <td>{{bg.depences_courant}}</td>
-        <td>{{bg.depences_equipe_et_prets_net}}</td>
-        <td>{{bg.restructurations_equipe_et_prets_net}}</td>
-        <td>{{bg.solde_globale_dons_compris}}</td>
+        <td>{{bg.rectettes_totales|floatformat:2}}</td>
+        <td>{{bg.recettes_fiscales|floatformat:2}}</td>
+        <td>{{bg.recettes_non_fiscales|floatformat:2}}</td>
+        <td>{{bg.recettes_petro_net|floatformat:2}}</td>
+        <td>{{bg.dont|floatformat:2}}</td>
+        <td>{{bg.depences_et_prets_net|floatformat:2}}</td>
+        <td>{{bg.depences_courant|floatformat:2}}</td>
+        <td>{{bg.depences_equipe_et_prets_net|floatformat:2}}</td>
+        <td>{{bg.restructurations_equipe_et_prets_net|floatformat:2}}</td>
+        <td>{{bg.solde_globale_dons_compris|floatformat:2}}</td>
+        {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'budget-delete' date=bg.date %}" ><span class="btn btn-danger">Supprimer</span></a>
         </td>
         <td>
           <a href="{% url 'budget-update' date=bg.date %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
+        {%endif%}
        </tr>
       {%endfor%}
     </tbody>

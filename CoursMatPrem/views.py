@@ -10,13 +10,23 @@ import datetime
 from django import forms
 from django.contrib.auth.decorators import login_required
 from authentification.decorators import allowed_users
+import calendar
 # Create your views here.
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def save(request):
     if request.method=='POST':
-        form=CoursMatPremForm(request.POST)
+        request.POST._mutable=True
+        date=request.POST['date']
+        m=list(date.split("-"))
+        n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+        date=datetime.date(int(m[0]),int(m[1]),n)
+        request.POST['date']=date
+        if CoursMatPrem.objects.filter(date=date).exists():
+            form=CoursMatPremForm(request.POST,instance=CoursMatPrem.objects.get(date=date))
+        else:
+            form=CoursMatPremForm(request.POST)
         if form.is_valid():
             try:
                 
@@ -32,14 +42,18 @@ def save(request):
 def view(request):
     cmps=CoursMatPrem.objects.all()
     return render(request,'CoursMatPrem/view.html',{'cmps':cmps})
+
+
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def delete(request,date):
     cmp=CoursMatPrem.objects.get(date=date)
     cmp.delete()
     return redirect('coursmatprem-view')
+
+
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def update(request,date):
     if request.method=='POST':
         form=CoursMatPremForm(request.POST,instance=CoursMatPrem.objects.get(date=date))
@@ -60,7 +74,7 @@ def update(request,date):
     return render(request,'CoursMatPrem/update.html',{'context':context})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -73,12 +87,14 @@ def import_excel(request):
         dbframe.fillna(0,inplace=True)
         list_of_excel=[list(row) for row in dbframe.values]
         for l in list_of_excel:
-            obj = CoursMatPrem.objects.create(date=l[0],cours_mon_pet=l[1],
-    prix_pet_mr=l[2],cours_mon_min_fer_prem_seri=l[3],prix_min_mr=l[4],
-    cours_mon_cuivre=l[5],prix_cuivre_mr=l[6],cours_mon_or=l[7],
-    prix_or_mr=l[8],cours_mon_poisson=l[9],prix_poisson_mr=l[10])
-            if obj !=None :
-                obj.save()
+            m=list(str(l[0]).split("-"))
+            n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+            date=datetime.date(int(m[0]),int(m[1]),n)
+            l[0]=date
+            obj = CoursMatPrem.objects.update_or_create(date=l[0],cours_mondiale_du_petrole=l[1],
+    prix_du_petrole_mauritanien=l[2],cours_mondiale_du_minerai_fer_du_premier_seri=l[3],prix_du_minerai_mauritanien=l[4],
+    cours_mondial_du_cuivre=l[5],prix_du_cuivre_mauritanien=l[6],cours_mondiale_or=l[7],
+    prix_or_mauritanien=l[8],cours_mondiale_de_poisson=l[9],prix_du_poisson_mauritanien=l[10])
         return redirect('coursmatprem-view')   
     return render(request,'CoursMatPrem/import.html')
 
@@ -109,8 +125,8 @@ def export_excel(request):
         for col_num in range(len(columns)):
             ws.write(row_num, col_num, columns[col_num], font_style)
 
-        rows=CoursMatPrem.objects.filter(date__range=(d1,d2)).values_list('date','cours_mon_pet','prix_pet_mr','cours_mon_min_fer_prem_seri','prix_min_mr',
-    'cours_mon_cuivre','prix_cuivre_mr','cours_mon_or','prix_or_mr','cours_mon_poisson','prix_poisson_mr')
+        rows=CoursMatPrem.objects.filter(date__range=(d1,d2)).values_list('date','cours_mondiale_du_petrole','prix_du_petrole_mauritanien','cours_mondiale_du_minerai_fer_du_premier_seri','prix_du_minerai_mauritanien',
+    'cours_mondial_du_cuivre','prix_du_cuivre_mauritanien','cours_mondiale_or','prix_or_mauritanien','cours_mondiale_de_poisson','prix_du_poisson_mauritanien')
         for row in rows:
             row_num += 1
             for col_num in range(len(row)):

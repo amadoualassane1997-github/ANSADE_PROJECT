@@ -10,26 +10,30 @@
         <th>Port NDB Arrivée navires(nombre)</th>
         <th>Trafic Total</th>
         <th>Nombre Total de Navires</th>
+        {% if user.groups.all.0.name == "modifieur" %}
         <th>Supprimer</th>
         <th>Modifier</th>
+        {%endif%}
       </tr>
     </thead>
     <tbody>
       {% for ttm in ttms %}
        <tr>
         <td>{{ttm.date}}</td>
-        <td>{{ttm.trafic_total_tonnes}}</td>
-        <td>{{ttm.total_nombre}}</td>
-        <td>{{ttm.port_ndb_trafic_total}}</td>
-        <td>{{ttm.port_ndb_arrive_navires_nombre}}</td>
-        <td>{{ttm.trafic_total}}</td>
-        <td>{{ttm.nombre_total_navires}}</td>
+        <td>{{ttm.trafic_total_tonnes|floatformat:2}}</td>
+        <td>{{ttm.total_nombre|floatformat:2}}</td>
+        <td>{{ttm.port_ndb_trafic_total|floatformat:2}}</td>
+        <td>{{ttm.port_ndb_arrive_navires_nombre|floatformat:2}}</td>
+        <td>{{ttm.trafic_total|floatformat:2}}</td>
+        <td>{{ttm.nombre_total_navires|floatformat:2}}</td>
+        {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'trafictotalmaritime-delete' date=ttm.date %}" ><span class="btn btn-danger">Supprimer</span></a>
         </td>
         <td>
           <a href="{% url 'trafictotalmaritime-update' date=ttm.date %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
+        {%endif%}
        </tr>
       {%endfor%}
     </tbody>

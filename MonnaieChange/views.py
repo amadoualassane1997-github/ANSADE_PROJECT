@@ -10,13 +10,23 @@ from django import forms
 import datetime
 from django.contrib.auth.decorators import login_required
 from authentification.decorators import allowed_users
+import calendar
 
 # Create your views here.
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def save(request):
     if request.method=='POST':
-        form=MonnaieChangeForm(request.POST)
+        request.POST._mutable=True
+        date=request.POST['date']
+        m=list(date.split("-"))
+        n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+        date=datetime.date(int(m[0]),int(m[1]),n)
+        request.POST['date']=date
+        if MonnaieChange.objects.filter(date=date).exists():
+            form=MonnaieChangeForm(request.POST,instance=MonnaieChange.objects.get(date=date))
+        else:
+            form=MonnaieChangeForm(request.POST)
         if form.is_valid():
             try:
                 
@@ -36,14 +46,14 @@ def view(request):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def delete(request,date):
     mc=MonnaieChange.objects.get(date=date)
     mc.delete()
     return redirect('monnaiechange-view')
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def update(request,date):
     if request.method=='POST':
         form=MonnaieChangeForm(request.POST,instance=MonnaieChange.objects.get(date=date))
@@ -65,7 +75,7 @@ def update(request,date):
     return render(request,'monnaichange/update.html',{'context':context})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])    
+@allowed_users(allowed_roles=['modifieur'])    
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -78,12 +88,15 @@ def import_excel(request):
         dbframe.fillna(0,inplace=True)
         list_of_excel=[list(row) for row in dbframe.values]
         for l in list_of_excel:
-            obj = MonnaieChange.objects.create(date=l[0],dollar_des_u_e=l[1],
+            m=list(str(l[0]).split("-"))
+            n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+            date=datetime.date(int(m[0]),int(m[1]),n)
+            l[0]=date
+            print(l[0])
+            MonnaieChange.objects.update_or_create(date=date,dollar_des_u_e=l[1],
     euro=l[2],sterling=l[3],yen=l[4],
     dirham_marocain=l[5],dinar_tunisien=l[6],dinar_algerien=l[7],
     franc_cfa=l[8],dts=l[9])
-            if obj !=None :
-                obj.save()
         return redirect('monnaiechange-view')   
     return render(request,'monnaichange/import.html')
 
@@ -132,5 +145,43 @@ def export_excel(request):
         return response
     else:
         return render(request,'monnaichange/export.html')
+    
+
+
+
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    date,dollar_des_u_e,euro,sterling,yen,dirham_marocain,dinar_tunisien,dinar_algerien,franc_cfa,dts=[],[],[],[],[],[],[],[],[],[]
+    rows=MonnaieChange.objects.all().values_list('date','dollar_des_u_e','euro','sterling','yen',
+    'dirham_marocain','dinar_tunisien','dinar_algerien','franc_cfa','dts')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    date.append(str(row[col_num]))
+                elif col_num==1:
+                    dollar_des_u_e.append(row[col_num])
+                elif col_num==2:
+                    euro.append(row[col_num])
+                elif col_num==3:
+                    sterling.append(row[col_num])
+                elif col_num==4:
+                    yen.append(row[col_num])
+                elif col_num==5:
+                    dirham_marocain.append(row[col_num])
+                elif col_num==6:
+                    dinar_tunisien.append(row[col_num])
+                elif col_num==7:
+                    dinar_algerien.append(row[col_num])
+                elif col_num==8:
+                    franc_cfa.append(row[col_num])
+                elif col_num==9:
+                    franc_cfa.append(row[col_num])
+                else:
+                    dts.append(row[col_num])
+      
+    return render(request,'monnaichange/chartjs.html',{'date':date,'dollar_des_u_e':dollar_des_u_e,'euro':euro,
+                                                       'sterling':sterling,'yen':yen,'dirham_marocain':dirham_marocain,'dinar_tunisien':dinar_tunisien,
+                                                       'dinar_algerien':dinar_algerien,'franc_cfa':franc_cfa,'dts':dts})
 
 

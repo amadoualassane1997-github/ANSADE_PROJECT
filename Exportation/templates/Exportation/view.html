@@ -11,27 +11,31 @@
         <th>Or</th>
         <th>Cuivre</th>
         <th>Autres</th>
+        {% if user.groups.all.0.name == "modifieur" %}
         <th>Supprimer</th>
         <th>Modifier</th>
+        {%endif%}
       </tr>
     </thead>
     <tbody>
       {% for exp in exps %}
        <tr>
         <td>{{exp.trimestre}}</td>
-        <td>{{exp.total}}</td>
-        <td>{{exp.minerai_de_fer}}</td>
-        <td>{{exp.poisson}}</td>
-        <td>{{exp.petrole_brut}}</td>
-        <td>{{exp.Or}}</td>
-        <td>{{exp.cuivre}}</td>
-        <td>{{exp.autres}}</td>
+        <td>{{exp.total|floatformat:2}}</td>
+        <td>{{exp.minerai_de_fer|floatformat:2}}</td>
+        <td>{{exp.poisson|floatformat:2}}</td>
+        <td>{{exp.petrole_brut|floatformat:2}}</td>
+        <td>{{exp.Or|floatformat:2}}</td>
+        <td>{{exp.cuivre|floatformat:2}}</td>
+        <td>{{exp.autres|floatformat:2}}</td>
+        {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'exp-delete' trimestre=exp.trimestre %}" ><span class="btn btn-danger">Supprimer</span></a>
         </td>
         <td>
           <a href="{% url 'exp-update' trimestre=exp.trimestre %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
+        {%endif%}
        </tr>
       {%endfor%}
     </tbody>

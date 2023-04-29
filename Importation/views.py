@@ -10,12 +10,17 @@ from Importation.forms import ImportationForm
 from Importation.models import Importation
 
 
+
 # Create your views here.
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def save(request):
     if request.method=='POST':
-        form=ImportationForm(request.POST)
+        trimestre=request.POST['trimestre']
+        if Importation.objects.filter(trimestre=trimestre).exists():
+            form=ImportationForm(request.POST,instance=Importation.objects.get(trimestre=trimestre))
+        else:
+            form=ImportationForm(request.POST)
         if form.is_valid():
             try:
                 
@@ -34,14 +39,14 @@ def view(request):
     return render(request,'Importation/view.html',{'imps':imps})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def delete(request,trimestre):
     imp=Importation.objects.get(trimestre=trimestre)
     imp.delete()
     return redirect('imp-view')
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def update(request,trimestre):
     if request.method=='POST':
         form=ImportationForm(request.POST,instance=Importation.objects.get(trimestre=trimestre))
@@ -62,7 +67,7 @@ def update(request,trimestre):
     return render(request,'Importation/update.html',{'context':context})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -75,11 +80,9 @@ def import_excel(request):
         dbframe.fillna(0,inplace=True)
         list_of_excel=[list(row) for row in dbframe.values]
         for l in list_of_excel:
-            obj = Importation.objects.create(trimestre=l[0],total=l[1],
+            Importation.objects.update_or_create(trimestre=l[0],total=l[1],
     produits_alimentaires=l[2],cosmetiques_chimiques=l[3],produits_petroliers=l[4],materiaux_de_construction=l[5],voitures_et_pieces_detachees=l[6],equipements=l[7]
     ,autres_biens_de_consommation=l[8],autres=l[9])
-            if obj !=None :
-                obj.save()
         return redirect('imp-view')   
     return render(request,'Importation/import.html')
 

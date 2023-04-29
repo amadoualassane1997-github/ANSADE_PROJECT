@@ -6,22 +6,26 @@
         <th>Trimestre</th>
         <th>Production Cuivre</th>
         <th>Or Quantité en OZ Totale</th>
+        {% if user.groups.all.0.name == "modifieur" %}
         <th>Supprimer</th>
         <th>Modifier</th>
+        {%endif%}
       </tr>
     </thead>
     <tbody>
       {% for pco in pcos %}
        <tr>
         <td>{{pco.trimestre}}</td>
-        <td>{{pco.production_cuivre}}</td>
-        <td>{{pco.or_quantite_en_oz_total}}</td>
+        <td>{{pco.production_cuivre|floatformat:2}}</td>
+        <td>{{pco.or_quantite_en_oz_total|floatformat:2}}</td>
+        {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'prodcror-delete' trimestre=pco.trimestre %}" ><span class="btn btn-danger">Supprimer</span></a>
         </td>
         <td>
           <a href="{% url 'prodcror-update' trimestre=pco.trimestre %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
+        {%endif%}
        </tr>
       {%endfor%}
     </tbody>

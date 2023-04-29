@@ -12,28 +12,32 @@
         <th>Riz(MU/tonne)</th>
         <th>Sucre(MU/tonne)</th>
         <th>Thé(MU/tonne)</th>
+        {% if user.groups.all.0.name == "modifieur" %}
         <th>Supprimer</th>
         <th>Modifier</th>
+        {%endif%}
       </tr>
     </thead>
     <tbody>
       {% for cpa in cpas %}
        <tr>
         <td>{{cpa.date}}</td>
-        <td>{{cpa.ble_eu_par_tonne}}</td>
-        <td>{{cpa.riz_eu_par_tonne}}</td>
-        <td>{{cpa.sucre_eu_par_tonne}}</td>
-        <td>{{cpa.the_eu_par_tonne}}</td>
-        <td>{{cpa.ble_mu_par_tonne}}</td>
-        <td>{{cpa.riz_mu_par_tonne}}</td>
-        <td>{{cpa.sucre_mu_par_tonne}}</td>
-        <td>{{cpa.the_mu_par_tonne}}</td>
+        <td>{{cpa.ble_eu_par_tonne|floatformat:2}}</td>
+        <td>{{cpa.riz_eu_par_tonne|floatformat:2}}</td>
+        <td>{{cpa.sucre_eu_par_tonne|floatformat:2}}</td>
+        <td>{{cpa.the_eu_par_tonne|floatformat:2}}</td>
+        <td>{{cpa.ble_mu_par_tonne|floatformat:2}}</td>
+        <td>{{cpa.riz_mu_par_tonne|floatformat:2}}</td>
+        <td>{{cpa.sucre_mu_par_tonne|floatformat:2}}</td>
+        <td>{{cpa.the_mu_par_tonne|floatformat:2}}</td>
+        {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'coursprodaliment-delete' date=cpa.date %}" ><span class="btn btn-danger">Supprimer</span></a>
         </td>
         <td>
           <a href="{% url 'coursprodaliment-update' date=cpa.date %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
+        {%endif%}
        </tr>
       {%endfor%}
     </tbody>

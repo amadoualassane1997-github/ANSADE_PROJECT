@@ -9,12 +9,17 @@ from authentification.decorators import allowed_users
 from ICC.forms import IccForm
 from ICC.models import Icc
 
+
 # Create your views here.
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def save(request):
     if request.method=='POST':
-        form=IccForm(request.POST)
+        trimestre=request.POST['trimestre']
+        if Icc.objects.filter(trimestre=trimestre).exists():
+            form=IccForm(request.POST,instance=Icc.objects.get(trimestre=trimestre))
+        else:
+            form=IccForm(request.POST)
         if form.is_valid():
             try:
                 
@@ -32,7 +37,7 @@ def view(request):
     return render(request,'ICC/view.html',{'iccs':iccs})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def delete(request,trimestre):
     icc=Icc.objects.get(trimestre=trimestre)
     icc.delete()
@@ -40,7 +45,7 @@ def delete(request,trimestre):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def update(request,trimestre):
     if request.method=='POST':
         form=IccForm(request.POST,instance=Icc.objects.get(trimestre=trimestre))
@@ -62,7 +67,7 @@ def update(request,trimestre):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -75,11 +80,9 @@ def import_excel(request):
         dbframe.fillna(0,inplace=True)
         list_of_excel=[list(row) for row in dbframe.values]
         for l in list_of_excel:
-            obj = Icc.objects.create(trimestre=l[0],icc_global=l[1],
+            Icc.objects.update_or_create(trimestre=l[0],icc_global=l[1],
     materiaux_de_construction=l[2],biens_et_service_de_gestion_du_chantier=l[3],location_de_materiels=l[4],main_oeuvre=l[5],materiaux_de_base=l[6],materiaux_pour_couverture=l[7]
     ,materiaux_de_menuiserie=l[8],materiaux_de_plomberie_et_sanitaire=l[9],materiaux_pour_travaux_electricite=l[10],revetement_des_murs_et_sols=l[11],peinture_vernis_chaux=l[12],materiaux_pour_etancheite=l[13])
-            if obj !=None :
-                obj.save()
         return redirect('icc-view')   
     return render(request,'ICC/import.html')
 

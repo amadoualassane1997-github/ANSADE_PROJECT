@@ -11,27 +11,31 @@
         <th>Royaume-Uni</th>
         <th>Italie</th>
         <th>Canada</th>
+        {% if user.groups.all.0.name == "modifieur" %}
         <th>Supprimer</th>
         <th>Modifier</th>
+        {%endif%}
       </tr>
     </thead>
     <tbody>
       {% for cm in cms %}
        <tr>
         <td>{{cm.trimestre}}</td>
-        <td>{{cm.usa}}</td>
-        <td>{{cm.france}}</td>
-        <td>{{cm.allemagne}}</td>
-        <td>{{cm.japon}}</td>
-        <td>{{cm.royaume_uni}}</td>
-        <td>{{cm.italie}}</td>
-        <td>{{cm.canada}}</td>
+        <td>{{cm.usa|floatformat:2}}</td>
+        <td>{{cm.france|floatformat:2}}</td>
+        <td>{{cm.allemagne|floatformat:2}}</td>
+        <td>{{cm.japon|floatformat:2}}</td>
+        <td>{{cm.royaume_uni|floatformat:2}}</td>
+        <td>{{cm.italie|floatformat:2}}</td>
+        <td>{{cm.canada|floatformat:2}}</td>
+        {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'croismdle-delete' trimestre=cm.trimestre %}" ><span class="btn btn-danger">Supprimer</span></a>
         </td>
         <td>
           <a href="{% url 'croismdle-update' trimestre=cm.trimestre %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
+        {%endif%}
        </tr>
       {%endfor%}
     </tbody>

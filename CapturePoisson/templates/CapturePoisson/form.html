@@ -5,7 +5,7 @@
         <form method="POST" action="{% url 'capp-save' %}">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Capture Poisson Form</legend>
+                <legend class="border-bottom mb-4">Formulaire Capture Poisson</legend>
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">

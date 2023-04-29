@@ -9,13 +9,23 @@ from django.contrib.auth.decorators import login_required
 from authentification.decorators import allowed_users
 from TraficTotalMaritime.forms import TraficTotalMaritimeForm
 from TraficTotalMaritime.models import TraficTotalMaritime
+import calendar
 # Create your views here.
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def save(request):
     if request.method=='POST':
-        form=TraficTotalMaritimeForm(request.POST)
+        request.POST._mutable=True
+        date=request.POST['date']
+        m=list(date.split("-"))
+        n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+        date=datetime.date(int(m[0]),int(m[1]),n)
+        request.POST['date']=date
+        if TraficTotalMaritime.objects.filter(date=date).exists():
+            form=TraficTotalMaritimeForm(request.POST,instance=TraficTotalMaritime.objects.get(date=date))
+        else:
+            form=TraficTotalMaritimeForm(request.POST)
         if form.is_valid():
             try:
                 
@@ -34,14 +44,14 @@ def view(request):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def delete(request,date):
     ttm=TraficTotalMaritime.objects.get(date=date)
     ttm.delete()
     return redirect('trafictotalmaritime-view')
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def update(request,date):
     if request.method=='POST':
         form=TraficTotalMaritimeForm(request.POST,instance=TraficTotalMaritime.objects.get(date=date))
@@ -62,7 +72,7 @@ def update(request,date):
     return render(request,'TraficTotalMaritime/update.html',{'context':context})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -75,10 +85,12 @@ def import_excel(request):
         dbframe.fillna(0,inplace=True)
         list_of_excel=[list(row) for row in dbframe.values]
         for l in list_of_excel:
-            obj = TraficTotalMaritime.objects.create(date=l[0],trafic_total_tonnes=l[1],
+            m=list(str(l[0]).split("-"))
+            n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+            date=datetime.date(int(m[0]),int(m[1]),n)
+            l[0]=date
+            obj = TraficTotalMaritime.objects.update_or_create(date=l[0],trafic_total_tonnes=l[1],
     total_nombre=l[2],port_ndb_trafic_total=l[3],port_ndb_arrive_navires_nombre=l[4],trafic_total=l[5],nombre_total_navires=l[6])
-            if obj !=None :
-                obj.save()
         return redirect('trafictotalmaritime-view')   
     return render(request,'TraficTotalMaritime/import.html')
 

@@ -17,33 +17,37 @@
         <th>Revetement des murs et sols</th>
         <th>Peinture, vernis, chaux</th>
         <th>Matériaux pour étanchèite</th>
+        {% if user.groups.all.0.name == "modifieur" %}
         <th>Supprimer</th>
         <th>Modifier</th>
+        {%endif%}
       </tr>
     </thead>
     <tbody>
       {% for icc in iccs %}
        <tr>
         <td>{{icc.trimestre}}</td>
-        <td>{{icc.icc_global}}</td>
-        <td>{{icc.materiaux_de_construction}}</td>
-        <td>{{icc.biens_et_service_de_gestion_du_chantier}}</td>
-        <td>{{icc.location_de_materiels}}</td>
-        <td>{{icc.main_oeuvre}}</td>
-        <td>{{icc.materiaux_de_base}}</td>
-        <td>{{icc.materiaux_pour_couverture}}</td>
-        <td>{{icc.materiaux_de_menuiserie}}</td>
-        <td>{{icc.materiaux_de_plomberie_et_sanitaire}}</td>
-        <td>{{icc.materiaux_pour_travaux_electricite}}</td>
-        <td>{{icc.revetement_des_murs_et_sols}}</td>
-        <td>{{icc.peinture_vernis_chaux}}</td>
-        <td>{{icc.materiaux_pour_etancheite}}</td>
+        <td>{{icc.icc_global|floatformat:2}}</td>
+        <td>{{icc.materiaux_de_construction|floatformat:2}}</td>
+        <td>{{icc.biens_et_service_de_gestion_du_chantier|floatformat:2}}</td>
+        <td>{{icc.location_de_materiels|floatformat:2}}</td>
+        <td>{{icc.main_oeuvre|floatformat:2}}</td>
+        <td>{{icc.materiaux_de_base|floatformat:2}}</td>
+        <td>{{icc.materiaux_pour_couverture|floatformat:2}}</td>
+        <td>{{icc.materiaux_de_menuiserie|floatformat:2}}</td>
+        <td>{{icc.materiaux_de_plomberie_et_sanitaire|floatformat:2}}</td>
+        <td>{{icc.materiaux_pour_travaux_electricite|floatformat:2}}</td>
+        <td>{{icc.revetement_des_murs_et_sols|floatformat:2}}</td>
+        <td>{{icc.peinture_vernis_chaux|floatformat:2}}</td>
+        <td>{{icc.materiaux_pour_etancheite|floatformat:2}}</td>
+        {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'icc-delete' trimestre=icc.trimestre %}" ><span class="btn btn-danger">Supprimer</span></a>
         </td>
         <td>
           <a href="{% url 'icc-update' trimestre=icc.trimestre %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
+        {%endif%}
        </tr>
       {%endfor%}
     </tbody>

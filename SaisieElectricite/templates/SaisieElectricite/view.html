@@ -7,23 +7,27 @@
         <th>Millions de KW-H</th>
         <th>MM(BT)</th>
         <th>MM(BT)</th>
+        {% if user.groups.all.0.name == "modifieur" %}
         <th>Supprimer</th>
         <th>Modifier</th>
+        {%endif%}
       </tr>
     </thead>
     <tbody>
       {% for se in ses %}
        <tr>
         <td>{{se.date}}</td>
-        <td>{{se.millions_de_kw_h}}</td>
-        <td>{{se.mm_bt}}</td>
-        <td>{{se.mm_mt}}</td>
+        <td>{{se.millions_de_kw_h|floatformat:2}}</td>
+        <td>{{se.mm_bt|floatformat:2}}</td>
+        <td>{{se.mm_mt|floatformat:2}}</td>
+        {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'saisieelec-delete' date=se.date %}" ><span class="btn btn-danger">Supprimer</span></a>
         </td>
         <td>
           <a href="{% url 'saisieelec-update' date=se.date %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
+        {%endif%}
        </tr>
       {%endfor%}
     </tbody>

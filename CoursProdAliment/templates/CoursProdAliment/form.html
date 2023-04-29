@@ -5,7 +5,7 @@
         <form method="POST" action="{% url 'coursprodaliment-save' %}">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Cours Produit Alimentaire Form</legend>
+                <legend class="border-bottom mb-4">Formulaire Cours Produit Alimentaire</legend>
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">

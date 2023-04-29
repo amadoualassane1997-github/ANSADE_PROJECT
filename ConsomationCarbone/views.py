@@ -9,13 +9,23 @@ from django.contrib.auth.decorators import login_required
 from authentification.decorators import allowed_users
 from ConsomationCarbone.forms import ConsomationCarboneForm
 from ConsomationCarbone.models import ConsomationCarbone
+import calendar
 
 # Create your views here.
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def save(request):
     if request.method=='POST':
-        form=ConsomationCarboneForm(request.POST)
+        request.POST._mutable=True
+        date=request.POST['date']
+        m=list(date.split("-"))
+        n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+        date=datetime.date(int(m[0]),int(m[1]),n)
+        request.POST['date']=date
+        if ConsomationCarbone.objects.filter(date=date).exists():
+            form=ConsomationCarboneForm(request.POST,instance=ConsomationCarbone.objects.get(date=date))
+        else:
+            form=ConsomationCarboneForm(request.POST)
         if form.is_valid():
             try:
                 
@@ -33,14 +43,14 @@ def view(request):
     return render(request,'ConsomationCarbone/view.html',{'ccs':ccs})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def delete(request,date):
     cc=ConsomationCarbone.objects.get(date=date)
     cc.delete()
     return redirect('consco2-view')
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def update(request,date):
     if request.method=='POST':
         form=ConsomationCarboneForm(request.POST,instance=ConsomationCarbone.objects.get(date=date))
@@ -62,7 +72,7 @@ def update(request,date):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -75,10 +85,12 @@ def import_excel(request):
         dbframe.fillna(0,inplace=True)
         list_of_excel=[list(row) for row in dbframe.values]
         for l in list_of_excel:
-            obj = ConsomationCarbone.objects.create(date=l[0],essence=l[1],
+            m=list(str(l[0]).split("-"))
+            n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+            date=datetime.date(int(m[0]),int(m[1]),n)
+            l[0]=date
+            obj = ConsomationCarbone.objects.update_or_create(date=l[0],essence=l[1],
     kerosene=l[2],gas_oil=l[3],fuel_oil=l[4])
-            if obj !=None :
-                obj.save()
         return redirect('consco2-view')   
     return render(request,'ConsomationCarbone/import.html')
 

@@ -5,7 +5,7 @@
         <form method="POST" action="{% url 'consco2-save' %}">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Consmmation Carbone Form</legend>
+                <legend class="border-bottom mb-4">Formulaire Consmmation Carbone</legend>
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">

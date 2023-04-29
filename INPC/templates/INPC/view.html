@@ -17,33 +17,37 @@
         <th>Enseignement</th>
         <th>Restaurants et Hôtels</th>
         <th>Biens et services divers</th>
+        {% if user.groups.all.0.name == "modifieur" %}
         <th>Supprimer</th>
         <th>Modifier</th>
+        {%endif%}
       </tr>
     </thead>
     <tbody>
       {% for inpc in inpcs %}
        <tr>
         <td>{{inpc.date}}</td>
-        <td>{{inpc.inpc_global}}</td>
-        <td>{{inpc.prod_alim_et_boiss_non_alcool_fr}}</td>
-        <td>{{inpc.tabac_et_stupefiant}}</td>
-        <td>{{inpc.art_habmnt_et_chauss}}</td>
-        <td>{{inpc.log_eau_gaz_elec_et_autre_combtible}}</td>
-        <td>{{inpc.meub_art_menage_et_entre_courant_du_foyer}}</td>
-        <td>{{inpc.sante}}</td>
-        <td>{{inpc.transport}}</td>
-        <td>{{inpc.communication}}</td>
-        <td>{{inpc.loisir_et_culture}}</td>
-        <td>{{inpc.enseignement}}</td>
-        <td>{{inpc.restaurant_et_hotel}}</td>
-        <td>{{inpc.bien_et_service_diver}}</td>
+        <td>{{inpc.inpc_global|floatformat:2}}</td>
+        <td>{{inpc.produits_alimentaires_et_boissons_non_alcolises|floatformat:2}}</td>
+        <td>{{inpc.tabac_et_stupefiant|floatformat:2}}</td>
+        <td>{{inpc.articles_habillement_et_chaussures|floatformat:2}}</td>
+        <td>{{inpc.logement_eau_gaz_electricites_et_autre_combistible|floatformat:2}}</td>
+        <td>{{inpc.meubles_articles_de_menages_et_entretient_courant_du_foyer|floatformat:2}}</td>
+        <td>{{inpc.sante|floatformat:2}}</td>
+        <td>{{inpc.transport|floatformat:2}}</td>
+        <td>{{inpc.communication|floatformat:2}}</td>
+        <td>{{inpc.loisir_et_culture|floatformat:2}}</td>
+        <td>{{inpc.enseignement|floatformat:2}}</td>
+        <td>{{inpc.restaurant_et_hotel|floatformat:2}}</td>
+        <td>{{inpc.bien_et_service_diver|floatformat:2}}</td>
+        {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'inpc-delete' date=inpc.date %}" ><span class="btn btn-danger">Supprimer</span></a>
         </td>
         <td>
           <a href="{% url 'inpc-update' date=inpc.date %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
+        {%endif%}
        </tr>
       {%endfor%}
     </tbody>

@@ -9,14 +9,24 @@ from django.contrib.auth.decorators import login_required
 from authentification.decorators import allowed_users
 from INPC.forms import InpcForm
 from INPC.models import Inpc
+import calendar
 
 # Create your views here.
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def save(request):
     if request.method=='POST':
-        form=InpcForm(request.POST)
+        request.POST._mutable=True
+        date=request.POST['date']
+        m=list(date.split("-"))
+        n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+        date=datetime.date(int(m[0]),int(m[1]),n)
+        request.POST['date']=date
+        if Inpc.objects.filter(date=date).exists():
+            form=InpcForm(request.POST,instance=Inpc.objects.get(date=date))
+        else:
+            form=InpcForm(request.POST)
         if form.is_valid():
             try:
                 
@@ -34,14 +44,14 @@ def view(request):
     return render(request,'INPC/view.html',{'inpcs':inpcs})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def delete(request,date):
     inpc=Inpc.objects.get(date=date)
     inpc.delete()
     return redirect('inpc-view')
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])   
+@allowed_users(allowed_roles=['modifieur'])   
 def update(request,date):
     if request.method=='POST':
         form=InpcForm(request.POST,instance=Inpc.objects.get(date=date))
@@ -62,7 +72,7 @@ def update(request,date):
     return render(request,'INPC/update.html',{'context':context})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin']) 
+@allowed_users(allowed_roles=['modifieur']) 
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -75,11 +85,13 @@ def import_excel(request):
         dbframe.fillna(0,inplace=True)
         list_of_excel=[list(row) for row in dbframe.values]
         for l in list_of_excel:
-            obj = Inpc.objects.create(date=l[0],inpc_global=l[1],
-    prod_alim_et_boiss_non_alcool_fr=l[2],tabac_et_stupefiant=l[3],art_habmnt_et_chauss=l[4],log_eau_gaz_elec_et_autre_combtible=l[5],meub_art_menage_et_entre_courant_du_foyer=l[6],sante=l[7]
+            m=list(str(l[0]).split("-"))
+            n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+            date=datetime.date(int(m[0]),int(m[1]),n)
+            l[0]=date
+            obj = Inpc.objects.update_or_create(date=l[0],inpc_global=l[1],
+    produits_alimentaires_et_boissons_non_alcolises=l[2],tabac_et_stupefiant=l[3],articles_habillement_et_chaussures=l[4],logement_eau_gaz_electricites_et_autre_combistible=l[5],meubles_articles_de_menages_et_entretient_courant_du_foyer=l[6],sante=l[7]
     ,transport=l[8],communication=l[9],loisir_et_culture=l[10],enseignement=l[11],restaurant_et_hotel=l[12],bien_et_service_diver=l[13])
-            if obj !=None :
-                obj.save()
         return redirect('inpc-view')   
     return render(request,'INPC/import.html')
 
@@ -109,8 +121,8 @@ def export_excel(request):
         for col_num in range(len(columns)):
             ws.write(row_num, col_num, columns[col_num], font_style)
 
-        rows=Inpc.objects.filter(date__range=(d1,d2)).values_list('date','inpc_global','prod_alim_et_boiss_non_alcool_fr','tabac_et_stupefiant','art_habmnt_et_chauss',
-    'log_eau_gaz_elec_et_autre_combtible','meub_art_menage_et_entre_courant_du_foyer','sante','transport','communication','loisir_et_culture',
+        rows=Inpc.objects.filter(date__range=(d1,d2)).values_list('date','inpc_global','produits_alimentaires_et_boissons_non_alcolises','tabac_et_stupefiant','articles_habillement_et_chaussures',
+    'logement_eau_gaz_electricites_et_autre_combistible','meubles_articles_de_menages_et_entretient_courant_du_foyer','sante','transport','communication','loisir_et_culture',
     'enseignement','restaurant_et_hotel','bien_et_service_diver')
         for row in rows:
             row_num += 1

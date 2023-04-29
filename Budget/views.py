@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from Budget.forms import BudgetForm
 from Budget.models import Budget
 from django import forms
@@ -9,16 +10,26 @@ from django.http import HttpResponse
 import datetime
 from django.contrib.auth.decorators import login_required
 from authentification.decorators import allowed_users
+import calendar
+import json
 # Create your views here.
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def save(request):
     if request.method=='POST':
-        form=BudgetForm(request.POST)
+        request.POST._mutable=True
+        date=request.POST['date']
+        m=list(date.split("-"))
+        n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+        date=datetime.date(int(m[0]),int(m[1]),n)
+        request.POST['date']=date
+        if Budget.objects.filter(date=date).exists():
+            form=BudgetForm(request.POST,instance=Budget.objects.get(date=date))
+        else:
+            form=BudgetForm(request.POST)
         if form.is_valid():
             try:
-                
                 form.save()
                 return redirect('budget-view')
             except:
@@ -34,7 +45,7 @@ def view(request):
     return render(request,'Budget/view.html',{'bgs':bgs})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def delete(request,date):
     bg=Budget.objects.get(date=date)
     bg.delete()
@@ -42,7 +53,7 @@ def delete(request,date):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def update(request,date):
     if request.method=='POST':
         form=BudgetForm(request.POST,instance=Budget.objects.get(date=date))
@@ -63,7 +74,7 @@ def update(request,date):
     return render(request,'Budget/update.html',{'context':context})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -76,12 +87,14 @@ def import_excel(request):
         dbframe.fillna(0,inplace=True)
         list_of_excel=[list(row) for row in dbframe.values]
         for l in list_of_excel:
-            obj = Budget.objects.create(date=l[0],rectettes_totales=l[1],
+            m=list(str(l[0]).split("-"))
+            n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+            date=datetime.date(int(m[0]),int(m[1]),n)
+            l[0]=date
+            Budget.objects.update_or_create(date=l[0],rectettes_totales=l[1],
     recettes_fiscales=l[2],recettes_non_fiscales=l[3],recettes_petro_net=l[4],
     dont=l[5],depences_et_prets_net=l[6],depences_courant=l[7],
     depences_equipe_et_prets_net=l[8],restructurations_equipe_et_prets_net=l[9],solde_globale_dons_compris=l[10])
-            if obj !=None :
-                obj.save()
         return redirect('budget-view')   
     return render(request,'Budget/import.html')
 

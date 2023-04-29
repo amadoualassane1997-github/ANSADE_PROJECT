@@ -8,12 +8,17 @@ from django.contrib.auth.decorators import login_required
 from authentification.decorators import allowed_users
 from CroissanceMondiale.forms import CroissanceMondialeForm
 from CroissanceMondiale.models import CroissanceMondiale
+
 # Create your views here.
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def save(request):
     if request.method=='POST':
-        form=CroissanceMondialeForm(request.POST)
+        trimestre=request.POST['trimestre']
+        if CroissanceMondiale.objects.filter(trimestre=trimestre).exists():
+            form=CroissanceMondialeForm(request.POST,instance=CroissanceMondiale.objects.get(trimestre=trimestre))
+        else:
+            form=CroissanceMondialeForm(request.POST)
         if form.is_valid():
             try:
                 
@@ -31,7 +36,7 @@ def view(request):
     return render(request,'CroissanceMondiale/view.html',{'cms':cms})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def delete(request,trimestre):
     cm=CroissanceMondiale.objects.get(trimestre=trimestre)
     cm.delete()
@@ -39,7 +44,7 @@ def delete(request,trimestre):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def update(request,trimestre):
     if request.method=='POST':
         form=CroissanceMondialeForm(request.POST,instance=CroissanceMondiale.objects.get(trimestre=trimestre))
@@ -60,7 +65,7 @@ def update(request,trimestre):
     return render(request,'CroissanceMondiale/update.html',{'context':context})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -73,10 +78,8 @@ def import_excel(request):
         dbframe.fillna(0,inplace=True)
         list_of_excel=[list(row) for row in dbframe.values]
         for l in list_of_excel:
-            obj = CroissanceMondiale.objects.create(trimestre=l[0],usa=l[1],
+            CroissanceMondiale.objects.update_or_create(trimestre=l[0],usa=l[1],
     france=l[2],allemagne=l[3],japon=l[4],royaume_uni=l[5],italie=l[6],canada=l[7])
-            if obj !=None :
-                obj.save()
         return redirect('croismdle-view')   
     return render(request,'CroissanceMondiale/import.html')
 

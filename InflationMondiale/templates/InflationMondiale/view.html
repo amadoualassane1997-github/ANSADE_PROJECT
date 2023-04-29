@@ -11,27 +11,31 @@
         <th>Royaume-Uni</th>
         <th>Italie</th>
         <th>Canada</th>
+        {% if user.groups.all.0.name == "modifieur" %}
         <th>Supprimer</th>
         <th>Modifier</th>
+        {%endif%}
       </tr>
     </thead>
     <tbody>
       {% for inf in infs %}
        <tr>
         <td>{{inf.date}}</td>
-        <td>{{inf.usa}}</td>
-        <td>{{inf.france}}</td>
-        <td>{{inf.allemagne}}</td>
-        <td>{{inf.japon}}</td>
-        <td>{{inf.royaume_uni}}</td>
-        <td>{{inf.italie}}</td>
-        <td>{{inf.canada}}</td>
+        <td>{{inf.usa|floatformat:2}}</td>
+        <td>{{inf.france|floatformat:2}}</td>
+        <td>{{inf.allemagne|floatformat:2}}</td>
+        <td>{{inf.japon|floatformat:2}}</td>
+        <td>{{inf.royaume_uni|floatformat:2}}</td>
+        <td>{{inf.italie|floatformat:2}}</td>
+        <td>{{inf.canada|floatformat:2}}</td>
+        {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'inflamdle-delete' date=inf.date %}" ><span class="btn btn-danger">Supprimer</span></a>
         </td>
         <td>
           <a href="{% url 'inflamdle-update' date=inf.date %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
+        {%endif%}
        </tr>
       {%endfor%}
     </tbody>

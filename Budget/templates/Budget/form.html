@@ -5,7 +5,7 @@
         <form method="POST" action="{% url 'budget-save' %}">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Budget Form</legend>
+                <legend class="border-bottom mb-4">Formulaire Budget</legend>
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">

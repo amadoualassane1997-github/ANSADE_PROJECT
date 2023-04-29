@@ -42,6 +42,7 @@ urlpatterns = [
     re_path(r'Importation/', include('Importation.urls')),
     re_path(r'Exportation/', include('Exportation.urls')),
     re_path(r'CommerceExterieur/', include('CommerceExterieur.urls')),
+    re_path(r'IPI/', include('IPI.urls')),
     
 
 ]

@@ -5,284 +5,343 @@
   <thead class="thead-dark">
     <tr>
       <th>Conjonctures</th>
+      {% if user.groups.all.0.name == "modifieur" %}
       <th>Importer</th>
-      <th>Exporter</th>
       <th>Saisir</th>
-      <th>Vusialiser</th>
+      {% endif %}
+      <th>Exporter</th>
+      <th>Visualiser</th>
+      <th>Tableau de bord</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>Monnaie Change</th>
+      {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'monnaiechange-import' %}"><span class="btn btn-success">Importer</span></a>
       </td>
       <td>
+        <a href="{% url 'monnaiechange-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      {% endif %}
+      <td>
         <a href="{% url 'monnaiechange-export' %}"><span class="btn btn-warning">Exporter</span></a>
       </td>
       <td>
-        <a href="{% url 'monnaiechange-save' %}"><span class="btn btn-info">Saisir</span></a>
+        <a href="{% url 'monnaiechange-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
       <td>
-        <a href="{% url 'monnaiechange-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+        <a href="{% url 'monnaiechange-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
       </td>
     </tr>
     <tr>
-      <th>Cours Matiére Prémiere</th>
+      <th>Cours Matière première</th>
+      {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'coursmatprem-import' %}"><span class="btn btn-success">Importer</span></a>
       </td>
       <td>
+        <a href="{% url 'coursmatprem-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      {% endif %}
+      <td>
         <a href="{% url 'coursmatprem-export' %}"><span class="btn btn-warning">Exporter</span></a>
       </td>
       <td>
-        <a href="{% url 'coursmatprem-save' %}"><span class="btn btn-info">Saisir</span></a>
-      </td>
-      <td>
-        <a href="{% url 'coursmatprem-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+        <a href="{% url 'coursmatprem-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
     </tr>
     <tr>
       <th>Cours Produit Alimentaire</th>
+      {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'coursprodaliment-import' %}"><span class="btn btn-success">Importer</span></a>
       </td>
       <td>
+        <a href="{% url 'coursprodaliment-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      {% endif %}
+      <td>
         <a href="{% url 'coursprodaliment-export' %}"><span class="btn btn-warning">Exporter</span></a>
       </td>
       <td>
-        <a href="{% url 'coursprodaliment-save' %}"><span class="btn btn-info">Saisir</span></a>
-      </td>
-      <td>
-        <a href="{% url 'coursprodaliment-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+        <a href="{% url 'coursprodaliment-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
     </tr>
     <tr>
       <th>Budget</th>
+      {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'budget-import' %}"><span class="btn btn-success">Importer</span></a>
       </td>
       <td>
+        <a href="{% url 'budget-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      {% endif %}
+      <td>
         <a href="{% url 'budget-export' %}"><span class="btn btn-warning">Exporter</span></a>
       </td>
       <td>
-        <a href="{% url 'budget-save' %}"><span class="btn btn-info">Saisir</span></a>
-      </td>
-      <td>
-        <a href="{% url 'budget-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+        <a href="{% url 'budget-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
     </tr>
     <tr>
       <th>Inflation Mondiale</th>
+      {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'inflamdle-import' %}"><span class="btn btn-success">Importer</span></a>
       </td>
       <td>
+        <a href="{% url 'inflamdle-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      {% endif %}
+      <td>
         <a href="{% url 'inflamdle-export' %}"><span class="btn btn-warning">Exporter</span></a>
       </td>
       <td>
-        <a href="{% url 'inflamdle-save' %}"><span class="btn btn-info">Saisir</span></a>
-      </td>
-      <td>
-        <a href="{% url 'inflamdle-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+        <a href="{% url 'inflamdle-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
     </tr>
     <tr>
       <th>INPC</th>
+      {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'inpc-import' %}"><span class="btn btn-success">Importer</span></a>
       </td>
       <td>
+        <a href="{% url 'inpc-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      {% endif %}
+      <td>
         <a href="{% url 'inpc-export' %}"><span class="btn btn-warning">Exporter</span></a>
       </td>
       <td>
-        <a href="{% url 'inpc-save' %}"><span class="btn btn-info">Saisir</span></a>
-      </td>
-      <td>
-        <a href="{% url 'inpc-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+        <a href="{% url 'inpc-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
     </tr>
     <tr>
       <th>Trafic Total Maritime</th>
+      {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'trafictotalmaritime-import' %}"><span class="btn btn-success">Importer</span></a>
       </td>
       <td>
+        <a href="{% url 'trafictotalmaritime-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      {% endif %}
+      <td>
         <a href="{% url 'trafictotalmaritime-export' %}"><span class="btn btn-warning">Exporter</span></a>
       </td>
       <td>
-        <a href="{% url 'trafictotalmaritime-save' %}"><span class="btn btn-info">Saisir</span></a>
-      </td>
-      <td>
-        <a href="{% url 'trafictotalmaritime-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+        <a href="{% url 'trafictotalmaritime-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
     </tr>
     <tr>
-      <th>Saisie Electricité</th>
+      <th>Electricité</th>
+      {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'saisieelec-import' %}"><span class="btn btn-success">Importer</span></a>
       </td>
       <td>
+        <a href="{% url 'saisieelec-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      {% endif %}
+      <td>
         <a href="{% url 'saisieelec-export' %}"><span class="btn btn-warning">Exporter</span></a>
       </td>
       <td>
-        <a href="{% url 'saisieelec-save' %}"><span class="btn btn-info">Saisir</span></a>
-      </td>
-      <td>
-        <a href="{% url 'saisieelec-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+        <a href="{% url 'saisieelec-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
     </tr>
     <tr>
-      <th>Transport Aerien</th>
+      <th>Transport Aérien</th>
+      {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'transaerien-import' %}"><span class="btn btn-success">Importer</span></a>
       </td>
       <td>
+        <a href="{% url 'transaerien-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      {% endif %}
+      <td>
         <a href="{% url 'transaerien-export' %}"><span class="btn btn-warning">Exporter</span></a>
       </td>
       <td>
-        <a href="{% url 'transaerien-save' %}"><span class="btn btn-info">Saisir</span></a>
-      </td>
-      <td>
-        <a href="{% url 'transaerien-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+        <a href="{% url 'transaerien-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
     </tr>
     <tr>
       <th>Consommation Carbone</th>
+      {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'consco2-import' %}"><span class="btn btn-success">Importer</span></a>
       </td>
       <td>
+        <a href="{% url 'consco2-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      {% endif %}
+      <td>
         <a href="{% url 'consco2-export' %}"><span class="btn btn-warning">Exporter</span></a>
       </td>
       <td>
-        <a href="{% url 'consco2-save' %}"><span class="btn btn-info">Saisir</span></a>
-      </td>
-      <td>
-        <a href="{% url 'consco2-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+        <a href="{% url 'consco2-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
     </tr>
     <tr>
     <th>Capture Poissons</th>
+    {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'capp-import' %}"><span class="btn btn-success">Importer</span></a>
       </td>
       <td>
+        <a href="{% url 'capp-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      {% endif %}
+      <td>
         <a href="{% url 'capp-export' %}"><span class="btn btn-warning">Exporter</span></a>
       </td>
       <td>
-        <a href="{% url 'capp-save' %}"><span class="btn btn-info">Saisir</span></a>
-      </td>
-      <td>
-        <a href="{% url 'capp-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+        <a href="{% url 'capp-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
     </tr>
   </tr>
   <tr>
     <th>Eau & Electricité</th>
+    {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'eelec-import' %}"><span class="btn btn-success">Importer</span></a>
       </td>
       <td>
+        <a href="{% url 'eelec-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      {% endif %}
+      <td>
         <a href="{% url 'eelec-export' %}"><span class="btn btn-warning">Exporter</span></a>
       </td>
       <td>
-        <a href="{% url 'eelec-save' %}"><span class="btn btn-info">Saisir</span></a>
-      </td>
-      <td>
-        <a href="{% url 'eelec-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+        <a href="{% url 'eelec-view' %}"><span class="btn btn-primary">Visualiseer</span></a>
       </td>
     </tr>
   </tr>
   <tr>
     <th>ICC</th>
+    {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'icc-import' %}"><span class="btn btn-success">Importer</span></a>
       </td>
       <td>
+        <a href="{% url 'icc-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      {% endif %}
+      <td>
         <a href="{% url 'icc-export' %}"><span class="btn btn-warning">Exporter</span></a>
       </td>
       <td>
-        <a href="{% url 'icc-save' %}"><span class="btn btn-info">Saisir</span></a>
-      </td>
-      <td>
-        <a href="{% url 'icc-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+        <a href="{% url 'icc-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
     </tr>
   </tr>
   <tr>
     <th>Croissance Mondiale</th>
+    {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'croismdle-import' %}"><span class="btn btn-success">Importer</span></a>
       </td>
       <td>
+        <a href="{% url 'croismdle-save' %}"><span class="btn btn-info">Saisir</span></a>
+      </td>
+      {% endif %}
+      <td>
         <a href="{% url 'croismdle-export' %}"><span class="btn btn-warning">Exporter</span></a>
       </td>
       <td>
-        <a href="{% url 'croismdle-save' %}"><span class="btn btn-info">Saisir</span></a>
-      </td>
-      <td>
-        <a href="{% url 'croismdle-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+        <a href="{% url 'croismdle-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
     </tr>
     <tr>
       <th>Production Cuivre & Or</th>
+      {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'prodcror-import' %}"><span class="btn btn-success">Importer</span></a>
         </td>
         <td>
+          <a href="{% url 'prodcror-save' %}"><span class="btn btn-info">Saisir</span></a>
+        </td>
+        {% endif %}
+        <td>
           <a href="{% url 'prodcror-export' %}"><span class="btn btn-warning">Exporter</span></a>
         </td>
         <td>
-          <a href="{% url 'prodcror-save' %}"><span class="btn btn-info">Saisir</span></a>
-        </td>
-        <td>
-          <a href="{% url 'prodcror-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+          <a href="{% url 'prodcror-view' %}"><span class="btn btn-primary">Visualiser</span></a>
        </td>
     </tr>
     <tr>
       <th>Importation</th>
+      {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'imp-import' %}"><span class="btn btn-success">Importer</span></a>
         </td>
         <td>
+          <a href="{% url 'imp-save' %}"><span class="btn btn-info">Saisir</span></a>
+        </td>
+        {% endif %}
+        <td>
           <a href="{% url 'imp-export' %}"><span class="btn btn-warning">Exporter</span></a>
         </td>
         <td>
-          <a href="{% url 'imp-save' %}"><span class="btn btn-info">Saisir</span></a>
-        </td>
-        <td>
-          <a href="{% url 'imp-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+          <a href="{% url 'imp-view' %}"><span class="btn btn-primary">Visualiser</span></a>
        </td>
     </tr>
     <tr>
       <th>Exportation</th>
+      {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'exp-import' %}"><span class="btn btn-success">Importer</span></a>
         </td>
         <td>
+          <a href="{% url 'exp-save' %}"><span class="btn btn-info">Saisir</span></a>
+        </td>
+        {% endif %}
+        <td>
           <a href="{% url 'exp-export' %}"><span class="btn btn-warning">Exporter</span></a>
         </td>
         <td>
-          <a href="{% url 'exp-save' %}"><span class="btn btn-info">Saisir</span></a>
-        </td>
-        <td>
-          <a href="{% url 'exp-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+          <a href="{% url 'exp-view' %}"><span class="btn btn-primary">Visualiser</span></a>
        </td>
     </tr>
     <tr>
       <th>Commerce Extérieur</th>
+      {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'comext-import' %}"><span class="btn btn-success">Importer</span></a>
         </td>
         <td>
+          <a href="{% url 'comext-save' %}"><span class="btn btn-info">Saisir</span></a>
+        </td>
+        {% endif %}
+        <td>
           <a href="{% url 'comext-export' %}"><span class="btn btn-warning">Exporter</span></a>
         </td>
         <td>
-          <a href="{% url 'comext-save' %}"><span class="btn btn-info">Saisir</span></a>
+          <a href="{% url 'comext-view' %}"><span class="btn btn-primary">Visualiser</span></a>
+       </td>
+    </tr>
+    <tr>
+      <th>IPI</th>
+      {% if user.groups.all.0.name == "modifieur" %}
+        <td>
+          <a href="{% url 'ipi-import' %}"><span class="btn btn-success">Importer</span></a>
         </td>
         <td>
-          <a href="{% url 'comext-view' %}"><span class="btn btn-primary">Vusialiser</span></a>
+          <a href="{% url 'ipi-save' %}"><span class="btn btn-info">Saisir</span></a>
+        </td>
+        {% endif %}
+        <td>
+          <a href="{% url 'ipi-export' %}"><span class="btn btn-warning">Exporter</span></a>
+        </td>
+        <td>
+          <a href="{% url 'ipi-view' %}"><span class="btn btn-primary">Visualiser</span></a>
        </td>
     </tr>
   </div>

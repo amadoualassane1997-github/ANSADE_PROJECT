@@ -5,7 +5,7 @@
         <form method="POST" action="{% url 'comext-save' %}">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Commerce Exterieur Form</legend>
+                <legend class="border-bottom mb-4">Formulaire Commerce Exterieur</legend>
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">

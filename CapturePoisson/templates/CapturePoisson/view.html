@@ -9,25 +9,29 @@
         <th>CEPHALOPODES</th>
         <th>CRUSTACES</th>
         <th>CAPTURES TOTALES</th>
+        {% if user.groups.all.0.name == "modifieur" %}
         <th>Supprimer</th>
         <th>Modifier</th>
+        {%endif%}
       </tr>
     </thead>
     <tbody>
       {% for cp in cps %}
        <tr>
         <td>{{cp.date}}</td>
-        <td>{{cp.pelagiques}}</td>
-        <td>{{cp.demersaux}}</td>
-        <td>{{cp.cephalopodes}}</td>
-        <td>{{cp.crustaces}}</td>
-        <td>{{cp.capture_total}}</td>
+        <td>{{cp.pelagiques|floatformat:2}}</td>
+        <td>{{cp.demersaux|floatformat:2}}</td>
+        <td>{{cp.cephalopodes|floatformat:2}}</td>
+        <td>{{cp.crustaces|floatformat:2}}</td>
+        <td>{{cp.capture_total|floatformat:2}}</td>
+        {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'capp-delete' date=cp.date %}" ><span class="btn btn-danger">Supprimer</span></a>
         </td>
         <td>
           <a href="{% url 'capp-update' date=cp.date %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
+        {%endif%}
        </tr>
       {%endfor%}
     </tbody>

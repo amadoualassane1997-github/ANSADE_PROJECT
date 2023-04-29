@@ -13,29 +13,33 @@
         <th>Dinar Algerien</th>
         <th>Franc CFA</th>
         <th>DTS</th>
+        {% if user.groups.all.0.name == "modifieur" %}
         <th>Supprimer</th>
         <th>Modifier</th>
+        {%endif%}
       </tr>
     </thead>
     <tbody>
       {% for mc in mcs %}
        <tr>
         <td>{{mc.date}}</td>
-        <td>{{mc.dollar_des_u_e}}</td>
-        <td>{{mc.euro}}</td>
-        <td>{{mc.sterling}}</td>
-        <td>{{mc.yen}}</td>
-        <td>{{mc.dirham_marocain}}</td>
-        <td>{{mc.dinar_tunisien}}</td>
-        <td>{{mc.dinar_algerien}}</td>
-        <td>{{mc.franc_cfa}}</td>
-        <td>{{mc.dts}}</td>
+        <td>{{mc.dollar_des_u_e|floatformat:2}}</td>
+        <td>{{mc.euro|floatformat:2}}</td>
+        <td>{{mc.sterling|floatformat:2}}</td>
+        <td>{{mc.yen|floatformat:2}}</td>
+        <td>{{mc.dirham_marocain|floatformat:2}}</td>
+        <td>{{mc.dinar_tunisien|floatformat:2}}</td>
+        <td>{{mc.dinar_algerien|floatformat:2}}</td>
+        <td>{{mc.franc_cfa|floatformat:2}}</td>
+        <td>{{mc.dts|floatformat:2}}</td>
+        {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'monnaiechange-delete' date=mc.date %}" ><span class="btn btn-danger">Supprimer</span></a>
         </td>
         <td>
           <a href="{% url 'monnaiechange-update' date=mc.date%}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
+        {%endif%}
        </tr>
       {%endfor%}
     </tbody>

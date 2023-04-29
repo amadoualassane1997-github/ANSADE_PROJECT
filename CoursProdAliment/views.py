@@ -9,13 +9,23 @@ import datetime
 from django import forms
 from django.contrib.auth.decorators import login_required
 from authentification.decorators import allowed_users
+import calendar
 
 # Create your views here.
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def save(request):
     if request.method=='POST':
-        form=CoursProdAlimentForm(request.POST)
+        request.POST._mutable=True
+        date=request.POST['date']
+        m=list(date.split("-"))
+        n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+        date=datetime.date(int(m[0]),int(m[1]),n)
+        request.POST['date']=date
+        if CoursProdAliment.objects.filter(date=date).exists():
+            form=CoursProdAlimentForm(request.POST,instance=CoursProdAliment.objects.get(date=date))
+        else:
+            form=CoursProdAlimentForm(request.POST)
         if form.is_valid():
             try:
                 
@@ -35,7 +45,7 @@ def view(request):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def delete(request,date):
     cpa=CoursProdAliment.objects.get(date=date)
     cpa.delete()
@@ -43,7 +53,7 @@ def delete(request,date):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def update(request,date):
     if request.method=='POST':
         form=CoursProdAlimentForm(request.POST,instance=CoursProdAliment.objects.get(date=date))
@@ -64,7 +74,7 @@ def update(request,date):
     return render(request,'CoursProdAliment/update.html',{'context':context})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -77,12 +87,14 @@ def import_excel(request):
         dbframe.fillna(0,inplace=True)
         list_of_excel=[list(row) for row in dbframe.values]
         for l in list_of_excel:
-            obj = CoursProdAliment.objects.create(date=l[0],ble_eu_par_tonne=l[1],
+            m=list(str(l[0]).split("-"))
+            n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+            date=datetime.date(int(m[0]),int(m[1]),n)
+            l[0]=date
+            obj = CoursProdAliment.objects.update_or_create(date=l[0],ble_eu_par_tonne=l[1],
     riz_eu_par_tonne=l[2],sucre_eu_par_tonne=l[3],the_eu_par_tonne=l[4],
     ble_mu_par_tonne=l[5],riz_mu_par_tonne=l[6],sucre_mu_par_tonne=l[7],
     the_mu_par_tonne=l[8])
-            if obj !=None :
-                obj.save()
         return redirect('coursprodaliment-view')   
     return render(request,'CoursProdAliment/import.html')
 

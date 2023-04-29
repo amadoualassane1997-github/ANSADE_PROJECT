@@ -9,13 +9,23 @@ from django.contrib.auth.decorators import login_required
 from authentification.decorators import allowed_users
 from SaisieElectricite.forms import SaisieElectriciteForm
 from SaisieElectricite.models import SaisieElectricite
+import calendar
 
 # Create your views here.
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def save(request):
     if request.method=='POST':
-        form=SaisieElectriciteForm(request.POST)
+        request.POST._mutable=True
+        date=request.POST['date']
+        m=list(date.split("-"))
+        n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+        date=datetime.date(int(m[0]),int(m[1]),n)
+        request.POST['date']=date
+        if SaisieElectricite.objects.filter(date=date).exists():
+            form=SaisieElectriciteForm(request.POST,instance=SaisieElectricite.objects.get(date=date))
+        else:
+            form=SaisieElectriciteForm(request.POST)
         if form.is_valid():
             try:
                 
@@ -33,14 +43,14 @@ def view(request):
     return render(request,'SaisieElectricite/view.html',{'ses':ses})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def delete(request,date):
     se=SaisieElectricite.objects.get(date=date)
     se.delete()
     return redirect('saisieelec-view')
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def update(request,date):
     if request.method=='POST':
         form=SaisieElectriciteForm(request.POST,instance=SaisieElectricite.objects.get(date=date))
@@ -62,7 +72,7 @@ def update(request,date):
     return render(request,'SaisieElectricite/update.html',{'context':context})
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['modifieur'])
 def import_excel(request):
     if request.method == 'POST' and request.FILES['myfile']:      
         myfile = request.FILES['myfile']
@@ -75,9 +85,11 @@ def import_excel(request):
         dbframe.fillna(0,inplace=True)
         list_of_excel=[list(row) for row in dbframe.values]
         for l in list_of_excel:
-            obj = SaisieElectricite.objects.create(date=l[0],millions_de_kw_h=l[1],mm_bt=l[2],mm_mt=l[3])
-            if obj !=None :
-                obj.save()
+            m=list(str(l[0]).split("-"))
+            n=calendar.monthrange(int(m[0]),int(m[1]))[1]
+            date=datetime.date(int(m[0]),int(m[1]),n)
+            l[0]=date
+            obj = SaisieElectricite.objects.update_or_create(date=l[0],millions_de_kw_h=l[1],mm_bt=l[2],mm_mt=l[3])
         return redirect('saisieelec-view')   
     return render(request,'SaisieElectricite/import.html')
 

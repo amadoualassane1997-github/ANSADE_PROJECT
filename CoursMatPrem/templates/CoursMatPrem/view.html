@@ -14,31 +14,34 @@
         <th>Prix de l'or mauritanien ($ E,U/gramme)</th>
         <th>Cours modial du poisson(en $ E,U /KG)</th>
         <th>Prix du poisson mauritanien($/KG)</th>
+        {% if user.groups.all.0.name == "modifieur" %}
         <th>Supprimer</th>
         <th>Modifier</th>
+        {%endif%}
       </tr>
     </thead>
     <tbody>
       {% for cmp in cmps %}
        <tr>
         <td>{{cmp.date}}</td>
-        <td>{{cmp.cours_mon_pet}}</td>
-        <td>{{cmp.prix_pet_mr}}</td>
-        <td>{{cmp.cours_mon_min_fer_prem_seri}}</td>
-        <td>{{cmp.prix_min_mr}}</td>
-        <td>{{cmp.cours_mon_cuivre}}</td>
-        <td>{{cmp.prix_cuivre_mr}}</td>
-        <td>{{cmp.cours_mon_or}}</td>
-        <td>{{cmp.prix_or_mr}}</td>
-        <td>{{cmp.cours_mon_poisson}}</td>
-        <td>{{cmp.prix_poisson_mr}}</td>
-        
+        <td>{{cmp.cours_mondiale_du_petrole|floatformat:2}}</td>
+        <td>{{cmp.prix_du_petrole_mauritanien|floatformat:2}}</td>
+        <td>{{cmp.cours_mondiale_du_minerai_fer_du_premier_seri|floatformat:2}}</td>
+        <td>{{cmp.prix_du_minerai_mauritanien|floatformat:2}}</td>
+        <td>{{cmp.cours_mondial_du_cuivre|floatformat:2}}</td>
+        <td>{{cmp.prix_du_cuivre_mauritanien|floatformat:2}}</td>
+        <td>{{cmp.cours_mondiale_or|floatformat:2}}</td>
+        <td>{{cmp.prix_or_mauritanien|floatformat:2}}</td>
+        <td>{{cmp.cours_mondiale_de_poisson|floatformat:2}}</td>
+        <td>{{cmp.prix_du_poisson_mauritanien|floatformat:2}}</td>
+        {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'coursmatprem-delete' date=cmp.date %}" ><span class="btn btn-danger">Supprimer</span></a>
         </td>
         <td>
           <a href="{% url 'coursmatprem-update' date=cmp.date %}" ><span class="btn btn-success">Modifier</span></a>   
         </td>
+        {%endif%}
        </tr>
       {%endfor%}
     </tbody>
