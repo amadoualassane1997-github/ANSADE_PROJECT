@@ -140,3 +140,46 @@ def export_excel(request):
     else:
         icc_col=Icc.objects.all().values('trimestre')
         return render(request,'ICC/export.html',{'icc_col':icc_col})
+
+
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    trimestre,icc_global,materiaux_de_construction,biens_et_service_de_gestion_du_chantier,location_de_materiels,main_oeuvre,materiaux_de_base,materiaux_pour_couverture,materiaux_de_menuiserie,materiaux_de_plomberie_et_sanitaire,materiaux_pour_travaux_electricite,revetement_des_murs_et_sols,peinture_vernis_chaux,materiaux_pour_etancheite=[],[],[],[],[],[],[],[],[],[],[],[],[],[]
+    rows=Icc.objects.values_list('trimestre','icc_global','materiaux_de_construction','biens_et_service_de_gestion_du_chantier',
+    'location_de_materiels','main_oeuvre','materiaux_de_base','materiaux_pour_couverture','materiaux_de_menuiserie','materiaux_de_plomberie_et_sanitaire',
+    'materiaux_pour_travaux_electricite','revetement_des_murs_et_sols','peinture_vernis_chaux','materiaux_pour_etancheite')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    trimestre.append(str(row[col_num]))
+                elif col_num==1:
+                    icc_global.append(row[col_num])
+                elif col_num==2:
+                    materiaux_de_construction.append(row[col_num])
+                elif col_num==3:
+                    biens_et_service_de_gestion_du_chantier.append(row[col_num])
+                elif col_num==4:
+                    location_de_materiels.append(row[col_num])
+                elif col_num==5:
+                    main_oeuvre.append(row[col_num])
+                elif col_num==6:
+                    materiaux_de_base.append(row[col_num])
+                elif col_num==7:
+                    materiaux_pour_couverture.append(row[col_num])
+                elif col_num==8:
+                    materiaux_de_menuiserie.append(row[col_num])
+                elif col_num==9:
+                    materiaux_de_plomberie_et_sanitaire.append(row[col_num])
+                elif col_num==10:
+                    materiaux_pour_travaux_electricite.append(row[col_num])
+                elif col_num==11:
+                    revetement_des_murs_et_sols.append(row[col_num])
+                elif col_num==12:
+                    peinture_vernis_chaux.append(row[col_num])
+                else:
+                    materiaux_pour_etancheite.append(row[col_num])
+    
+    return render(request,'ICC/chartjs.html',{'trimestre':trimestre,'icc_global':icc_global,'materiaux_de_construction':materiaux_de_construction,'biens_et_service_de_gestion_du_chantier':biens_et_service_de_gestion_du_chantier,'location_de_materiels':location_de_materiels,'main_oeuvre':main_oeuvre,'materiaux_de_base':materiaux_de_base,'materiaux_pour_couverture':materiaux_pour_couverture,'materiaux_de_menuiserie':materiaux_de_menuiserie,'materiaux_de_plomberie_et_sanitaire':materiaux_de_plomberie_et_sanitaire,'materiaux_pour_travaux_electricite':materiaux_pour_travaux_electricite,'revetement_des_murs_et_sols':revetement_des_murs_et_sols,'peinture_vernis_chaux':peinture_vernis_chaux,'materiaux_pour_etancheite':materiaux_pour_etancheite})
+
+

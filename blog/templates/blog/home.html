@@ -16,7 +16,7 @@
   </thead>
   <tbody>
     <tr>
-      <th>Monnaie Change</th>
+      <th>Échange</th>
       {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'monnaiechange-import' %}"><span class="btn btn-success">Importer</span></a>
@@ -36,7 +36,7 @@
       </td>
     </tr>
     <tr>
-      <th>Cours Matière première</th>
+      <th>Cours matière première</th>
       {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'coursmatprem-import' %}"><span class="btn btn-success">Importer</span></a>
@@ -51,9 +51,12 @@
       <td>
         <a href="{% url 'coursmatprem-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
+      <td>
+        <a href="{% url 'coursmatprem-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
+      </td>
     </tr>
     <tr>
-      <th>Cours Produit Alimentaire</th>
+      <th>Cours produit alimentaire</th>
       {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'coursprodaliment-import' %}"><span class="btn btn-success">Importer</span></a>
@@ -67,6 +70,9 @@
       </td>
       <td>
         <a href="{% url 'coursprodaliment-view' %}"><span class="btn btn-primary">Visualiser</span></a>
+      </td>
+      <td>
+        <a href="{% url 'coursprodaliment-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
       </td>
     </tr>
     <tr>
@@ -85,9 +91,12 @@
       <td>
         <a href="{% url 'budget-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
+      <td>
+        <a href="{% url 'budget-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
+      </td>
     </tr>
     <tr>
-      <th>Inflation Mondiale</th>
+      <th>Inflation mondiale</th>
       {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'inflamdle-import' %}"><span class="btn btn-success">Importer</span></a>
@@ -101,6 +110,9 @@
       </td>
       <td>
         <a href="{% url 'inflamdle-view' %}"><span class="btn btn-primary">Visualiser</span></a>
+      </td>
+      <td>
+        <a href="{% url 'inflamdle-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
       </td>
     </tr>
     <tr>
@@ -119,9 +131,12 @@
       <td>
         <a href="{% url 'inpc-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
+      <td>
+        <a href="{% url 'inpc-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
+      </td>
     </tr>
     <tr>
-      <th>Trafic Total Maritime</th>
+      <th>Trafic maritime</th>
       {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'trafictotalmaritime-import' %}"><span class="btn btn-success">Importer</span></a>
@@ -136,9 +151,12 @@
       <td>
         <a href="{% url 'trafictotalmaritime-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
+      <td>
+        <a href="{% url 'trafictotalmaritime-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
+      </td>
     </tr>
     <tr>
-      <th>Electricité</th>
+      <th>Électricité</th>
       {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'saisieelec-import' %}"><span class="btn btn-success">Importer</span></a>
@@ -153,9 +171,12 @@
       <td>
         <a href="{% url 'saisieelec-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
+      <td>
+        <a href="{% url 'saisieelec-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
+      </td>
     </tr>
     <tr>
-      <th>Transport Aérien</th>
+      <th>Transport aérien</th>
       {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'transaerien-import' %}"><span class="btn btn-success">Importer</span></a>
@@ -170,9 +191,12 @@
       <td>
         <a href="{% url 'transaerien-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
+      <td>
+        <a href="{% url 'transaerien-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
+      </td>
     </tr>
     <tr>
-      <th>Consommation Carbone</th>
+      <th>Consommation carbone</th>
       {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'consco2-import' %}"><span class="btn btn-success">Importer</span></a>
@@ -187,9 +211,12 @@
       <td>
         <a href="{% url 'consco2-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
+      <td>
+        <a href="{% url 'consco2-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
+      </td>
     </tr>
     <tr>
-    <th>Capture Poissons</th>
+    <th>Capture poissons</th>
     {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'capp-import' %}"><span class="btn btn-success">Importer</span></a>
@@ -204,10 +231,13 @@
       <td>
         <a href="{% url 'capp-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
+      <td>
+        <a href="{% url 'capp-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
+      </td>
     </tr>
   </tr>
   <tr>
-    <th>Eau & Electricité</th>
+    <th>Eau & Électricité</th>
     {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'eelec-import' %}"><span class="btn btn-success">Importer</span></a>
@@ -221,6 +251,9 @@
       </td>
       <td>
         <a href="{% url 'eelec-view' %}"><span class="btn btn-primary">Visualiseer</span></a>
+      </td>
+      <td>
+        <a href="{% url 'eelec-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
       </td>
     </tr>
   </tr>
@@ -240,10 +273,13 @@
       <td>
         <a href="{% url 'icc-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
+      <td>
+        <a href="{% url 'icc-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
+      </td>
     </tr>
   </tr>
   <tr>
-    <th>Croissance Mondiale</th>
+    <th>Croissance mondiale</th>
     {% if user.groups.all.0.name == "modifieur" %}
       <td>
         <a href="{% url 'croismdle-import' %}"><span class="btn btn-success">Importer</span></a>
@@ -258,9 +294,12 @@
       <td>
         <a href="{% url 'croismdle-view' %}"><span class="btn btn-primary">Visualiser</span></a>
       </td>
+      <td>
+        <a href="{% url 'croismdle-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
+      </td>
     </tr>
     <tr>
-      <th>Production Cuivre & Or</th>
+      <th>Production cuivre & or</th>
       {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'prodcror-import' %}"><span class="btn btn-success">Importer</span></a>
@@ -275,6 +314,9 @@
         <td>
           <a href="{% url 'prodcror-view' %}"><span class="btn btn-primary">Visualiser</span></a>
        </td>
+       <td>
+        <a href="{% url 'prodcror-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
+     </td>
     </tr>
     <tr>
       <th>Importation</th>
@@ -292,6 +334,9 @@
         <td>
           <a href="{% url 'imp-view' %}"><span class="btn btn-primary">Visualiser</span></a>
        </td>
+       <td>
+        <a href="{% url 'imp-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
+     </td>
     </tr>
     <tr>
       <th>Exportation</th>
@@ -309,9 +354,12 @@
         <td>
           <a href="{% url 'exp-view' %}"><span class="btn btn-primary">Visualiser</span></a>
        </td>
+       <td>
+        <a href="{% url 'exp-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
+     </td>
     </tr>
     <tr>
-      <th>Commerce Extérieur</th>
+      <th>Commerce extérieur</th>
       {% if user.groups.all.0.name == "modifieur" %}
         <td>
           <a href="{% url 'comext-import' %}"><span class="btn btn-success">Importer</span></a>
@@ -326,6 +374,9 @@
         <td>
           <a href="{% url 'comext-view' %}"><span class="btn btn-primary">Visualiser</span></a>
        </td>
+       <td>
+        <a href="{% url 'comext-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
+     </td>
     </tr>
     <tr>
       <th>IPI</th>
@@ -343,6 +394,9 @@
         <td>
           <a href="{% url 'ipi-view' %}"><span class="btn btn-primary">Visualiser</span></a>
        </td>
+       <td>
+        <a href="{% url 'ipi-tb' %}"><span class="btn btn-danger">Tableau de bord</span></a>
+     </td>
     </tr>
   </div>
   </tbody>

@@ -136,3 +136,33 @@ def export_excel(request):
         return response
     else:
         return render(request,'CoursProdAliment/export.html')
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    date,ble_eu_par_tonne,riz_eu_par_tonne,sucre_eu_par_tonne,the_eu_par_tonne,ble_mu_par_tonne,riz_mu_par_tonne,sucre_mu_par_tonne,the_mu_par_tonne=[],[],[],[],[],[],[],[],[]
+    rows=CoursProdAliment.objects.values_list('date','ble_eu_par_tonne','riz_eu_par_tonne','sucre_eu_par_tonne','the_eu_par_tonne',
+    'ble_mu_par_tonne','riz_mu_par_tonne','sucre_mu_par_tonne','the_mu_par_tonne')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    date.append(str(row[col_num]))
+                elif col_num==1:
+                    ble_eu_par_tonne.append(row[col_num])
+                elif col_num==2:
+                    riz_eu_par_tonne.append(row[col_num])
+                elif col_num==3:
+                    sucre_eu_par_tonne.append(row[col_num])
+                elif col_num==4:
+                    the_eu_par_tonne.append(row[col_num])
+                elif col_num==5:
+                    ble_mu_par_tonne.append(row[col_num])
+                elif col_num==6:
+                    riz_mu_par_tonne.append(row[col_num])
+                elif col_num==7:
+                    sucre_mu_par_tonne.append(row[col_num])
+                else:
+                    the_mu_par_tonne.append(row[col_num])
+      
+    return render(request,'CoursProdAliment/chartjs.html',{'date':date,'ble_eu_par_tonne':ble_eu_par_tonne,'riz_eu_par_tonne':riz_eu_par_tonne,'sucre_eu_par_tonne':sucre_eu_par_tonne,'the_eu_par_tonne':the_eu_par_tonne,'ble_mu_par_tonne':ble_mu_par_tonne,'riz_mu_par_tonne':riz_mu_par_tonne,'sucre_mu_par_tonne':sucre_mu_par_tonne,'the_mu_par_tonne':the_mu_par_tonne})
+
+

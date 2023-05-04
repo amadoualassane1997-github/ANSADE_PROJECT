@@ -134,3 +134,28 @@ def export_excel(request):
         return response
     else:
         return render(request,'CapturePoisson/export.html')
+
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    date,pelagiques,demersaux,cephalopodes,crustaces,capture_total=[],[],[],[],[],[]
+    rows=CapturePoisson.objects.values_list('date','pelagiques','demersaux','cephalopodes',
+    'crustaces','capture_total')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    date.append(str(row[col_num]))
+                elif col_num==1:
+                    pelagiques.append(row[col_num])
+                elif col_num==2:
+                    demersaux.append(row[col_num])
+                elif col_num==3:
+                    cephalopodes.append(row[col_num])
+                elif col_num==4:
+                    crustaces.append(row[col_num])
+                else:
+                    capture_total.append(row[col_num])
+      
+    return render(request,'CapturePoisson/chartjs.html',{'date':date,"pelagiques":pelagiques,"demersaux":demersaux,"cephalopodes":cephalopodes,"crustaces":crustaces,"capture_total":capture_total})
+
+

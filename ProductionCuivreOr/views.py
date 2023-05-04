@@ -132,3 +132,21 @@ def export_excel(request):
     else:
         icc_col=ProductionCuivreOr.objects.all().values('trimestre')
         return render(request,'ProductionCuivreOr/export.html',{'icc_col':icc_col})
+
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    trimestre,production_cuivre,or_quantite_en_oz_total=[],[],[]
+    rows=ProductionCuivreOr.objects.values_list('trimestre','production_cuivre','or_quantite_en_oz_total')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    trimestre.append(str(row[col_num]))
+                elif col_num==1:
+                    production_cuivre.append(row[col_num])
+                else:
+                    or_quantite_en_oz_total.append(row[col_num])
+      
+    return render(request,'ProductionCuivreOr/chartjs.html',{'trimestre':trimestre,'production_cuivre':production_cuivre,'or_quantite_en_oz_total':or_quantite_en_oz_total})
+
+

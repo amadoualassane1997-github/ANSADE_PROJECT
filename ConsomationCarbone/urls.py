@@ -8,5 +8,6 @@ urlpatterns = [
     path('update/<str:date>/',views.update,name='consco2-update'),
     path('import',views.import_excel,name='consco2-import'),
     path('export',views.export_excel,name='consco2-export'),
+    path('tb',views.tableau_bord,name='consco2-tb'),
 
 ]

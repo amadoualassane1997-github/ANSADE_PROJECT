@@ -1,0 +1,202 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+
+ <div>
+    <canvas id="myChart" width="1000" height="800"></canvas>
+ </div>
+
+{% endblock content %}
+
+{% block jquery %}
+<script>
+cours_mondiale_du_petrole_c=[]
+prix_du_petrole_mauritanien_c=[]
+cours_mondiale_du_minerai_fer_du_premier_seri_c=[]
+prix_du_minerai_mauritanien_c=[]
+cours_mondial_du_cuivre_c=[]
+prix_du_cuivre_mauritanien_c=[]
+cours_mondiale_or_c=[]
+prix_or_mauritanien_c=[]
+cours_mondiale_de_poisson_c=[]
+prix_du_poisson_mauritanien_c=[]
+var date="{{date}}"
+var cours_mondiale_du_petrole="{{cours_mondiale_du_petrole}}"
+var cours_mondiale_du_minerai_fer_du_premier_seri="{{cours_mondiale_du_minerai_fer_du_premier_seri}}"
+var prix_du_minerai_mauritanien="{{prix_du_minerai_mauritanien}}"
+var cours_mondial_du_cuivre="{{cours_mondial_du_cuivre}}"
+var prix_du_cuivre_mauritanien="{{prix_du_cuivre_mauritanien}}"
+var cours_mondiale_or="{{cours_mondiale_or}}"
+var prix_or_mauritanien="{{prix_or_mauritanien}}"
+var cours_mondiale_de_poisson="{{cours_mondiale_de_poisson}}"
+var prix_du_poisson_mauritanien="{{prix_du_poisson_mauritanien}}"
+var pattern=/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/gi;
+let date_array=date.match(pattern)
+
+let cours_mondiale_du_petrole_array=cours_mondiale_du_petrole.split(",")
+let cours_mondiale_du_minerai_fer_du_premier_seri_array=cours_mondiale_du_minerai_fer_du_premier_seri.split(",")
+let prix_du_minerai_mauritanien_array=prix_du_minerai_mauritanien.split(",")
+let cours_mondial_du_cuivre_array=cours_mondial_du_cuivre.split(",")
+let prix_du_cuivre_mauritanien_array=prix_du_cuivre_mauritanien.split(",")
+let cours_mondiale_or_array=cours_mondiale_or.split(",")
+let prix_or_mauritanien_array=prix_or_mauritanien.split(",")
+let cours_mondiale_de_poisson_array=cours_mondiale_de_poisson.split(",")
+let prix_du_poisson_mauritanien_array=prix_du_poisson_mauritanien.split(",")
+for(i=1;i<=date_array.length;i++){
+  cours_mondiale_du_petrole_c.push(parseFloat(cours_mondiale_du_petrole_array[i]))
+  cours_mondiale_du_minerai_fer_du_premier_seri_c.push(parseFloat(cours_mondiale_du_minerai_fer_du_premier_seri_array[i]))
+  prix_du_minerai_mauritanien_c.push(parseFloat(prix_du_minerai_mauritanien_array[i]))
+  cours_mondial_du_cuivre_c.push(parseFloat(cours_mondial_du_cuivre_array[i]))
+  prix_du_cuivre_mauritanien_c.push(parseFloat(prix_du_cuivre_mauritanien_array[i]))
+  cours_mondiale_or_c.push(parseFloat(cours_mondiale_or_array[i]))
+  prix_or_mauritanien_c.push(parseFloat(prix_or_mauritanien_array[i]))
+  cours_mondiale_de_poisson_c.push(parseFloat(cours_mondiale_de_poisson_array[i]))
+  prix_du_poisson_mauritanien_c.push(parseFloat(prix_du_poisson_mauritanien_array[i]))
+}
+
+
+
+var config = { 
+    type: 'line',
+    data: {
+        labels: date_array,
+        datasets: [{
+            label: 'cours mondiale du petrole', // Name the series
+            data: cours_mondiale_du_petrole_c, // Specify the data values array
+            fill: false,
+            borderColor: '#2196f3', // Add custom color border (Line)
+            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+                  {
+            label: 'cours mondiale du minerai fer', // Name the series
+            data: cours_mondiale_du_minerai_fer_du_premier_seri_c, // Specify the data values array
+            fill: false,
+            borderColor: '#4CAF50', // Add custom color border (Line)
+            backgroundColor: '#4CAF50', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'prix du minerai mauritanien', // Name the series
+            data: prix_du_minerai_mauritanien_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF0000', // Add custom color border (Line)
+            backgroundColor: '#FF0000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'cours mondial du cuivre', // Name the series
+            data: cours_mondial_du_cuivre_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FF00', // Add custom color border (Line)
+            backgroundColor: '#00FF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'prix du cuivre mauritanien', // Name the series
+            data: prix_du_cuivre_mauritanien_c, // Specify the data values array
+            fill: false,
+            borderColor: '#800080', // Add custom color border (Line)
+            backgroundColor: '#800080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'cours mondiale or', // Name the series
+            data: cours_mondiale_or_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF00FF', // Add custom color border (Line)
+            backgroundColor: '#FF00FF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'prix or mauritanien', // Name the series
+            data: prix_or_mauritanien_c, // Specify the data values array
+            fill: false,
+            borderColor: '#000080', // Add custom color border (Line)
+            backgroundColor: '#000080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'cours mondiale de poisson', // Name the series
+            data: cours_mondiale_de_poisson_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FFFF', // Add custom color border (Line)
+            backgroundColor: '#00FFFF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'prix du poisson mauritanien', // Name the series
+            data: prix_du_poisson_mauritanien_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FFFF00', // Add custom color border (Line)
+            backgroundColor: '#FFFF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+    ]
+    },
+    options: {
+      legend: {
+        position: 'top',
+        labels: {
+          fontColor: 'rgb(255, 99, 132)'
+        },
+        onHover: function(event, legendItem) {
+          document.getElementById("myChart").style.cursor = 'pointer';
+        },
+        onClick: function(e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+          ci.data.datasets.forEach(function(e, i) {
+            var meta = ci.getDatasetMeta(i);
+
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = true;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
+            }
+          });
+
+          ci.update();
+        },
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip.opacity) {
+            document.getElementById("myChart").style.cursor = 'default';
+            return;
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: ''
+      },
+      scale: {
+        ticks: {
+        beginAtZero: true
+        }
+      }
+    }
+  };
+
+    window.onload = function() {
+    window.myRadar = new Chart(document.getElementById("myChart"), config);
+  };
+
+</script>
+{% endblock %}
+
+

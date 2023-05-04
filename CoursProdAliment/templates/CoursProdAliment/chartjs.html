@@ -1,0 +1,189 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+
+ <div>
+    <canvas id="myChart" width="1000" height="800"></canvas>
+ </div>
+
+{% endblock content %}
+
+{% block jquery %}
+<script>
+ble_eu_par_tonne_c=[]
+riz_eu_par_tonne_c=[]
+sucre_eu_par_tonne_c=[]
+the_eu_par_tonne_c=[]
+ble_mu_par_tonne_c=[]
+riz_mu_par_tonne_c=[]
+sucre_mu_par_tonne_c=[]
+the_mu_par_tonne_c=[]
+var date="{{date}}"
+var ble_eu_par_tonne="{{ble_eu_par_tonne}}"
+var riz_eu_par_tonne="{{riz_eu_par_tonne}}"
+var sucre_eu_par_tonne="{{sucre_eu_par_tonne}}"
+var the_eu_par_tonne="{{the_eu_par_tonne}}"
+var ble_mu_par_tonne="{{ble_mu_par_tonne}}"
+var riz_mu_par_tonne="{{riz_mu_par_tonne}}"
+var sucre_mu_par_tonne="{{sucre_mu_par_tonne}}"
+var the_mu_par_tonne="{{the_mu_par_tonne}}"
+var pattern=/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/gi;
+let date_array=date.match(pattern)
+
+let ble_eu_par_tonne_array=ble_eu_par_tonne.split(",")
+let riz_eu_par_tonne_array=riz_eu_par_tonne.split(",")
+let sucre_eu_par_tonne_array=sucre_eu_par_tonne.split(",")
+let the_eu_par_tonne_array=the_eu_par_tonne.split(",")
+let ble_mu_par_tonne_array=ble_mu_par_tonne.split(",")
+let riz_mu_par_tonne_array=riz_mu_par_tonne.split(",")
+let sucre_mu_par_tonne_array=sucre_mu_par_tonne.split(",")
+let the_mu_par_tonne_array=the_mu_par_tonne.split(",")
+for(i=1;i<=date_array.length;i++){
+  ble_eu_par_tonne_c.push(parseFloat(ble_eu_par_tonne_array[i]))
+  riz_eu_par_tonne_c.push(parseFloat(riz_eu_par_tonne_array[i]))
+  sucre_eu_par_tonne_c.push(parseFloat(sucre_eu_par_tonne_array[i]))
+  the_eu_par_tonne_c.push(parseFloat(the_eu_par_tonne_array[i]))
+  ble_mu_par_tonne_c.push(parseFloat(ble_mu_par_tonne_array[i]))
+  riz_mu_par_tonne_c.push(parseFloat(riz_mu_par_tonne_array[i]))
+  sucre_mu_par_tonne_c.push(parseFloat(sucre_mu_par_tonne_array[i]))
+  the_mu_par_tonne_c.push(parseFloat(the_mu_par_tonne_array[i]))
+}
+
+
+
+var config = { 
+    type: 'line',
+    data: {
+        labels: date_array,
+        datasets: [{
+            label: 'ble eu par tonne', // Name the series
+            data: ble_eu_par_tonne_c, // Specify the data values array
+            fill: false,
+            borderColor: '#2196f3', // Add custom color border (Line)
+            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+                  {
+            label: 'riz eu par tonne', // Name the series
+            data: riz_eu_par_tonne_c, // Specify the data values array
+            fill: false,
+            borderColor: '#4CAF50', // Add custom color border (Line)
+            backgroundColor: '#4CAF50', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'sucre eu par tonne', // Name the series
+            data: sucre_eu_par_tonne_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF0000', // Add custom color border (Line)
+            backgroundColor: '#FF0000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'the eu par tonne', // Name the series
+            data: the_eu_par_tonne_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FF00', // Add custom color border (Line)
+            backgroundColor: '#00FF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'ble mu par tonne', // Name the series
+            data: ble_mu_par_tonne_c, // Specify the data values array
+            fill: false,
+            borderColor: '#800080', // Add custom color border (Line)
+            backgroundColor: '#800080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'riz mu par tonne', // Name the series
+            data: riz_mu_par_tonne_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF00FF', // Add custom color border (Line)
+            backgroundColor: '#FF00FF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'sucre mu par tonne', // Name the series
+            data: sucre_mu_par_tonne_c, // Specify the data values array
+            fill: false,
+            borderColor: '#000080', // Add custom color border (Line)
+            backgroundColor: '#000080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'the mu par tonne', // Name the series
+            data: the_mu_par_tonne_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FFFF', // Add custom color border (Line)
+            backgroundColor: '#00FFFF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+    ]
+    },
+    options: {
+      legend: {
+        position: 'top',
+        labels: {
+          fontColor: 'rgb(255, 99, 132)'
+        },
+        onHover: function(event, legendItem) {
+          document.getElementById("myChart").style.cursor = 'pointer';
+        },
+        onClick: function(e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+          ci.data.datasets.forEach(function(e, i) {
+            var meta = ci.getDatasetMeta(i);
+
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = true;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
+            }
+          });
+
+          ci.update();
+        },
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip.opacity) {
+            document.getElementById("myChart").style.cursor = 'default';
+            return;
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: ''
+      },
+      scale: {
+        ticks: {
+        beginAtZero: true
+        }
+      }
+    }
+  };
+
+    window.onload = function() {
+    window.myRadar = new Chart(document.getElementById("myChart"), config);
+  };
+
+</script>
+{% endblock %}
+
+

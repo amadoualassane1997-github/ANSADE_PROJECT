@@ -133,3 +133,31 @@ def export_excel(request):
     else:
         icc_col=CroissanceMondiale.objects.all().values('trimestre')
         return render(request,'CroissanceMondiale/export.html',{'icc_col':icc_col})
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    trimestre,usa,france,allemagne,japon,royaume_uni,italie,canada=[],[],[],[],[],[],[],[]
+    rows=CroissanceMondiale.objects.values_list('trimestre','usa','france','allemagne',
+    'japon','royaume_uni','italie','canada')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    trimestre.append(str(row[col_num]))
+                elif col_num==1:
+                    usa.append(row[col_num])
+                elif col_num==2:
+                    france.append(row[col_num])
+                elif col_num==3:
+                    allemagne.append(row[col_num])
+                elif col_num==4:
+                    japon.append(row[col_num])
+                elif col_num==5:
+                    royaume_uni.append(row[col_num])
+                elif col_num==6:
+                    italie.append(row[col_num])
+                else:
+                    canada.append(row[col_num])
+      
+    return render(request,'CroissanceMondiale/chartjs.html',{'trimestre':trimestre,'usa':usa,'france':france,'allemagne':allemagne,'japon':japon,'royaume_uni':royaume_uni,'italie':italie,'canada':canada})
+
+

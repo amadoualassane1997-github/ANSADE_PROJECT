@@ -136,3 +136,49 @@ def export_excel(request):
         return response
     else:
         return render(request,'INPC/export.html')
+    
+
+
+
+
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    date,inpc_global,produits_alimentaires_et_boissons_non_alcolises,tabac_et_stupefiant,articles_habillement_et_chaussures,logement_eau_gaz_electricites_et_autre_combistible,meubles_articles_de_menages_et_entretient_courant_du_foyer,sante,transport,communication,loisir_et_culture,enseignement,restaurant_et_hotel,bien_et_service_diver=[],[],[],[],[],[],[],[],[],[],[],[],[],[]
+    rows=Inpc.objects.values_list('date','inpc_global','produits_alimentaires_et_boissons_non_alcolises','tabac_et_stupefiant','articles_habillement_et_chaussures',
+    'logement_eau_gaz_electricites_et_autre_combistible','meubles_articles_de_menages_et_entretient_courant_du_foyer','sante','transport','communication','loisir_et_culture',
+    'enseignement','restaurant_et_hotel','bien_et_service_diver')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    date.append(str(row[col_num]))
+                elif col_num==1:
+                    inpc_global.append(row[col_num])
+                elif col_num==2:
+                    produits_alimentaires_et_boissons_non_alcolises.append(row[col_num])
+                elif col_num==3:
+                    tabac_et_stupefiant.append(row[col_num])
+                elif col_num==4:
+                    articles_habillement_et_chaussures.append(row[col_num])
+                elif col_num==5:
+                    logement_eau_gaz_electricites_et_autre_combistible.append(row[col_num])
+                elif col_num==6:
+                    meubles_articles_de_menages_et_entretient_courant_du_foyer.append(row[col_num])
+                elif col_num==7:
+                    sante.append(row[col_num])
+                elif col_num==8:
+                    transport.append(row[col_num])
+                elif col_num==9:
+                    communication.append(row[col_num])
+                elif col_num==10:
+                    loisir_et_culture.append(row[col_num])
+                elif col_num==11:
+                    enseignement.append(row[col_num])
+                elif col_num==12:
+                    restaurant_et_hotel.append(row[col_num])
+                else:
+                    bien_et_service_diver.append(row[col_num])
+
+
+      
+    return render(request,'INPC/chartjs.html',{'date':date,'inpc_global':inpc_global,'produits_alimentaires_et_boissons_non_alcolises':produits_alimentaires_et_boissons_non_alcolises,'tabac_et_stupefiant':tabac_et_stupefiant,'articles_habillement_et_chaussures':articles_habillement_et_chaussures,'logement_eau_gaz_electricites_et_autre_combistible':logement_eau_gaz_electricites_et_autre_combistible,'meubles_articles_de_menages_et_entretient_courant_du_foyer':meubles_articles_de_menages_et_entretient_courant_du_foyer,'sante':sante,'transport':transport,'communication':communication,'loisir_et_culture':loisir_et_culture,'enseignement':enseignement,'restaurant_et_hotel':restaurant_et_hotel,'bien_et_service_diver':bien_et_service_diver})

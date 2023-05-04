@@ -132,3 +132,30 @@ def export_excel(request):
         return response
     else:
         return render(request,'InflationMondiale/export.html')
+
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    date,usa,france,allemagne,japon,royaume_uni,italie,canada=[],[],[],[],[],[],[],[]
+    rows=InflationMondiale.objects.values_list('date','usa','france','allemagne','japon',
+    'royaume_uni','italie','canada')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    date.append(str(row[col_num]))
+                elif col_num==1:
+                    usa.append(row[col_num])
+                elif col_num==2:
+                    france.append(row[col_num])
+                elif col_num==3:
+                    allemagne.append(row[col_num])
+                elif col_num==4:
+                    japon.append(row[col_num])
+                elif col_num==5:
+                    royaume_uni.append(row[col_num])
+                elif col_num==6:
+                    italie.append(row[col_num])
+                else:
+                    canada.append(row[col_num])
+      
+    return render(request,'InflationMondiale/chartjs.html',{'date':date,'usa':usa,'france':france,'allemagne':allemagne,'japon':japon,'royaume_uni':royaume_uni,'italie':italie,'canada':canada})

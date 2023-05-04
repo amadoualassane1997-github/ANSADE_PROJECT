@@ -1,0 +1,140 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+
+ <div>
+    <canvas id="myChart" width="1000" height="800"></canvas>
+ </div>
+
+{% endblock content %}
+
+{% block jquery %}
+<script>
+date=[]
+eau_brute_c=[]
+eau_nette_c=[]
+elect_brute_c=[]
+elect_nette_c=[]
+var date="{{date}}"
+var eau_brute="{{eau_brute}}"
+var eau_nette="{{eau_nette}}"
+var elect_brute="{{elect_brute}}"
+var elect_nette="{{elect_nette}}"
+
+var pattern=/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/gi;
+let date_array=date.match(pattern)
+
+let eau_brute_array=eau_brute.split(",")
+let eau_nette_array=eau_nette.split(",")
+let elect_brute_array=elect_brute.split(",")
+let elect_nette_array=elect_nette.split(",")
+
+for(i=1;i<=date_array.length;i++){
+  eau_brute_c.push(parseFloat(eau_brute_array[i]))
+  eau_nette_c.push(parseFloat(eau_nette_array[i]))
+  elect_brute_c.push(parseFloat(elect_brute_array[i]))
+  elect_nette_c.push(parseFloat(elect_nette_array[i]))
+}
+
+
+
+var config = {
+    type: 'line',
+    data: {
+        labels: date_array,
+        datasets: [{
+            label: 'eau brute', // Name the series
+            data: eau_brute_c, // Specify the data values array
+            fill: false,
+            borderColor: '#2196f3', // Add custom color border (Line)
+            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+                  {
+            label: 'eau nette', // Name the series
+            data: eau_nette_c, // Specify the data values array
+            fill: false,
+            borderColor: '#4CAF50', // Add custom color border (Line)
+            backgroundColor: '#4CAF50', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'elect brute', // Name the series
+            data: elect_brute_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF0000', // Add custom color border (Line)
+            backgroundColor: '#FF0000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'elect nette', // Name the series
+            data: elect_nette_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FF00', // Add custom color border (Line)
+            backgroundColor: '#00FF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        
+    ]
+    },
+    options: { 
+      legend: {
+        position: 'top',
+        labels: {
+          fontColor: 'rgb(255, 99, 132)'
+        },
+        onHover: function(event, legendItem) {
+          document.getElementById("myChart").style.cursor = 'pointer';
+        },
+        onClick: function(e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+          ci.data.datasets.forEach(function(e, i) {
+            var meta = ci.getDatasetMeta(i);
+
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = true;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
+            }
+          });
+
+          ci.update();
+        },
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip.opacity) {
+            document.getElementById("myChart").style.cursor = 'default';
+            return;
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: ''
+      },
+      scale: {
+        ticks: {
+        beginAtZero: true
+        }
+      }
+    }
+  };
+
+    window.onload = function() {
+    window.myLine = new Chart(document.getElementById("myChart"), config);
+  };
+</script>
+{% endblock %}
+
+

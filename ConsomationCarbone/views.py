@@ -134,3 +134,25 @@ def export_excel(request):
         return response
     else:
         return render(request,'ConsomationCarbone/export.html')
+    
+
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    date,essence,kerosene,gas_oil,fuel_oil=[],[],[],[],[]
+    rows=ConsomationCarbone.objects.values_list('date','essence','kerosene','gas_oil',
+    'fuel_oil')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    date.append(str(row[col_num]))
+                elif col_num==1:
+                    essence.append(row[col_num])
+                elif col_num==2:
+                    kerosene.append(row[col_num])
+                elif col_num==3:
+                    gas_oil.append(row[col_num])
+                else:
+                  fuel_oil.append(row[col_num])
+    return render(request,'ConsomationCarbone/chartjs.html',{'date':date,"essence":essence,"kerosene":kerosene,"gas_oil":gas_oil,"fuel_oil":fuel_oil})
+

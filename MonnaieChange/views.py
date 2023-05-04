@@ -175,8 +175,6 @@ def tableau_bord(request):
                     dinar_algerien.append(row[col_num])
                 elif col_num==8:
                     franc_cfa.append(row[col_num])
-                elif col_num==9:
-                    franc_cfa.append(row[col_num])
                 else:
                     dts.append(row[col_num])
       

@@ -1,0 +1,181 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+
+ <div>
+    <canvas id="myChart" width="1000" height="800"></canvas>
+ </div>
+
+{% endblock content %}
+
+{% block jquery %}
+<script>
+usa_c=[]
+france_c=[]
+allemagne_c=[]
+japon_c=[]
+royaume_uni_c=[]
+italie_c=[]
+canada_c=[]
+
+
+var trimestre="{{trimestre}}"
+var usa="{{usa}}"
+var france="{{france}}"
+var allemagne="{{allemagne}}"
+var japon="{{japon}}"
+var royaume_uni="{{royaume_uni}}"
+var italie="{{italie}}"
+var canada="{{canada}}"
+
+var pattern=/[A-Z][0-9]-[0-9]+/gi;
+let trimestre_array=trimestre.match(pattern)
+
+
+let usa_array=usa.split(",")
+let france_array=france.split(",")
+let allemagne_array=allemagne.split(",")
+let japon_array=japon.split(",")
+let royaume_uni_array=royaume_uni.split(",")
+let italie_array=italie.split(",")
+let canada_array=canada.split(",")
+
+for(i=1;i<=trimestre_array.length;i++){
+  usa_c.push(parseFloat(usa_array[i]))
+  france_c.push(parseFloat(france_array[i]))
+  allemagne_c.push(parseFloat(allemagne_array[i]))
+  japon_c.push(parseFloat(japon_array[i]))
+  royaume_uni_c.push(parseFloat(royaume_uni_array[i]))
+  italie_c.push(parseFloat(italie_array[i]))
+  canada_c.push(parseFloat(canada_array[i]))
+}
+
+var config = { 
+    type: 'line',
+    data: {
+        labels: trimestre_array,
+        datasets: [{
+            label: 'usa', // Name the series
+            data: usa_c, // Specify the data values array
+            fill: false,
+            borderColor: '#2196f3', // Add custom color border (Line)
+            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+                  {
+            label: 'france', // Name the series
+            data: france_c, // Specify the data values array
+            fill: false,
+            borderColor: '#4CAF50', // Add custom color border (Line)
+            backgroundColor: '#4CAF50', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'allemagne', // Name the series
+            data: allemagne_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF0000', // Add custom color border (Line)
+            backgroundColor: '#FF0000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'japon', // Name the series
+            data: japon_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FF00', // Add custom color border (Line)
+            backgroundColor: '#00FF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'royaume_uni', // Name the series
+            data:  royaume_uni_c, // Specify the data values array
+            fill: false,
+            borderColor: '#800080', // Add custom color border (Line)
+            backgroundColor: '#800080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'italie', // Name the series
+            data: italie_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF00FF', // Add custom color border (Line)
+            backgroundColor: '#FF00FF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'canada', // Name the series
+            data: canada_c, // Specify the data values array
+            fill: false,
+            borderColor: '#000080', // Add custom color border (Line)
+            backgroundColor: '#000080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        
+    ]
+    },
+    options: {
+      legend: {
+        position: 'top',
+        labels: {
+          fontColor: 'rgb(255, 99, 132)'
+        },
+        onHover: function(event, legendItem) {
+          document.getElementById("myChart").style.cursor = 'pointer';
+        },
+        onClick: function(e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+          ci.data.datasets.forEach(function(e, i) {
+            var meta = ci.getDatasetMeta(i);
+
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = true;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
+            }
+          });
+
+          ci.update();
+        },
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip.opacity) {
+            document.getElementById("myChart").style.cursor = 'default';
+            return;
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: ''
+      },
+      scale: {
+        ticks: {
+        beginAtZero: true
+        }
+      }
+    }
+  };
+
+    window.onload = function() {
+    window.myRadar = new Chart(document.getElementById("myChart"), config);
+  };
+
+</script>
+</script>
+{% endblock %}
+
+

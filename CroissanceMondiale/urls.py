@@ -8,5 +8,6 @@ urlpatterns = [
     path('update/<str:trimestre>/',views.update,name='croismdle-update'),
     path('import',views.import_excel,name='croismdle-import'),
     path('export',views.export_excel,name='croismdle-export'),
+    path('tb',views.tableau_bord,name='croismdle-tb'),
 
 ]

@@ -136,3 +136,32 @@ def export_excel(request):
     else:
         icc_col=Exportation.objects.all().values('trimestre')
         return render(request,'Exportation/export.html',{'icc_col':icc_col})
+
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    trimestre,total,minerai_de_fer,poisson,petrole_brut,Or,cuivre,autres=[],[],[],[],[],[],[],[]
+    rows=Exportation.objects.values_list('trimestre','total','minerai_de_fer','poisson',
+    'petrole_brut','Or','cuivre','autres')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    trimestre.append(str(row[col_num]))
+                elif col_num==1:
+                    total.append(row[col_num])
+                elif col_num==2:
+                    minerai_de_fer.append(row[col_num])
+                elif col_num==3:
+                    poisson.append(row[col_num])
+                elif col_num==4:
+                    petrole_brut.append(row[col_num])
+                elif col_num==5:
+                    Or.append(row[col_num])
+                elif col_num==6:
+                    cuivre.append(row[col_num])
+                else:
+                    autres.append(row[col_num])
+      
+    return render(request,'Exportation/chartjs.html',{'trimestre':trimestre,'total':total,'minerai_de_fer':minerai_de_fer,'poisson':poisson,'petrole_brut':petrole_brut,'Or':Or,'cuivre':cuivre,'autres':autres})
+
+

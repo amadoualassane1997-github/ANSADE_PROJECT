@@ -1,0 +1,177 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+
+ <div>
+    <canvas id="myChart" width="1000" height="800"></canvas>
+ </div>
+
+{% endblock content %}
+
+{% block jquery %}
+<script>
+total_c=[]
+minerai_de_fer_c=[]
+poisson_c=[]
+petrole_brut_c=[]
+Or_c=[]
+cuivre_c=[]
+autres_c=[]
+
+
+var trimestre="{{trimestre}}"
+var total="{{total}}"
+var minerai_de_fer="{{minerai_de_fer}}"
+var poisson="{{poisson}}"
+var petrole_brut="{{petrole_brut}}"
+var Or="{{Or}}"
+var cuivre="{{cuivre}}"
+var autres="{{autres}}"
+
+var pattern=/[A-Z][0-9]-[0-9]+/gi;
+let trimestre_array=trimestre.match(pattern)
+
+
+let total_array=total.split(",")
+let minerai_de_fer_array=minerai_de_fer.split(",")
+let poisson_array=poisson.split(",")
+let petrole_brut_array=petrole_brut.split(",")
+let Or_array=Or.split(",")
+let cuivre_array=cuivre.split(",")
+let autres_array=autres.split(",")
+for(i=1;i<=trimestre_array.length;i++){
+  total_c.push(parseFloat(total_array[i]))
+  minerai_de_fer_c.push(parseFloat(minerai_de_fer_array[i]))
+  poisson_c.push(parseFloat(poisson_array[i]))
+  petrole_brut_c.push(parseFloat(petrole_brut_array[i]))
+  Or_c.push(parseFloat(Or_array[i]))
+  cuivre_c.push(parseFloat(cuivre_array[i]))
+  autres_c.push(parseFloat(autres_array[i]))
+}
+
+var config = {
+    type: 'line',
+    data: {
+        labels: trimestre_array,
+        datasets: [{
+            label: 'total', // Name the series
+            data: total_c, // Specify the data values array
+            fill: false,
+            borderColor: '#2196f3', // Add custom color border (Line)
+            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+                  {
+            label: 'minerai de fer', // Name the series
+            data: minerai_de_fer_c, // Specify the data values array
+            fill: false,
+            borderColor: '#4CAF50', // Add custom color border (Line)
+            backgroundColor: '#4CAF50', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'poisson', // Name the series
+            data: poisson_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF0000', // Add custom color border (Line)
+            backgroundColor: '#FF0000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'petrole brut', // Name the series
+            data: petrole_brut_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FF00', // Add custom color border (Line)
+            backgroundColor: '#00FF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'Or', // Name the series
+            data:  Or_c, // Specify the data values array
+            fill: false,
+            borderColor: '#800080', // Add custom color border (Line)
+            backgroundColor: '#800080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'cuivre', // Name the series
+            data: cuivre_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF00FF', // Add custom color border (Line)
+            backgroundColor: '#FF00FF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'autres', // Name the series
+            data: autres_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FFFF00', // Add custom color border (Line)
+            backgroundColor: '#FFFF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        
+    ]
+    },
+    options: {
+      legend: {
+        position: 'top',
+        labels: {
+          fontColor: 'rgb(255, 99, 132)'
+        },
+        onHover: function(event, legendItem) {
+          document.getElementById("myChart").style.cursor = 'pointer';
+        },
+        onClick: function(e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+          ci.data.datasets.forEach(function(e, i) {
+            var meta = ci.getDatasetMeta(i);
+
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = true;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
+            }
+          });
+
+          ci.update();
+        },
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip.opacity) {
+            document.getElementById("myChart").style.cursor = 'default';
+            return;
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: ''
+      },
+      scale: {
+        ticks: {
+        beginAtZero: true
+        }
+      }
+    }
+  };
+
+    window.onload = function() {
+    window.myRadar = new Chart(document.getElementById("myChart"), config);
+  };
+
+</script>
+{% endblock %}
+
+

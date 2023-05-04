@@ -1,0 +1,248 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+
+ <div>
+    <canvas id="myChart" width="1000" height="800"></canvas>
+ </div>
+
+{% endblock content %}
+
+{% block jquery %}
+<script>
+icc_global_c=[]
+materiaux_de_construction_c=[]
+biens_et_service_de_gestion_du_chantier_c=[]
+location_de_materiels_c=[]
+main_oeuvre_c=[]
+materiaux_de_base_c=[]
+materiaux_pour_couverture_c=[]
+materiaux_de_menuiserie_c=[]
+materiaux_de_plomberie_et_sanitaire_c=[]
+materiaux_pour_travaux_electricite_c=[]
+revetement_des_murs_et_sols_c=[]
+peinture_vernis_chaux_c=[]
+materiaux_pour_etancheite_c=[]
+
+var trimestre="{{trimestre}}"
+var icc_global="{{icc_global}}"
+var materiaux_de_construction="{{materiaux_de_construction}}"
+var biens_et_service_de_gestion_du_chantier="{{biens_et_service_de_gestion_du_chantier}}"
+var location_de_materiels="{{location_de_materiels}}"
+var main_oeuvre="{{main_oeuvre}}"
+var materiaux_de_base="{{materiaux_de_base}}"
+var materiaux_pour_couverture="{{materiaux_pour_couverture}}"
+var materiaux_de_menuiserie="{{materiaux_de_menuiserie}}"
+var materiaux_de_plomberie_et_sanitaire="{{materiaux_de_plomberie_et_sanitaire}}"
+var materiaux_pour_travaux_electricite="{{materiaux_pour_travaux_electricite}}"
+var revetement_des_murs_et_sols="{{revetement_des_murs_et_sols}}"
+var peinture_vernis_chaux="{{peinture_vernis_chaux}}"
+var materiaux_pour_etancheite="{{materiaux_pour_etancheite}}"
+var pattern=/[A-Z][0-9]-[0-9]+/gi;
+let trimestre_array=trimestre.match(pattern)
+
+
+let icc_global_array=icc_global.split(",")
+let materiaux_de_construction_array=materiaux_de_construction.split(",")
+let biens_et_service_de_gestion_du_chantier_array=biens_et_service_de_gestion_du_chantier.split(",")
+let location_de_materiels_array=location_de_materiels.split(",")
+let main_oeuvre_array=main_oeuvre.split(",")
+let materiaux_de_base_array=materiaux_de_base.split(",")
+let materiaux_pour_couverture_array=materiaux_pour_couverture.split(",")
+let materiaux_de_menuiserie_array=materiaux_de_menuiserie.split(",")
+let materiaux_de_plomberie_et_sanitaire_array=materiaux_de_plomberie_et_sanitaire.split(",")
+let materiaux_pour_travaux_electricite_array=materiaux_pour_travaux_electricite.split(",")
+let revetement_des_murs_et_sols_array=revetement_des_murs_et_sols.split(",")
+let peinture_vernis_chaux_array=peinture_vernis_chaux.split(",")
+let materiaux_pour_etancheite_array=materiaux_pour_etancheite.split(",")
+for(i=1;i<=trimestre_array.length;i++){
+  icc_global_c.push(parseFloat(icc_global_array[i]))
+  materiaux_de_construction_c.push(parseFloat(materiaux_de_construction_array[i]))
+  biens_et_service_de_gestion_du_chantier_c.push(parseFloat(biens_et_service_de_gestion_du_chantier_array[i]))
+  location_de_materiels_c.push(parseFloat(location_de_materiels_array[i]))
+  main_oeuvre_c.push(parseFloat(main_oeuvre_array[i]))
+  materiaux_de_base_c.push(parseFloat(materiaux_de_base_array[i]))
+  materiaux_pour_couverture_c.push(parseFloat(materiaux_pour_couverture_array[i]))
+  materiaux_de_menuiserie_c.push(parseFloat(materiaux_de_menuiserie_array[i]))
+  materiaux_de_plomberie_et_sanitaire_c.push(parseFloat(materiaux_de_plomberie_et_sanitaire_array[i]))
+  materiaux_pour_travaux_electricite_c.push(parseFloat(materiaux_pour_travaux_electricite_array[i]))
+  revetement_des_murs_et_sols_c.push(parseFloat(revetement_des_murs_et_sols_array[i]))
+  peinture_vernis_chaux_c.push(parseFloat(peinture_vernis_chaux_array[i]))
+  materiaux_pour_etancheite_c.push(parseFloat(materiaux_pour_etancheite_array[i]))
+}
+
+var config = {
+    type: 'line',
+    data: {
+        labels: trimestre_array,
+        datasets: [{
+            label: 'icc global', // Name the series
+            data: icc_global_c, // Specify the data values array
+            fill: false,
+            borderColor: '#2196f3', // Add custom color border (Line)
+            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+                  {
+            label: 'materiaux de construction', // Name the series
+            data: materiaux_de_construction_c, // Specify the data values array
+            fill: false,
+            borderColor: '#4CAF50', // Add custom color border (Line)
+            backgroundColor: '#4CAF50', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'biens et service de gestion du chantier', // Name the series
+            data: biens_et_service_de_gestion_du_chantier_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF0000', // Add custom color border (Line)
+            backgroundColor: '#FF0000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'location de materiels', // Name the series
+            data: location_de_materiels_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FF00', // Add custom color border (Line)
+            backgroundColor: '#00FF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: ' main oeuvre', // Name the series
+            data:  main_oeuvre_c, // Specify the data values array
+            fill: false,
+            borderColor: '#800080', // Add custom color border (Line)
+            backgroundColor: '#800080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'materiaux de base', // Name the series
+            data: materiaux_de_base_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF00FF', // Add custom color border (Line)
+            backgroundColor: '#FF00FF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'materiaux pour couverture', // Name the series
+            data: materiaux_pour_couverture_c, // Specify the data values array
+            fill: false,
+            borderColor: '#000080', // Add custom color border (Line)
+            backgroundColor: '#000080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'materiaux de menuiserie', // Name the series
+            data: materiaux_de_menuiserie_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FFFF', // Add custom color border (Line)
+            backgroundColor: '#00FFFF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'materiaux de plomberie et sanitaire', // Name the series
+            data: materiaux_de_plomberie_et_sanitaire_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FFFF00', // Add custom color border (Line)
+            backgroundColor: '#FFFF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'materiaux pour travaux electricite', // Name the series
+            data: materiaux_pour_travaux_electricite_c, // Specify the data values array
+            fill: false,
+            borderColor: '#800000', // Add custom color border (Line)
+            backgroundColor: '#800000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'revetement des murs et sols', // Name the series
+            data: revetement_des_murs_et_sols_c, // Specify the data values array
+            fill: false,
+            borderColor: '#000000', // Add custom color border (Line)
+            backgroundColor: '#000000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'peinture vernis chaux', // Name the series
+            data: peinture_vernis_chaux_c, // Specify the data values array
+            fill: false,
+            borderColor: '#808000', // Add custom color border (Line)
+            backgroundColor: '#808000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'materiaux pour etancheite', // Name the series
+            data: materiaux_pour_etancheite_c, // Specify the data values array
+            fill: false,
+            borderColor: '#808080', // Add custom color border (Line)
+            backgroundColor: '#808080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+    ]
+    },
+    options: {
+      legend: {
+        position: 'top',
+        labels: {
+          fontColor: 'rgb(255, 99, 132)'
+        },
+        onHover: function(event, legendItem) {
+          document.getElementById("myChart").style.cursor = 'pointer';
+        },
+        onClick: function(e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+          ci.data.datasets.forEach(function(e, i) {
+            var meta = ci.getDatasetMeta(i);
+
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = true;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
+            }
+          });
+
+          ci.update();
+        },
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip.opacity) {
+            document.getElementById("myChart").style.cursor = 'default';
+            return;
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: ''
+      },
+      scale: {
+        ticks: {
+        beginAtZero: true
+        }
+      }
+    }
+  };
+
+    window.onload = function() {
+    window.myRadar = new Chart(document.getElementById("myChart"), config);
+  };
+</script>
+{% endblock %}
+
+

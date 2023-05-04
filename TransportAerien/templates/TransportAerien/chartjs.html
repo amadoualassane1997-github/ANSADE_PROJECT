@@ -1,0 +1,141 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+
+ <div>
+    <canvas id="myChart" width="1000" height="800"></canvas>
+ </div>
+
+{% endblock content %}
+
+{% block jquery %}
+<script>
+date=[]
+passagers_arrives_c=[]
+passagers_depart_c=[]
+total_passagers_c=[]
+mvmt_avion_arriv_c=[]
+var date="{{date}}"
+var passagers_arrives="{{passagers_arrives}}"
+var passagers_depart="{{passagers_depart}}"
+var total_passagers="{{total_passagers}}"
+var mvmt_avion_arriv="{{mvmt_avion_arriv}}"
+
+var pattern=/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/gi;
+let date_array=date.match(pattern)
+
+let passagers_arrives_array=passagers_arrives.split(",")
+let passagers_depart_array=passagers_depart.split(",")
+let total_passagers_array=total_passagers.split(",")
+let mvmt_avion_arriv_array=mvmt_avion_arriv.split(",")
+
+for(i=1;i<=date_array.length;i++){
+  passagers_arrives_c.push(parseFloat(passagers_arrives_array[i]))
+  passagers_depart_c.push(parseFloat(passagers_depart_array[i]))
+  total_passagers_c.push(parseFloat(total_passagers_array[i]))
+  mvmt_avion_arriv_c.push(parseFloat(mvmt_avion_arriv_array[i]))
+}
+
+
+
+var config = {
+    type: 'line',
+    data: {
+        labels: date_array,
+        datasets: [{
+            label: 'passagers arrives', // Name the series
+            data: passagers_arrives_c, // Specify the data values array
+            fill: false,
+            borderColor: '#2196f3', // Add custom color border (Line)
+            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+                  {
+            label: 'passagers depart', // Name the series
+            data: passagers_depart_c, // Specify the data values array
+            fill: false,
+            borderColor: '#4CAF50', // Add custom color border (Line)
+            backgroundColor: '#4CAF50', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'passagers total', // Name the series
+            data: total_passagers_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF0000', // Add custom color border (Line)
+            backgroundColor: '#FF0000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'mvmt avion arrive', // Name the series
+            data: mvmt_avion_arriv_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FF00', // Add custom color border (Line)
+            backgroundColor: '#00FF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        
+    ]
+    },
+    options: {
+      legend: {
+        position: 'top',
+        labels: {
+          fontColor: 'rgb(255, 99, 132)'
+        },
+        onHover: function(event, legendItem) {
+          document.getElementById("myChart").style.cursor = 'pointer';
+        },
+        onClick: function(e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+          ci.data.datasets.forEach(function(e, i) {
+            var meta = ci.getDatasetMeta(i);
+
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = true;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
+            }
+          });
+
+          ci.update();
+        },
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip.opacity) {
+            document.getElementById("myChart").style.cursor = 'default';
+            return;
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: ''
+      },
+      scale: {
+        ticks: {
+        beginAtZero: true
+        }
+      }
+    }
+  };
+
+    window.onload = function() {
+    window.myRadar = new Chart(document.getElementById("myChart"), config);
+  };
+
+</script>
+{% endblock %}
+
+

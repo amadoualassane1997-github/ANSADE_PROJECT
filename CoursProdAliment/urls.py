@@ -8,5 +8,6 @@ urlpatterns = [
     path('update/<str:date>/',views.update,name='coursprodaliment-update'),
     path('import',views.import_excel,name='coursprodaliment-import'),
     path('export',views.export_excel,name='coursprodaliment-export'),
+    path('tb',views.tableau_bord,name='coursprodaliment-tb'),
 
 ]

@@ -1,0 +1,249 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+
+ <div>
+    <canvas id="myChart" width="1000" height="800"></canvas>
+ </div>
+
+{% endblock content %}
+
+{% block jquery %}
+<script>
+date=[]
+inpc_global_c=[]
+produits_alimentaires_et_boissons_non_alcolises_c=[]
+tabac_et_stupefiant_c=[]
+articles_habillement_et_chaussures_c=[]
+logement_eau_gaz_electricites_et_autre_combistible_c=[]
+meubles_articles_de_menages_et_entretient_courant_du_foyer_c=[]
+sante_c=[]
+transport_c=[]
+communication_c=[]
+loisir_et_culture_c=[]
+enseignement_c=[]
+restaurant_et_hotel_c=[]
+bien_et_service_diver_c=[]
+var date="{{date}}"
+var inpc_global="{{inpc_global}}"
+var produits_alimentaires_et_boissons_non_alcolises="{{produits_alimentaires_et_boissons_non_alcolises}}"
+var tabac_et_stupefiant="{{tabac_et_stupefiant}}"
+var articles_habillement_et_chaussures="{{articles_habillement_et_chaussures}}"
+var logement_eau_gaz_electricites_et_autre_combistible="{{logement_eau_gaz_electricites_et_autre_combistible}}"
+var meubles_articles_de_menages_et_entretient_courant_du_foyer="{{meubles_articles_de_menages_et_entretient_courant_du_foyer}}"
+var sante="{{sante}}"
+var transport="{{transport}}"
+var communication="{{communication}}"
+var loisir_et_culture="{{loisir_et_culture}}"
+var enseignement="{{enseignement}}"
+var restaurant_et_hotel="{{restaurant_et_hotel}}"
+var bien_et_service_diver="{{bien_et_service_diver}}"
+var pattern=/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/gi;
+let date_array=date.match(pattern)
+
+let inpc_global_array=inpc_global.split(",")
+let produits_alimentaires_et_boissons_non_alcolises_array=produits_alimentaires_et_boissons_non_alcolises.split(",")
+let tabac_et_stupefiant_array=tabac_et_stupefiant.split(",")
+let articles_habillement_et_chaussures_array=articles_habillement_et_chaussures.split(",")
+let logement_eau_gaz_electricites_et_autre_combistible_array=logement_eau_gaz_electricites_et_autre_combistible.split(",")
+let meubles_articles_de_menages_et_entretient_courant_du_foyer_array=meubles_articles_de_menages_et_entretient_courant_du_foyer.split(",")
+let sante_array=sante.split(",")
+let transport_array=transport.split(",")
+let communication_array=communication.split(",")
+let loisir_et_culture_array=loisir_et_culture.split(",")
+let enseignement_array=enseignement.split(",")
+let restaurant_et_hotel_array=restaurant_et_hotel.split(",")
+let bien_et_service_diver_array=bien_et_service_diver.split(",")
+for(i=1;i<=date_array.length;i++){
+  inpc_global_c.push(parseFloat(inpc_global_array[i]))
+  produits_alimentaires_et_boissons_non_alcolises_c.push(parseFloat(produits_alimentaires_et_boissons_non_alcolises_array[i]))
+  tabac_et_stupefiant_c.push(parseFloat(tabac_et_stupefiant_array[i]))
+  articles_habillement_et_chaussures_c.push(parseFloat(articles_habillement_et_chaussures_array[i]))
+  logement_eau_gaz_electricites_et_autre_combistible_c.push(parseFloat(logement_eau_gaz_electricites_et_autre_combistible_array[i]))
+  meubles_articles_de_menages_et_entretient_courant_du_foyer_c.push(parseFloat(meubles_articles_de_menages_et_entretient_courant_du_foyer_array[i]))
+  sante_c.push(parseFloat(sante_array[i]))
+  transport_c.push(parseFloat(transport_array[i]))
+  communication_c.push(parseFloat(communication_array[i]))
+  loisir_et_culture_c.push(parseFloat(loisir_et_culture_array[i]))
+  enseignement_c.push(parseFloat(enseignement_array[i]))
+  restaurant_et_hotel_c.push(parseFloat(restaurant_et_hotel_array[i]))
+  bien_et_service_diver_c.push(parseFloat(bien_et_service_diver_array[i]))
+}
+
+
+
+var config = {
+    type: 'line',
+    data: {
+        labels: date_array,
+        datasets: [{
+            label: 'inpc global', // Name the series
+            data: inpc_global_c, // Specify the data values array
+            fill: false,
+            borderColor: '#2196f3', // Add custom color border (Line)
+            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+                  {
+            label: 'produits alimentaires et boissons non alcolises', // Name the series
+            data: produits_alimentaires_et_boissons_non_alcolises_c, // Specify the data values array
+            fill: false,
+            borderColor: '#4CAF50', // Add custom color border (Line)
+            backgroundColor: '#4CAF50', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'tabac et stupefiant', // Name the series
+            data: tabac_et_stupefiant_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF0000', // Add custom color border (Line)
+            backgroundColor: '#FF0000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'articles habillement et chaussures', // Name the series
+            data: articles_habillement_et_chaussures_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FF00', // Add custom color border (Line)
+            backgroundColor: '#00FF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'logement eau gaz electricites et autre combistible c', // Name the series
+            data: logement_eau_gaz_electricites_et_autre_combistible_c, // Specify the data values array
+            fill: false,
+            borderColor: '#800080', // Add custom color border (Line)
+            backgroundColor: '#800080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'meubles articles de menages et entretient courant du foyer', // Name the series
+            data: meubles_articles_de_menages_et_entretient_courant_du_foyer_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF00FF', // Add custom color border (Line)
+            backgroundColor: '#FF00FF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'sante', // Name the series
+            data: sante_c, // Specify the data values array
+            fill: false,
+            borderColor: '#000080', // Add custom color border (Line)
+            backgroundColor: '#000080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'transport', // Name the series
+            data: transport_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FFFF', // Add custom color border (Line)
+            backgroundColor: '#00FFFF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'communication', // Name the series
+            data: communication_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FFFF00', // Add custom color border (Line)
+            backgroundColor: '#FFFF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'loisir et culture', // Name the series
+            data: loisir_et_culture_c, // Specify the data values array
+            fill: false,
+            borderColor: '#800000', // Add custom color border (Line)
+            backgroundColor: '#800000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'enseignement', // Name the series
+            data: enseignement_c, // Specify the data values array
+            fill: false,
+            borderColor: '#000000', // Add custom color border (Line)
+            backgroundColor: '#000000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'restaurant et hotel', // Name the series
+            data: restaurant_et_hotel_c, // Specify the data values array
+            fill: false,
+            borderColor: '#808000', // Add custom color border (Line)
+            backgroundColor: '#808000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'bien et service diver', // Name the series
+            data: bien_et_service_diver_c, // Specify the data values array
+            fill: false,
+            borderColor: '#808080', // Add custom color border (Line)
+            backgroundColor: '#808080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+    ]
+    },
+    options: {
+      legend: {
+        position: 'top',
+        labels: {
+          fontColor: 'rgb(255, 99, 132)'
+        },
+        onHover: function(event, legendItem) {
+          document.getElementById("myChart").style.cursor = 'pointer';
+        },
+        onClick: function(e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+          ci.data.datasets.forEach(function(e, i) {
+            var meta = ci.getDatasetMeta(i);
+
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = true;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
+            }
+          });
+
+          ci.update();
+        },
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip.opacity) {
+            document.getElementById("myChart").style.cursor = 'default';
+            return;
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: ''
+      },
+      scale: {
+        ticks: {
+        beginAtZero: true
+        }
+      }
+    }
+  };
+
+    window.onload = function() {
+    window.myRadar = new Chart(document.getElementById("myChart"), config);
+  };
+</script>
+{% endblock %}
+
+

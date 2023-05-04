@@ -1,0 +1,141 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+
+ <div>
+    <canvas id="myChart" width="1000" height="800"></canvas>
+ </div>
+
+{% endblock content %}
+
+{% block jquery %}
+<script>
+exportations_c=[]
+importation_c=[]
+solde_commercial_c=[]
+tx_couv_c=[]
+var trimestre="{{trimestre}}"
+var exportations="{{exportations}}"
+var importation="{{importation}}"
+var solde_commercial="{{solde_commercial}}"
+var tx_couv="{{tx_couv}}"
+
+
+var pattern=/[A-Z][0-9]-[0-9]+/gi;
+let trimestre_array=trimestre.match(pattern)
+
+
+let exportations_array=exportations.split(",")
+let importation_array=importation.split(",")
+let solde_commercial_array=solde_commercial.split(",")
+let tx_couv_array=tx_couv.split(",")
+
+for(i=1;i<=trimestre_array.length;i++){
+  exportations_c.push(parseFloat(exportations_array[i]))
+  importation_c.push(parseFloat(importation_array[i]))
+  solde_commercial_c.push(parseFloat(solde_commercial_array[i]))
+  tx_couv_c.push(parseFloat(tx_couv_array[i]))
+}
+
+var config = {
+    type: 'line',
+    data: {
+        labels: trimestre_array,
+        datasets: [{
+            label: 'exportations', // Name the series
+            data: exportations_c, // Specify the data values array
+            fill: false,
+            borderColor: '#2196f3', // Add custom color border (Line)
+            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+                  {
+            label: 'importation', // Name the series
+            data: importation_c, // Specify the data values array
+            fill: false,
+            borderColor: '#4CAF50', // Add custom color border (Line)
+            backgroundColor: '#4CAF50', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'solde commercial', // Name the series
+            data: solde_commercial_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF0000', // Add custom color border (Line)
+            backgroundColor: '#FF0000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'tx_couv', // Name the series
+            data:tx_couv_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FF00', // Add custom color border (Line)
+            backgroundColor: '#00FF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        
+        
+    ]
+    },
+    options: {
+      legend: {
+        position: 'top',
+        labels: {
+          fontColor: 'rgb(255, 99, 132)'
+        },
+        onHover: function(event, legendItem) {
+          document.getElementById("myChart").style.cursor = 'pointer';
+        },
+        onClick: function(e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+          ci.data.datasets.forEach(function(e, i) {
+            var meta = ci.getDatasetMeta(i);
+
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = true;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
+            }
+          });
+
+          ci.update();
+        },
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip.opacity) {
+            document.getElementById("myChart").style.cursor = 'default';
+            return;
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: ''
+      },
+      scale: {
+        ticks: {
+        beginAtZero: true
+        }
+      }
+    }
+  };
+
+    window.onload = function() {
+    window.myRadar = new Chart(document.getElementById("myChart"), config);
+  };
+
+</script>
+{% endblock %}
+
+

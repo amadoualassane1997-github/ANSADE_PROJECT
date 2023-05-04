@@ -1,0 +1,117 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+
+ <div>
+    <canvas id="myChart" width="1000" height="800"></canvas>
+ </div>
+
+{% endblock content %}
+
+{% block jquery %}
+<script>
+production_cuivre_c=[]
+or_quantite_en_oz_total_c=[]
+
+
+var trimestre="{{trimestre}}"
+var production_cuivre="{{production_cuivre}}"
+var or_quantite_en_oz_total="{{or_quantite_en_oz_total}}"
+
+var pattern=/[A-Z][0-9]-[0-9]+/gi;
+let trimestre_array=trimestre.match(pattern)
+
+
+let production_cuivre_array=production_cuivre.split(",")
+let or_quantite_en_oz_total_array=or_quantite_en_oz_total.split(",")
+
+for(i=1;i<=trimestre_array.length;i++){
+  production_cuivre_c.push(parseFloat(production_cuivre_array[i]))
+  or_quantite_en_oz_total_c.push(parseFloat(or_quantite_en_oz_total_array[i]))
+ 
+}
+
+
+var config = { 
+    type: 'line',
+    data: {
+        labels: trimestre_array,
+        datasets: [{
+            label: 'production cuivre', // Name the series
+            data: production_cuivre_c, // Specify the data values array
+            fill: false,
+            borderColor: '#2196f3', // Add custom color border (Line)
+            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+                  {
+            label: 'or quantite en oz total', // Name the series
+            data: or_quantite_en_oz_total_c, // Specify the data values array
+            fill: false,
+            borderColor: '#4CAF50', // Add custom color border (Line)
+            backgroundColor: '#4CAF50', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        
+    ]
+    },
+    options: {
+      legend: {
+        position: 'top',
+        labels: {
+          fontColor: 'rgb(255, 99, 132)'
+        },
+        onHover: function(event, legendItem) {
+          document.getElementById("myChart").style.cursor = 'pointer';
+        },
+        onClick: function(e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+          ci.data.datasets.forEach(function(e, i) {
+            var meta = ci.getDatasetMeta(i);
+
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = true;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
+            }
+          });
+
+          ci.update();
+        },
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip.opacity) {
+            document.getElementById("myChart").style.cursor = 'default';
+            return;
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: ''
+      },
+      scale: {
+        ticks: {
+        beginAtZero: true
+        }
+      }
+    }
+  };
+
+    window.onload = function() {
+    window.myRadar = new Chart(document.getElementById("myChart"), config);
+  };
+</script>
+{% endblock %}
+
+

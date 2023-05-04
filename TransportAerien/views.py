@@ -134,3 +134,25 @@ def export_excel(request):
         return response
     else:
         return render(request,'TransportAerien/export.html')
+    
+
+
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    date,passagers_arrives,passagers_depart,total_passagers,mvmt_avion_arriv=[],[],[],[],[]
+    rows=TransportAerien.objects.values_list('date','passagers_arrives','passagers_depart','total_passagers','mvmt_avion_arriv')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    date.append(str(row[col_num]))
+                elif col_num==1:
+                    passagers_arrives.append(row[col_num])
+                elif col_num==2:
+                    passagers_depart.append(row[col_num])
+                elif col_num==3:
+                    total_passagers.append(row[col_num])
+                else:
+                   mvmt_avion_arriv.append(row[col_num])
+    return render(request,'TransportAerien/chartjs.html',{'date':date,"passagers_arrives":passagers_arrives,"passagers_depart":passagers_depart,"total_passagers":total_passagers,"mvmt_avion_arriv":mvmt_avion_arriv})
+

@@ -1,0 +1,214 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+
+ <div>
+    <canvas id="myChart" width="1000" height="800"></canvas>
+ </div>
+
+{% endblock content %}
+
+{% block jquery %}
+<script>
+date=[]
+rectettes_totales_c=[]
+recettes_fiscales_c=[]
+recettes_non_fiscales_c=[]
+recettes_petro_net_c=[]
+dont_c=[]
+depences_et_prets_net_c=[]
+depences_courant_c=[]
+depences_equipe_et_prets_net_c=[]
+restructurations_equipe_et_prets_net_c=[]
+solde_globale_dons_compris_c=[]
+var date="{{date}}"
+var rectettes_totales="{{rectettes_totales}}"
+var recettes_fiscales="{{recettes_fiscales}}"
+var recettes_non_fiscales="{{recettes_non_fiscales}}"
+var recettes_petro_net="{{recettes_petro_net}}"
+var dont="{{dont}}"
+var depences_et_prets_net="{{depences_et_prets_net}}"
+var depences_courant="{{depences_courant}}"
+var depences_equipe_et_prets_net="{{depences_equipe_et_prets_net}}"
+var restructurations_equipe_et_prets_net="{{restructurations_equipe_et_prets_net}}"
+var solde_globale_dons_compris="{{solde_globale_dons_compris}}"
+var pattern=/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/gi;
+let date_array=date.match(pattern)
+
+let rectettes_totales_array=rectettes_totales.split(",")
+let recettes_fiscales_array=recettes_fiscales.split(",")
+let recettes_non_fiscales_array=recettes_non_fiscales.split(",")
+let recettes_petro_net_array=recettes_petro_net.split(",")
+let dont_array=dont.split(",")
+let depences_et_prets_net_array=depences_et_prets_net.split(",")
+let depences_courant_array=depences_courant.split(",")
+let depences_equipe_et_prets_net_array=depences_equipe_et_prets_net.split(",")
+let restructurations_equipe_et_prets_net_array=restructurations_equipe_et_prets_net.split(",")
+let solde_globale_dons_compris_array=solde_globale_dons_compris.split(",")
+for(i=1;i<=date_array.length;i++){
+  rectettes_totales_c.push(parseFloat(rectettes_totales_array[i]))
+  recettes_fiscales_c.push(parseFloat(recettes_fiscales_array[i]))
+  recettes_non_fiscales_c.push(parseFloat(recettes_non_fiscales_array[i]))
+  recettes_petro_net_c.push(parseFloat(recettes_petro_net_array[i]))
+  dont_c.push(parseFloat(dont_array[i]))
+  depences_et_prets_net_c.push(parseFloat(depences_et_prets_net_array[i]))
+  depences_courant_c.push(parseFloat(depences_courant_array[i]))
+  depences_equipe_et_prets_net_c.push(parseFloat(depences_equipe_et_prets_net_array[i]))
+  restructurations_equipe_et_prets_net_c.push(parseFloat(restructurations_equipe_et_prets_net_array[i]))
+  solde_globale_dons_compris_c.push(parseFloat(solde_globale_dons_compris_array[i]))
+}
+
+
+
+var config = {
+    type: 'line',
+    data: {
+        labels: date_array,
+        datasets: [{
+            label: 'rectettes totales', // Name the series
+            data: rectettes_totales_c, // Specify the data values array
+            fill: false,
+            borderColor: '#2196f3', // Add custom color border (Line)
+            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+                  {
+            label: 'recettes fiscales', // Name the series
+            data: recettes_fiscales_c, // Specify the data values array
+            fill: false,
+            borderColor: '#4CAF50', // Add custom color border (Line)
+            backgroundColor: '#4CAF50', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'recettes non fiscales', // Name the series
+            data: recettes_non_fiscales_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF0000', // Add custom color border (Line)
+            backgroundColor: '#FF0000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'recettes petro net', // Name the series
+            data: recettes_petro_net_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FF00', // Add custom color border (Line)
+            backgroundColor: '#00FF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'dont', // Name the series
+            data: dont_c, // Specify the data values array
+            fill: false,
+            borderColor: '#800080', // Add custom color border (Line)
+            backgroundColor: '#800080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'depences et prets net', // Name the series
+            data: depences_et_prets_net_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF00FF', // Add custom color border (Line)
+            backgroundColor: '#FF00FF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'depences courant', // Name the series
+            data: depences_courant_c, // Specify the data values array
+            fill: false,
+            borderColor: '#000080', // Add custom color border (Line)
+            backgroundColor: '#000080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'depences equipe et prets net', // Name the series
+            data: depences_equipe_et_prets_net_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FFFF', // Add custom color border (Line)
+            backgroundColor: '#00FFFF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'restructurations equipe et prets net', // Name the series
+            data: restructurations_equipe_et_prets_net_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FFFF00', // Add custom color border (Line)
+            backgroundColor: '#FFFF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'solde globale dons compris', // Name the series
+            data: solde_globale_dons_compris_c, // Specify the data values array
+            fill: false,
+            borderColor: '#008080', // Add custom color border (Line)
+            backgroundColor: '#008080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+    ]
+    },
+    options: {
+      legend: {
+        position: 'top',
+        labels: {
+          fontColor: 'rgb(255, 99, 132)'
+        },
+        onHover: function(event, legendItem) {
+          document.getElementById("myChart").style.cursor = 'pointer';
+        },
+        onClick: function(e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+          ci.data.datasets.forEach(function(e, i) {
+            var meta = ci.getDatasetMeta(i);
+
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = true;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
+            }
+          });
+
+          ci.update();
+        },
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip.opacity) {
+            document.getElementById("myChart").style.cursor = 'default';
+            return;
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: ''
+      },
+      scale: {
+        ticks: {
+        beginAtZero: true
+        }
+      }
+    }
+  };
+
+    window.onload = function() {
+    window.myRadar = new Chart(document.getElementById("myChart"), config);
+  };
+
+</script>
+{% endblock %}
+
+

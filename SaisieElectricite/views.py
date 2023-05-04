@@ -133,3 +133,22 @@ def export_excel(request):
         return response
     else:
         return render(request,'SaisieElectricite/export.html')
+    
+
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    date,millions_de_kw_h,mm_bt,mm_mt=[],[],[],[]
+    rows=SaisieElectricite.objects.values_list('date','millions_de_kw_h','mm_bt','mm_mt')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    date.append(str(row[col_num]))
+                elif col_num==1:
+                    millions_de_kw_h.append(row[col_num])
+                elif col_num==2:
+                    mm_bt.append(row[col_num])
+                else:
+                    mm_mt.append(row[col_num])
+    return render(request,'SaisieElectricite/chartjs.html',{'date':date,'millions_de_kw_h':millions_de_kw_h,'mm_bt':mm_bt,'mm_mt':mm_mt})
+

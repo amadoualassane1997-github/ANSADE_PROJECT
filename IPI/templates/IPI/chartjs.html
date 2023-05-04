@@ -1,0 +1,301 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+
+ <div>
+    <canvas id="myChart" width="1000" height="800"></canvas>
+ </div>
+
+{% endblock content %}
+
+{% block jquery %}
+<script>
+indice_general_c=[]
+indice_industries_extractives_c=[]
+indice_des_industries_manufacturieres_c=[]
+indice_de_energie_c=[]
+extraction_de_minerais_metaliques_c=[]
+fabrication_de_produits_alimentaires_c=[]
+fabrication_de_boisson_c=[]
+travail_de_cuir_c=[]
+travail_du_bois_et_fabrication_articles_en_bois_hors_meubles_c=[]
+fabrication_de_papier_cartons_et_articles_en_papier_ou_en_carton_c=[]
+fabrication_de_produits_chimiques_c=[]
+travail_de_caoutchouc_et_du_plastique_c=[]
+fabrication_de_materiaux_mineraux_c=[]
+metalurgie_c=[]
+fabrication_autres_materiel_de_transport_c=[]
+autres_industries_manufacturieres_c=[]
+production_et_distribution_electricite_c=[]
+captage_traitement_et_distribution_eau_c=[]
+var trimestre="{{trimestre}}"
+var indice_general="{{indice_general}}"
+var indice_industries_extractives="{{indice_industries_extractives}}"
+var indice_des_industries_manufacturieres="{{indice_des_industries_manufacturieres}}"
+var indice_de_energie="{{indice_de_energie}}"
+var extraction_de_minerais_metaliques="{{extraction_de_minerais_metaliques}}"
+var fabrication_de_produits_alimentaires="{{fabrication_de_produits_alimentaires}}"
+var fabrication_de_boisson="{{fabrication_de_boisson}}"
+var travail_de_cuir="{{travail_de_cuir}}"
+var travail_du_bois_et_fabrication_articles_en_bois_hors_meubles="{{travail_du_bois_et_fabrication_articles_en_bois_hors_meubles}}"
+var fabrication_de_papier_cartons_et_articles_en_papier_ou_en_carton="{{fabrication_de_papier_cartons_et_articles_en_papier_ou_en_carton}}"
+var fabrication_de_produits_chimiques="{{fabrication_de_produits_chimiques}}"
+var travail_de_caoutchouc_et_du_plastique="{{travail_de_caoutchouc_et_du_plastique}}"
+var fabrication_de_materiaux_mineraux="{{fabrication_de_materiaux_mineraux}}"
+var metalurgie="{{metalurgie}}"
+var fabrication_autres_materiel_de_transport="{{fabrication_autres_materiel_de_transport}}"
+var autres_industries_manufacturieres="{{autres_industries_manufacturieres}}"
+var production_et_distribution_electricite="{{production_et_distribution_electricite}}"
+var captage_traitement_et_distribution_eau="{{captage_traitement_et_distribution_eau}}"
+var pattern=/[A-Z][0-9]-[0-9]+/gi;
+let trimestre_array=trimestre.match(pattern)
+
+
+let indice_general_array=indice_general.split(",")
+let indice_industries_extractives_array=indice_industries_extractives.split(",")
+let indice_des_industries_manufacturieres_array=indice_des_industries_manufacturieres.split(",")
+let indice_de_energie_array=indice_de_energie.split(",")
+let extraction_de_minerais_metaliques_array=extraction_de_minerais_metaliques.split(",")
+let fabrication_de_produits_alimentaires_array=fabrication_de_produits_alimentaires.split(",")
+let fabrication_de_boisson_array=fabrication_de_boisson.split(",")
+let travail_de_cuir_array=travail_de_cuir.split(",")
+let travail_du_bois_et_fabrication_articles_en_bois_hors_meubles_array=travail_du_bois_et_fabrication_articles_en_bois_hors_meubles.split(",")
+let fabrication_de_papier_cartons_et_articles_en_papier_ou_en_carton_array=fabrication_de_papier_cartons_et_articles_en_papier_ou_en_carton.split(",")
+let fabrication_de_produits_chimiques_array=fabrication_de_produits_chimiques.split(",")
+let travail_de_caoutchouc_et_du_plastique_array=travail_de_caoutchouc_et_du_plastique.split(",")
+let fabrication_de_materiaux_mineraux_array=fabrication_de_materiaux_mineraux.split(",")
+let metalurgie_array=metalurgie.split(",")
+let fabrication_autres_materiel_de_transport_array=fabrication_autres_materiel_de_transport.split(",")
+let autres_industries_manufacturieres_array=fabrication_autres_materiel_de_transport.split(",")
+let production_et_distribution_electricite_array=production_et_distribution_electricite.split(",")
+let captage_traitement_et_distribution_eau_array=captage_traitement_et_distribution_eau.split(",")
+
+for(i=1;i<=trimestre_array.length;i++){
+  indice_general_c.push(parseFloat(indice_general_array[i]))
+  indice_industries_extractives_c.push(parseFloat(indice_industries_extractives_array[i]))
+  indice_des_industries_manufacturieres_c.push(parseFloat(indice_des_industries_manufacturieres_array[i]))
+  extraction_de_minerais_metaliques_c.push(parseFloat(extraction_de_minerais_metaliques_array[i]))
+  fabrication_de_produits_alimentaires_c.push(parseFloat(fabrication_de_produits_alimentaires_array[i]))
+  fabrication_de_boisson_c.push(parseFloat(fabrication_de_boisson_array[i]))
+  travail_de_cuir_c.push(parseFloat(travail_de_cuir_array[i]))
+  travail_du_bois_et_fabrication_articles_en_bois_hors_meubles_c.push(parseFloat(travail_du_bois_et_fabrication_articles_en_bois_hors_meubles_array[i]))
+  fabrication_de_papier_cartons_et_articles_en_papier_ou_en_carton_c.push(parseFloat(fabrication_de_papier_cartons_et_articles_en_papier_ou_en_carton_array[i]))
+  fabrication_de_produits_chimiques_c.push(parseFloat(fabrication_de_produits_chimiques_array[i]))
+  travail_de_caoutchouc_et_du_plastique_c.push(parseFloat(travail_de_caoutchouc_et_du_plastique_array[i]))
+  fabrication_de_materiaux_mineraux_c.push(parseFloat(fabrication_de_materiaux_mineraux_array[i]))
+  metalurgie_c.push(parseFloat(metalurgie_array[i]))
+  fabrication_autres_materiel_de_transport_c.push(parseFloat(fabrication_autres_materiel_de_transport_array[i]))
+  autres_industries_manufacturieres_c.push(parseFloat(autres_industries_manufacturieres_array[i]))
+  production_et_distribution_electricite_c.push(parseFloat(production_et_distribution_electricite_array[i]))
+  captage_traitement_et_distribution_eau_c.push(parseFloat(captage_traitement_et_distribution_eau_array[i]))
+}
+
+
+var config = { 
+    type: 'line',
+    data: {
+        labels: trimestre_array,
+        datasets: [{
+            label: 'indice general', // Name the series
+            data: indice_general_c, // Specify the data values array
+            fill: false,
+            borderColor: '#2196f3', // Add custom color border (Line)
+            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+                  {
+            label: 'indice industries extractives', // Name the series
+            data: indice_industries_extractives_c, // Specify the data values array
+            fill: false,
+            borderColor: '#4CAF50', // Add custom color border (Line)
+            backgroundColor: '#4CAF50', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'indice des industries manufacturieres', // Name the series
+            data: indice_des_industries_manufacturieres_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF0000', // Add custom color border (Line)
+            backgroundColor: '#FF0000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'extraction de minerais metaliques', // Name the series
+            data: extraction_de_minerais_metaliques_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FF00', // Add custom color border (Line)
+            backgroundColor: '#00FF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'fabrication de produits alimentaires', // Name the series
+            data:  fabrication_de_produits_alimentaires_c, // Specify the data values array
+            fill: false,
+            borderColor: '#800080', // Add custom color border (Line)
+            backgroundColor: '#800080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'fabrication de boisson', // Name the series
+            data: fabrication_de_boisson_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF00FF', // Add custom color border (Line)
+            backgroundColor: '#FF00FF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'travail de cuir', // Name the series
+            data: travail_de_cuir_c, // Specify the data values array
+            fill: false,
+            borderColor: '#000080', // Add custom color border (Line)
+            backgroundColor: '#000080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'travail du bois et fabrication articles en bois hors meubles', // Name the series
+            data: travail_du_bois_et_fabrication_articles_en_bois_hors_meubles_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FFFF', // Add custom color border (Line)
+            backgroundColor: '#00FFFF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'fabrication de papier cartons et articles en papier ou en carton', // Name the series
+            data: fabrication_de_papier_cartons_et_articles_en_papier_ou_en_carton_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FFFF00', // Add custom color border (Line)
+            backgroundColor: '#FFFF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'fabrication de produits chimiques_c', // Name the series
+            data: fabrication_de_produits_chimiques_c, // Specify the data values array
+            fill: false,
+            borderColor: '#800000', // Add custom color border (Line)
+            backgroundColor: '#800000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'travail de caoutchouc et du plastique', // Name the series
+            data: travail_de_caoutchouc_et_du_plastique_c, // Specify the data values array
+            fill: false,
+            borderColor: '#000000', // Add custom color border (Line)
+            backgroundColor: '#000000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'fabrication de materiaux mineraux', // Name the series
+            data: fabrication_de_materiaux_mineraux_c, // Specify the data values array
+            fill: false,
+            borderColor: '#808000', // Add custom color border (Line)
+            backgroundColor: '#808000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'metalurgie', // Name the series
+            data: metalurgie_c, // Specify the data values array
+            fill: false,
+            borderColor: '#808080', // Add custom color border (Line)
+            backgroundColor: '#808080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'fabrication_autres_materiel_de_transport', // Name the series
+            data: fabrication_autres_materiel_de_transport_c, // Specify the data values array
+            fill: false,
+            borderColor: '#008080', // Add custom color border (Line)
+            backgroundColor: '#008080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'autres industries manufacturieres', // Name the series
+            data: autres_industries_manufacturieres_c, // Specify the data values array
+            fill: false,
+            borderColor: '#008000', // Add custom color border (Line)
+            backgroundColor: '#008000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'production et distribution electricite', // Name the series
+            data: production_et_distribution_electricite_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FFA07A', // Add custom color border (Line)
+            backgroundColor: '#FFA07A', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'captage traitement et distribution eau', // Name the series
+            data: captage_traitement_et_distribution_eau_c, // Specify the data values array
+            fill: false,
+            borderColor: '#CD5C5C', // Add custom color border (Line)
+            backgroundColor: '#CD5C5C', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+    ]
+    },
+    options: {
+      legend: {
+        position: 'top',
+        labels: {
+          fontColor: 'rgb(255, 99, 132)'
+        },
+        onHover: function(event, legendItem) {
+          document.getElementById("myChart").style.cursor = 'pointer';
+        },
+        onClick: function(e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+          ci.data.datasets.forEach(function(e, i) {
+            var meta = ci.getDatasetMeta(i);
+
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = true;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
+            }
+          });
+
+          ci.update();
+        },
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip.opacity) {
+            document.getElementById("myChart").style.cursor = 'default';
+            return;
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: ''
+      },
+      scale: {
+        ticks: {
+        beginAtZero: true
+        }
+      }
+    }
+  };
+
+    window.onload = function() {
+    window.myRadar = new Chart(document.getElementById("myChart"), config);
+  };
+
+</script>
+{% endblock %}
+
+

@@ -140,3 +140,38 @@ def export_excel(request):
         return response
     else:
         return render(request,'Budget/export.html')
+    
+
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    date,rectettes_totales,recettes_fiscales,recettes_non_fiscales,recettes_petro_net,dont,depences_et_prets_net,depences_courant,depences_equipe_et_prets_net,restructurations_equipe_et_prets_net,solde_globale_dons_compris=[],[],[],[],[],[],[],[],[],[],[]
+    rows=Budget.objects.values_list('date','rectettes_totales','recettes_fiscales','recettes_non_fiscales','recettes_petro_net',
+    'dont','depences_et_prets_net','depences_courant','depences_equipe_et_prets_net','restructurations_equipe_et_prets_net','solde_globale_dons_compris')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    date.append(str(row[col_num]))
+                elif col_num==1:
+                    rectettes_totales.append(row[col_num])
+                elif col_num==2:
+                    recettes_fiscales.append(row[col_num])
+                elif col_num==3:
+                    recettes_non_fiscales.append(row[col_num])
+                elif col_num==4:
+                    recettes_petro_net.append(row[col_num])
+                elif col_num==5:
+                    dont.append(row[col_num])
+                elif col_num==6:
+                    depences_et_prets_net.append(row[col_num])
+                elif col_num==7:
+                    depences_courant.append(row[col_num])
+                elif col_num==8:
+                    depences_equipe_et_prets_net.append(row[col_num])
+                elif col_num==9:
+                    restructurations_equipe_et_prets_net.append(row[col_num])
+                else:
+                    solde_globale_dons_compris.append(row[col_num])
+      
+    return render(request,'Budget/chartjs.html',{'date':date,'rectettes_totales':rectettes_totales,'recettes_fiscales':recettes_fiscales,'recettes_non_fiscales':recettes_non_fiscales,'recettes_petro_net':recettes_petro_net,'dont':dont,'depences_et_prets_net':depences_et_prets_net,'depences_courant':depences_courant,'depences_equipe_et_prets_net':depences_equipe_et_prets_net,'restructurations_equipe_et_prets_net':restructurations_equipe_et_prets_net,'solde_globale_dons_compris':solde_globale_dons_compris})
+

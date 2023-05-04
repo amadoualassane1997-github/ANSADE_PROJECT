@@ -1,0 +1,203 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+
+ <div>
+    <canvas id="myChart" width="1000" height="800"></canvas>
+ </div>
+
+{% endblock content %}
+
+{% block jquery %}
+<script>
+total_c=[]
+produits_alimentaires_c=[]
+cosmetiques_chimiques_c=[]
+produits_petroliers_c=[]
+materiaux_de_construction_c=[]
+voitures_et_pieces_detachees_c=[]
+equipements_c=[]
+autres_biens_de_consommation_c=[]
+autres_c=[]
+
+
+var trimestre="{{trimestre}}"
+var total="{{total}}"
+var produits_alimentaires="{{produits_alimentaires}}"
+var cosmetiques_chimiques="{{cosmetiques_chimiques}}"
+var produits_petroliers="{{produits_petroliers}}"
+var materiaux_de_construction="{{materiaux_de_construction}}"
+var voitures_et_pieces_detachees="{{voitures_et_pieces_detachees}}"
+var equipements="{{equipements}}"
+var autres_biens_de_consommation="{{autres_biens_de_consommation}}"
+var autres="{{autres}}"
+
+var pattern=/[A-Z][0-9]-[0-9]+/gi;
+let trimestre_array=trimestre.match(pattern)
+
+
+let total_array=total.split(",")
+let produits_alimentaires_array=produits_alimentaires.split(",")
+let cosmetiques_chimiques_array=cosmetiques_chimiques.split(",")
+let produits_petroliers_array=produits_petroliers.split(",")
+let materiaux_de_construction_array=materiaux_de_construction.split(",")
+let voitures_et_pieces_detachees_array=voitures_et_pieces_detachees.split(",")
+let equipements_array=equipements.split(",")
+let autres_biens_de_consommation_array=autres_biens_de_consommation.split(",")
+let autres_array=autres.split(",")
+for(i=1;i<=trimestre_array.length;i++){
+  total_c.push(parseFloat(total_array[i]))
+  produits_alimentaires_c.push(parseFloat(produits_alimentaires_array[i]))
+  cosmetiques_chimiques_c.push(parseFloat(cosmetiques_chimiques_array[i]))
+  produits_petroliers_c.push(parseFloat(produits_petroliers_array[i]))
+  materiaux_de_construction_c.push(parseFloat(materiaux_de_construction_array[i]))
+  voitures_et_pieces_detachees_c.push(parseFloat(voitures_et_pieces_detachees_array[i]))
+  equipements_c.push(parseFloat(equipements_array[i]))
+  autres_biens_de_consommation_c.push(parseFloat(autres_biens_de_consommation_array[i]))
+  autres_c.push(parseFloat(autres_array[i]))
+}
+
+var config = {
+    type: 'line',
+    data: {
+        labels: trimestre_array,
+        datasets: [{
+            label: 'total', // Name the series
+            data: total_c, // Specify the data values array
+            fill: false,
+            borderColor: '#2196f3', // Add custom color border (Line)
+            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+                  {
+            label: 'produits alimentaires', // Name the series
+            data: produits_alimentaires_c, // Specify the data values array
+            fill: false,
+            borderColor: '#4CAF50', // Add custom color border (Line)
+            backgroundColor: '#4CAF50', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'cosmetiques chimiquesr', // Name the series
+            data: cosmetiques_chimiques_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF0000', // Add custom color border (Line)
+            backgroundColor: '#FF0000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'produits petroliers', // Name the series
+            data: produits_petroliers_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FF00', // Add custom color border (Line)
+            backgroundColor: '#00FF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'materiaux de construction', // Name the series
+            data:  materiaux_de_construction_c, // Specify the data values array
+            fill: false,
+            borderColor: '#800080', // Add custom color border (Line)
+            backgroundColor: '#800080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'voitures et pieces detachees', // Name the series
+            data: voitures_et_pieces_detachees_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF00FF', // Add custom color border (Line)
+            backgroundColor: '#FF00FF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'equipements', // Name the series
+            data: equipements_c, // Specify the data values array
+            fill: false,
+            borderColor: '#000080', // Add custom color border (Line)
+            backgroundColor: '#000080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'autres biens de consommation', // Name the series
+            data: autres_biens_de_consommation_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FFFF', // Add custom color border (Line)
+            backgroundColor: '#00FFFF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'autres', // Name the series
+            data: autres_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FFFF00', // Add custom color border (Line)
+            backgroundColor: '#FFFF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        
+    ]
+    },
+    options: {
+      legend: {
+        position: 'top',
+        labels: {
+          fontColor: 'rgb(255, 99, 132)'
+        },
+        onHover: function(event, legendItem) {
+          document.getElementById("myChart").style.cursor = 'pointer';
+        },
+        onClick: function(e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+          ci.data.datasets.forEach(function(e, i) {
+            var meta = ci.getDatasetMeta(i);
+
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = true;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
+            }
+          });
+
+          ci.update();
+        },
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip.opacity) {
+            document.getElementById("myChart").style.cursor = 'default';
+            return;
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: ''
+      },
+      scale: {
+        ticks: {
+        beginAtZero: true
+        }
+      }
+    }
+  };
+
+    window.onload = function() {
+    window.myRadar = new Chart(document.getElementById("myChart"), config);
+  };
+</script>
+{% endblock %}
+
+

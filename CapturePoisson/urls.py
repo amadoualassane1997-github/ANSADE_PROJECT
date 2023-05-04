@@ -8,5 +8,6 @@ urlpatterns = [
     path('update/<str:date>/',views.update,name='capp-update'),
     path('import',views.import_excel,name='capp-import'),
     path('export',views.export_excel,name='capp-export'),
+    path('tb',views.tableau_bord,name='capp-tb'),
 
 ]

@@ -1,0 +1,165 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+
+ <div>
+    <canvas id="myChart" width="1000" height="800"></canvas>
+ </div>
+
+{% endblock content %}
+
+{% block jquery %}
+<script>
+date=[]
+trafic_total_tonnes_c=[]
+total_nombre_c=[]
+port_ndb_trafic_total_c=[]
+port_ndb_arrive_navires_nombre_c=[]
+trafic_total_c=[]
+nombre_total_navires_c=[]
+
+var date="{{date}}"
+var trafic_total_tonnes="{{trafic_total_tonnes}}"
+var total_nombre="{{total_nombre}}"
+var port_ndb_trafic_total="{{port_ndb_trafic_total}}"
+var port_ndb_arrive_navires_nombre="{{port_ndb_arrive_navires_nombre}}"
+var trafic_total="{{trafic_total}}"
+var nombre_total_navires="{{nombre_total_navires}}"
+
+var pattern=/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/gi;
+let date_array=date.match(pattern)
+
+let trafic_total_tonnes_array=trafic_total_tonnes.split(",")
+let total_nombre_array=total_nombre.split(",")
+let port_ndb_trafic_total_array=port_ndb_trafic_total.split(",")
+let port_ndb_arrive_navires_nombre_array=port_ndb_arrive_navires_nombre.split(",")
+let trafic_total_array=trafic_total.split(",")
+let nombre_total_navires_array=nombre_total_navires.split(",")
+
+for(i=1;i<=date_array.length;i++){
+  trafic_total_tonnes_c.push(parseFloat(trafic_total_tonnes_array[i]))
+  total_nombre_c.push(parseFloat(total_nombre_array[i]))
+  port_ndb_trafic_total_c.push(parseFloat(port_ndb_trafic_total_array[i]))
+  port_ndb_arrive_navires_nombre_c.push(parseFloat(port_ndb_arrive_navires_nombre_array[i]))
+  trafic_total_c.push(parseFloat(trafic_total_array[i]))
+  nombre_total_navires_c.push(parseFloat(nombre_total_navires_array[i]))
+}
+
+
+
+var config = { 
+    type: 'line',
+    data: {
+        labels: date_array,
+        datasets: [{
+            label: 'trafic total tonnes', // Name the series
+            data: trafic_total_tonnes_c, // Specify the data values array
+            fill: false,
+            borderColor: '#2196f3', // Add custom color border (Line)
+            backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+                  {
+            label: 'total nombre', // Name the series
+            data: total_nombre_c, // Specify the data values array
+            fill: false,
+            borderColor: '#4CAF50', // Add custom color border (Line)
+            backgroundColor: '#4CAF50', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'port ndb trafic total', // Name the series
+            data: port_ndb_trafic_total_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF0000', // Add custom color border (Line)
+            backgroundColor: '#FF0000', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'port ndb arrive navires nombre', // Name the series
+            data: port_ndb_arrive_navires_nombre_c, // Specify the data values array
+            fill: false,
+            borderColor: '#00FF00', // Add custom color border (Line)
+            backgroundColor: '#00FF00', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+        {
+            label: 'trafic total', // Name the series
+            data: trafic_total_c, // Specify the data values array
+            fill: false,
+            borderColor: '#800080', // Add custom color border (Line)
+            backgroundColor: '#800080', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+
+        {
+            label: 'nombre total navires', // Name the series
+            data: nombre_total_navires_c, // Specify the data values array
+            fill: false,
+            borderColor: '#FF00FF', // Add custom color border (Line)
+            backgroundColor: '#FF00FF', // Add custom color background (Points and Fill)
+            borderWidth: 1 // Specify bar border width
+        },
+    ]
+    },
+    options: {
+      legend: {
+        position: 'top',
+        labels: {
+          fontColor: 'rgb(255, 99, 132)'
+        },
+        onHover: function(event, legendItem) {
+          document.getElementById("myChart").style.cursor = 'pointer';
+        },
+        onClick: function(e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+          ci.data.datasets.forEach(function(e, i) {
+            var meta = ci.getDatasetMeta(i);
+
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = true;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
+            }
+          });
+
+          ci.update();
+        },
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip.opacity) {
+            document.getElementById("myChart").style.cursor = 'default';
+            return;
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: ''
+      },
+      scale: {
+        ticks: {
+        beginAtZero: true
+        }
+      }
+    }
+  };
+
+    window.onload = function() {
+    window.myRadar = new Chart(document.getElementById("myChart"), config);
+  };
+</script>
+{% endblock %}
+
+

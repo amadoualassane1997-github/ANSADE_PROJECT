@@ -8,4 +8,5 @@ urlpatterns = [
     path('update/<str:date>/',views.update,name='transaerien-update'),
     path('import',views.import_excel,name='transaerien-import'),
     path('export',views.export_excel,name='transaerien-export'),
+    path('tb',views.tableau_bord,name='transaerien-tb'),
 ]

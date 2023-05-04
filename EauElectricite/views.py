@@ -135,3 +135,23 @@ def export_excel(request):
         return response
     else:
         return render(request,'EauElectricite/export.html')
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    date,eau_brute,eau_nette,elect_brute,elect_nette=[],[],[],[],[]
+    rows=EauElectricite.objects.values_list('date','eau_brute','eau_nette','elect_brute',
+    'elect_nette')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    date.append(str(row[col_num]))
+                elif col_num==1:
+                    eau_brute.append(row[col_num])
+                elif col_num==2:
+                    eau_nette.append(row[col_num])
+                elif col_num==3:
+                    elect_brute.append(row[col_num])
+                else:
+                   elect_nette.append(row[col_num])
+    return render(request,'EauElectricite/chartjs.html',{'date':date,"eau_brute":eau_brute,"eau_nette":eau_nette,"elect_brute":elect_brute,"elect_nette":elect_nette})
+

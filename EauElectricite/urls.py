@@ -8,5 +8,6 @@ urlpatterns = [
     path('update/<str:date>/',views.update,name='eelec-update'),
     path('import',views.import_excel,name='eelec-import'),
     path('export',views.export_excel,name='eelec-export'),
+    path('tb',views.tableau_bord,name='eelec-tb'),
 
 ]

@@ -8,5 +8,6 @@ urlpatterns = [
     path('update/<str:trimestre>/',views.update,name='prodcror-update'),
     path('import',views.import_excel,name='prodcror-import'),
     path('export',views.export_excel,name='prodcror-export'),
+    path('tb',views.tableau_bord,name='prodcror-tb'),
 
 ]

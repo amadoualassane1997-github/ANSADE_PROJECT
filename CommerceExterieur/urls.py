@@ -8,5 +8,6 @@ urlpatterns = [
     path('update/<str:trimestre>/',views.update,name='comext-update'),
     path('import',views.import_excel,name='comext-import'),
     path('export',views.export_excel,name='comext-export'),
+    path('tb',views.tableau_bord,name='comext-tb'),
 
 ]

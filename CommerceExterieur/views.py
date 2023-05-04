@@ -136,3 +136,25 @@ def export_excel(request):
     else:
         icc_col=CommerceExterieur.objects.all().values('trimestre')
         return render(request,'CommerceExterieur/export.html',{'icc_col':icc_col})
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    trimestre,exportations,importation,solde_commercial,tx_couv=[],[],[],[],[]
+    rows=CommerceExterieur.objects.values_list('trimestre','exportations','importation','solde_commercial',
+    'tx_couv')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    trimestre.append(str(row[col_num]))
+                elif col_num==1:
+                    exportations.append(row[col_num])
+                elif col_num==2:
+                    importation.append(row[col_num])
+                elif col_num==3:
+                    solde_commercial.append(row[col_num])
+                else:
+                    tx_couv.append(row[col_num])
+      
+    return render(request,'CommerceExterieur/chartjs.html',{'trimestre':trimestre,'exportations':exportations,'importation':importation,'solde_commercial':solde_commercial,'tx_couv':tx_couv})
+
+

@@ -138,3 +138,35 @@ def export_excel(request):
         icc_col=Importation.objects.all().values('trimestre')
         return render(request,'Importation/export.html',{'icc_col':icc_col})
 
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    trimestre,total,produits_alimentaires,cosmetiques_chimiques,produits_petroliers,materiaux_de_construction,voitures_et_pieces_detachees,equipements,autres_biens_de_consommation,autres=[],[],[],[],[],[],[],[],[],[]
+    rows=Importation.objects.values_list('trimestre','total','produits_alimentaires','cosmetiques_chimiques',
+    'produits_petroliers','materiaux_de_construction','voitures_et_pieces_detachees','equipements','autres_biens_de_consommation','autres')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    trimestre.append(str(row[col_num]))
+                elif col_num==1:
+                    total.append(row[col_num])
+                elif col_num==2:
+                    produits_alimentaires.append(row[col_num])
+                elif col_num==3:
+                    cosmetiques_chimiques.append(row[col_num])
+                elif col_num==4:
+                    produits_petroliers.append(row[col_num])
+                elif col_num==5:
+                    materiaux_de_construction.append(row[col_num])
+                elif col_num==6:
+                    voitures_et_pieces_detachees.append(row[col_num])
+                elif col_num==7:
+                    equipements.append(row[col_num])
+                elif col_num==8:
+                    autres_biens_de_consommation.append(row[col_num])
+                else:
+                    autres.append(row[col_num])
+      
+    return render(request,'Importation/chartjs.html',{'trimestre':trimestre,'total':total,'produits_alimentaires':produits_alimentaires,'cosmetiques_chimiques':cosmetiques_chimiques,'produits_petroliers':produits_petroliers,'materiaux_de_construction':materiaux_de_construction,'voitures_et_pieces_detachees':voitures_et_pieces_detachees,'equipements':equipements,'autres_biens_de_consommation':autres_biens_de_consommation,'autres':autres})
+
+

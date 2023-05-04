@@ -134,3 +134,28 @@ def export_excel(request):
         return response
     else:
         return render(request,'TraficTotalMaritime/export.html')
+    
+
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    date,trafic_total_tonnes,total_nombre,port_ndb_trafic_total,port_ndb_arrive_navires_nombre,trafic_total,nombre_total_navires=[],[],[],[],[],[],[]
+    rows=TraficTotalMaritime.objects.values_list('date','trafic_total_tonnes','total_nombre','port_ndb_trafic_total','port_ndb_arrive_navires_nombre',
+    'trafic_total','nombre_total_navires')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    date.append(str(row[col_num]))
+                elif col_num==1:
+                    trafic_total_tonnes.append(row[col_num])
+                elif col_num==2:
+                    total_nombre.append(row[col_num])
+                elif col_num==3:
+                    port_ndb_trafic_total.append(row[col_num])
+                elif col_num==4:
+                    port_ndb_arrive_navires_nombre.append(row[col_num])
+                elif col_num==5:
+                    trafic_total.append(row[col_num])
+                else:
+                    nombre_total_navires.append(row[col_num])
+    return render(request,'TraficTotalMaritime/chartjs.html',{'date':date,'trafic_total_tonnes':trafic_total_tonnes,'total_nombre':total_nombre,'port_ndb_trafic_total':port_ndb_trafic_total,'port_ndb_arrive_navires_nombre':port_ndb_arrive_navires_nombre,'trafic_total':trafic_total,'nombre_total_navires':nombre_total_navires})

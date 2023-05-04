@@ -4,7 +4,7 @@
 {% block content %}
 
  <div>
-    <canvas id="myChart" width="800" height="525"></canvas>
+    <canvas id="myChart" width="1000" height="800"></canvas>
  </div>
 
 {% endblock content %}
@@ -51,14 +51,12 @@ for(i=1;i<=date_array.length;i++){
   dinar_tunisien_c.push(parseFloat(dinar_tunisien_array[i]))
   dinar_algerien_c.push(parseFloat(dinar_algerien_array[i]))
   franc_cfa_c.push(parseFloat(franc_cfa_array[i]))
-  dts_c.push(parseFloat(dts_c[i]))
+  dts_c.push(parseFloat(dts_array[i]))
 }
 
 
 
-var ctx = document.getElementById("myChart").getContext('2d');
-
-var myChart = new Chart(ctx, {
+var config = { 
     type: 'line',
     data: {
         labels: date_array,
@@ -90,7 +88,7 @@ var myChart = new Chart(ctx, {
 
         {
             label: 'Yen', // Name the series
-            data: sterling_c, // Specify the data values array
+            data: yen_c, // Specify the data values array
             fill: false,
             borderColor: '#00FF00', // Add custom color border (Line)
             backgroundColor: '#00FF00', // Add custom color background (Points and Fill)
@@ -98,7 +96,7 @@ var myChart = new Chart(ctx, {
         },
         {
             label: 'Dirham Marocain', // Name the series
-            data: sterling_c, // Specify the data values array
+            data: dirham_marocain_c, // Specify the data values array
             fill: false,
             borderColor: '#800080', // Add custom color border (Line)
             backgroundColor: '#800080', // Add custom color background (Points and Fill)
@@ -107,7 +105,7 @@ var myChart = new Chart(ctx, {
 
         {
             label: 'Dinar Tunisien', // Name the series
-            data: sterling_c, // Specify the data values array
+            data: dinar_tunisien_c, // Specify the data values array
             fill: false,
             borderColor: '#FF00FF', // Add custom color border (Line)
             backgroundColor: '#FF00FF', // Add custom color background (Points and Fill)
@@ -116,7 +114,7 @@ var myChart = new Chart(ctx, {
 
         {
             label: 'Dinar Algerien', // Name the series
-            data: sterling_c, // Specify the data values array
+            data: dinar_algerien_c, // Specify the data values array
             fill: false,
             borderColor: '#000080', // Add custom color border (Line)
             backgroundColor: '#000080', // Add custom color background (Points and Fill)
@@ -125,7 +123,7 @@ var myChart = new Chart(ctx, {
 
         {
             label: 'Franc CFA', // Name the series
-            data: sterling_c, // Specify the data values array
+            data: franc_cfa_c, // Specify the data values array
             fill: false,
             borderColor: '#00FFFF', // Add custom color border (Line)
             backgroundColor: '#00FFFF', // Add custom color background (Points and Fill)
@@ -134,7 +132,7 @@ var myChart = new Chart(ctx, {
 
         {
             label: 'DTS', // Name the series
-            data: sterling_c, // Specify the data values array
+            data: dts_c, // Specify the data values array
             fill: false,
             borderColor: '#FFFF00', // Add custom color border (Line)
             backgroundColor: '#FFFF00', // Add custom color background (Points and Fill)
@@ -143,10 +141,60 @@ var myChart = new Chart(ctx, {
     ]
     },
     options: {
-      responsive: true, // Instruct chart js to respond nicely.
-      maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
+      legend: {
+        position: 'top',
+        labels: {
+          fontColor: 'rgb(255, 99, 132)'
+        },
+        onHover: function(event, legendItem) {
+          document.getElementById("myChart").style.cursor = 'pointer';
+        },
+        onClick: function(e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+          ci.data.datasets.forEach(function(e, i) {
+            var meta = ci.getDatasetMeta(i);
+
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = true;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
+            }
+          });
+
+          ci.update();
+        },
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip.opacity) {
+            document.getElementById("myChart").style.cursor = 'default';
+            return;
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: ''
+      },
+      scale: {
+        ticks: {
+        beginAtZero: true
+        }
+      }
     }
-});
+  };
+
+    window.onload = function() {
+    window.myRadar = new Chart(document.getElementById("myChart"), config);
+  };
+
 </script>
 {% endblock %}
 

@@ -143,3 +143,58 @@ def export_excel(request):
     else:
         icc_col=Ipi.objects.all().values('trimestre')
         return render(request,'Ipi/export.html',{'icc_col':icc_col})
+    
+
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    trimestre,indice_general,indice_industries_extractives,indice_des_industries_manufacturieres,indice_de_energie,extraction_de_minerais_metaliques,fabrication_de_produits_alimentaires,fabrication_de_boisson,travail_de_cuir,travail_du_bois_et_fabrication_articles_en_bois_hors_meubles,fabrication_de_papier_cartons_et_articles_en_papier_ou_en_carton,fabrication_de_produits_chimiques,travail_de_caoutchouc_et_du_plastique,fabrication_de_materiaux_mineraux,metalurgie,fabrication_autres_materiel_de_transport,autres_industries_manufacturieres,production_et_distribution_electricite,captage_traitement_et_distribution_eau=[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]
+    rows=Ipi.objects.values_list('trimestre','indice_general','indice_industries_extractives','indice_des_industries_manufacturieres',
+    'indice_de_energie','extraction_de_minerais_metaliques','fabrication_de_produits_alimentaires','fabrication_de_boisson','travail_de_cuir','travail_du_bois_et_fabrication_articles_en_bois_hors_meubles',
+    'fabrication_de_papier_cartons_et_articles_en_papier_ou_en_carton','fabrication_de_produits_chimiques','travail_de_caoutchouc_et_du_plastique','fabrication_de_materiaux_mineraux',
+    'metalurgie','fabrication_autres_materiel_de_transport','autres_industries_manufacturieres','production_et_distribution_electricite','captage_traitement_et_distribution_eau')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    trimestre.append(str(row[col_num]))
+                elif col_num==1:
+                    indice_general.append(row[col_num])
+                elif col_num==2:
+                    indice_industries_extractives.append(row[col_num])
+                elif col_num==3:
+                    indice_des_industries_manufacturieres.append(row[col_num])
+                elif col_num==4:
+                    indice_de_energie.append(row[col_num])
+                elif col_num==5:
+                    extraction_de_minerais_metaliques.append(row[col_num])
+                elif col_num==6:
+                    fabrication_de_produits_alimentaires.append(row[col_num])
+                elif col_num==7:
+                    fabrication_de_boisson.append(row[col_num])
+                elif col_num==8:
+                    travail_de_cuir.append(row[col_num])
+                elif col_num==9:
+                    travail_du_bois_et_fabrication_articles_en_bois_hors_meubles.append(row[col_num])
+                elif col_num==10:
+                    fabrication_de_papier_cartons_et_articles_en_papier_ou_en_carton.append(row[col_num])
+                elif col_num==11:
+                    fabrication_de_produits_chimiques.append(row[col_num])
+                elif col_num==12:
+                    travail_de_caoutchouc_et_du_plastique.append(row[col_num])
+                elif col_num==13:
+                    fabrication_de_materiaux_mineraux.append(row[col_num])
+                elif col_num==14:
+                    metalurgie.append(row[col_num])
+                elif col_num==15:
+                    fabrication_autres_materiel_de_transport.append(row[col_num])
+                elif col_num==16:
+                    autres_industries_manufacturieres.append(row[col_num])
+                elif col_num==17:
+                    production_et_distribution_electricite.append(row[col_num])
+                else:
+                    captage_traitement_et_distribution_eau.append(row[col_num])
+      
+    return render(request,'Ipi/chartjs.html',{'trimestre':trimestre,'indice_general':indice_general,'indice_industries_extractives':indice_industries_extractives,'indice_des_industries_manufacturieres':indice_des_industries_manufacturieres,'indice_de_energie':indice_de_energie,'extraction_de_minerais_metaliques':extraction_de_minerais_metaliques,'fabrication_de_produits_alimentaires':fabrication_de_produits_alimentaires,'fabrication_de_boisson':fabrication_de_boisson,'travail_de_cuir':travail_de_cuir,'travail_du_bois_et_fabrication_articles_en_bois_hors_meubles':travail_du_bois_et_fabrication_articles_en_bois_hors_meubles,'fabrication_de_papier_cartons_et_articles_en_papier_ou_en_carton':fabrication_de_papier_cartons_et_articles_en_papier_ou_en_carton,'fabrication_de_produits_chimiques':fabrication_de_produits_chimiques,'travail_de_caoutchouc_et_du_plastique':travail_de_caoutchouc_et_du_plastique,'fabrication_de_materiaux_mineraux':fabrication_de_materiaux_mineraux,'metalurgie':metalurgie,'fabrication_autres_materiel_de_transport':fabrication_autres_materiel_de_transport,'autres_industries_manufacturieres':autres_industries_manufacturieres,'production_et_distribution_electricite':production_et_distribution_electricite,'captage_traitement_et_distribution_eau':captage_traitement_et_distribution_eau})
+
+
+

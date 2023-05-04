@@ -139,3 +139,38 @@ def export_excel(request):
         return response
     else:
         return render(request,'CoursMatPrem/export.html')
+
+
+
+@login_required(login_url='login')
+def tableau_bord(request):
+    date,cours_mondiale_du_petrole,prix_du_petrole_mauritanien,cours_mondiale_du_minerai_fer_du_premier_seri,prix_du_minerai_mauritanien,cours_mondial_du_cuivre,prix_du_cuivre_mauritanien,cours_mondiale_or,prix_or_mauritanien,cours_mondiale_de_poisson,prix_du_poisson_mauritanien=[],[],[],[],[],[],[],[],[],[],[]
+    rows=CoursMatPrem.objects.values_list('date','cours_mondiale_du_petrole','prix_du_petrole_mauritanien','cours_mondiale_du_minerai_fer_du_premier_seri','prix_du_minerai_mauritanien',
+    'cours_mondial_du_cuivre','prix_du_cuivre_mauritanien','cours_mondiale_or','prix_or_mauritanien','cours_mondiale_de_poisson','prix_du_poisson_mauritanien')
+    for row in rows:
+            for col_num in range(len(row)):
+                if col_num==0:
+                    date.append(str(row[col_num]))
+                elif col_num==1:
+                    cours_mondiale_du_petrole.append(row[col_num])
+                elif col_num==2:
+                    prix_du_petrole_mauritanien.append(row[col_num])
+                elif col_num==3:
+                    cours_mondiale_du_minerai_fer_du_premier_seri.append(row[col_num])
+                elif col_num==4:
+                    prix_du_minerai_mauritanien.append(row[col_num])
+                elif col_num==5:
+                    cours_mondial_du_cuivre.append(row[col_num])
+                elif col_num==6:
+                    prix_du_cuivre_mauritanien.append(row[col_num])
+                elif col_num==7:
+                    cours_mondiale_or.append(row[col_num])
+                elif col_num==8:
+                    prix_or_mauritanien.append(row[col_num])
+                elif col_num==9:
+                    cours_mondiale_de_poisson.append(row[col_num])
+                else:
+                    prix_du_poisson_mauritanien.append(row[col_num])
+      
+    return render(request,'CoursMatPrem/chartjs.html',{'date':date,'cours_mondiale_du_petrole':cours_mondiale_du_petrole,'prix_du_petrole_mauritanien':prix_du_petrole_mauritanien,'cours_mondiale_du_minerai_fer_du_premier_seri':cours_mondiale_du_minerai_fer_du_premier_seri,'prix_du_minerai_mauritanien':prix_du_minerai_mauritanien,'cours_mondial_du_cuivre':cours_mondial_du_cuivre,'prix_du_cuivre_mauritanien':prix_du_cuivre_mauritanien,'cours_mondiale_or':cours_mondiale_or,'prix_or_mauritanien':prix_or_mauritanien,'cours_mondiale_de_poisson':cours_mondiale_de_poisson,'prix_du_poisson_mauritanien':prix_du_poisson_mauritanien})
+
